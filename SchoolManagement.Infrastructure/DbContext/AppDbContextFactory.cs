@@ -9,7 +9,7 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
-        optionsBuilder.UseSqlServer("server = DESKTOP-SG7M06R; database=SchoolManagement; Trusted_Connection=True; TrustServerCertificate=true");
+        optionsBuilder.UseSqlServer("Server=tcp:abdo-server.database.windows.net,1433;Initial Catalog=SchoolManagement;Persist Security Info=False;User ID=db-admin;Password=Ss12345678;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
         return new AppDbContext(optionsBuilder.Options);
     }
 }
