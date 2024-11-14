@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolManagement.Application.Extensions;
 using SchoolManagement.Domain.Entities;
-using SchoolManagement.Application.Features.Rooms.Service;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -53,7 +53,6 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddScoped<AgoraTokenService>();
 
 #endregion
 
