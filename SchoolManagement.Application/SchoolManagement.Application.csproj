@@ -11,6 +11,7 @@
     <Folder Include="Features\Student\Commands\UpdateStudent\" />
     <Folder Include="Features\Teacher\Commands\" />
     <Folder Include="Features\Teacher\Queries\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
