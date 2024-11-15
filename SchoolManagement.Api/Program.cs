@@ -11,7 +11,6 @@ using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Features.Rooms.Service;
 using SchoolManagement.Infrastructure.Seeder;
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -57,6 +56,7 @@ builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*option => option.SignIn.RequireConfirmedAccount = true*/)
     .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddScoped<AgoraTokenService>();
 
 builder.Services.AddScoped<AgoraTokenService>();
 
