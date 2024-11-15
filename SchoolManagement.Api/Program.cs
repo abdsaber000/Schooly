@@ -8,6 +8,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SchoolManagement.Application.Extensions;
 using SchoolManagement.Domain.Entities;
+using SchoolManagement.Application.Features.Rooms.Service;
+using SchoolManagement.Infrastructure.Seeder;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -51,8 +54,11 @@ builder.Services.AddAuthentication(options =>
 
 // builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*option => option.SignIn.RequireConfirmedAccount = true*/)
     .AddEntityFrameworkStores<AppDbContext>();
+
+builder.Services.AddScoped<AgoraTokenService>();
 
 #endregion
 
@@ -68,7 +74,25 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 #endregion
 
+
 var app = builder.Build();
+
+ #region RolesSeeder
+
+using var scope = app.Services.CreateScope();
+try
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await DefaultRoles.SeedAsync(roleManager);
+}
+catch (Exception exception)
+{
+    Console.WriteLine(exception);
+    throw;
+}
+
+
+#endregion
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
