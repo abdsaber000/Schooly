@@ -27,10 +27,10 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             
             // TPT (Table Per Type) Configuration: Student and Teacher will have their own tables
             modelBuilder.Entity<Student>()
-                .ToTable("Student")  // Derived type has its own table
-                .Property(S => S.GPA)
-                .HasPrecision(1, 1);
+                .ToTable("Student");  
+            
             modelBuilder.Entity<Teacher>()
                 .ToTable("Teacher");
     }
+    public DbSet<Parent> Parents { get; set; }
 }

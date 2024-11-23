@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagement.Infrastructure.DbContext;
 
@@ -11,9 +12,11 @@ using SchoolManagement.Infrastructure.DbContext;
 namespace SchoolManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241123193459_AddTableStudentInfo")]
+    partial class AddTableStudentInfo
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -167,7 +170,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateOnly?>("DateOfBarith")
+                    b.Property<DateOnly>("DateOfBirth")
                         .HasColumnType("date");
 
                     b.Property<string>("Email")
@@ -177,7 +180,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int?>("Gender")
+                    b.Property<int>("Gender")
                         .HasColumnType("int");
 
                     b.Property<bool>("LockoutEnabled")
@@ -241,7 +244,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ParentName")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -260,13 +263,17 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.ToTable("Parents");
                 });
 
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.StudentInfo", b =>
                 {
-                    b.HasBaseType("SchoolManagement.Domain.Entities.ApplicationUser");
+                    b.Property<string>("StudentInfoId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Address")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateOnly>("DateOfBarith")
+                        .HasColumnType("date");
 
                     b.Property<DateOnly>("DateOfJoining")
                         .HasColumnType("date");
@@ -274,14 +281,30 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Property<int>("Department")
                         .HasColumnType("int");
 
+                    b.Property<int>("Gender")
+                        .HasColumnType("int");
+
                     b.Property<int>("Grade")
                         .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ParentId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.HasKey("StudentInfoId");
+
                     b.HasIndex("ParentId");
+
+                    b.ToTable("StudentsInfo");
+                });
+
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
+                {
+                    b.HasBaseType("SchoolManagement.Domain.Entities.ApplicationUser");
 
                     b.ToTable("Student", (string)null);
                 });
@@ -344,14 +367,8 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.StudentInfo", b =>
                 {
-                    b.HasOne("SchoolManagement.Domain.Entities.ApplicationUser", null)
-                        .WithOne()
-                        .HasForeignKey("SchoolManagement.Domain.Entities.Student", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("SchoolManagement.Domain.Entities.Parent", "Parent")
                         .WithMany()
                         .HasForeignKey("ParentId")
@@ -359,6 +376,15 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .IsRequired();
 
                     b.Navigation("Parent");
+                });
+
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
+                {
+                    b.HasOne("SchoolManagement.Domain.Entities.ApplicationUser", null)
+                        .WithOne()
+                        .HasForeignKey("SchoolManagement.Domain.Entities.Student", "Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Teacher", b =>

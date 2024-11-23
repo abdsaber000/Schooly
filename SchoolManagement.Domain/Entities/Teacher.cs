@@ -8,6 +8,6 @@ namespace SchoolManagement.Domain.Entities
 {
     public class Teacher : ApplicationUser
     {
-        public string SubjectId { get; set; }
+        
     }
 }
