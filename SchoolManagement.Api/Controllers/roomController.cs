@@ -6,11 +6,11 @@ namespace SchoolManagement.Api.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class RoomController : ControllerBase
+public class roomController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public RoomController(IMediator mediator)
+    public roomController(IMediator mediator)
     {
         _mediator = mediator;
     }

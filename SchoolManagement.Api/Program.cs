@@ -1,5 +1,6 @@
 using System.Globalization;
 using System.Text;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
 using presentationLayer;
 using SchoolManagement.Application.Extensions;
+using SchoolManagement.Application.Features.Pagination;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Features.Rooms.Service;
 using SchoolManagement.Infrastructure.Seeder;
@@ -57,6 +59,7 @@ builder.Services.AddAuthentication(options =>
 #region injecting interfaces and their implementations
 
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
 
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();

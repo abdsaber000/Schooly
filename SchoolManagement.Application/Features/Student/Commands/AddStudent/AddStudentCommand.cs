@@ -9,8 +9,10 @@ public class AddStudentCommand : IRequest<Result<string>>
 {
     [Required(ErrorMessage = "Student name is required")]
     public string StudentName { get; set; }
+    
     [Required(ErrorMessage = "DateOfBirth is required")]
     public DateOnly DateOfBirth { get; set; }
+    
     [Required(ErrorMessage = "Gender is required")]
     public Gender Gender { get; set; }
     [Required(ErrorMessage = "Address is required")]

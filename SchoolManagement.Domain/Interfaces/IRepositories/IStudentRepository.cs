@@ -10,6 +10,8 @@ namespace SchoolManagement.Domain.Interfaces.Repositories
     public interface IStudentRepository : IGenericRepository
     {
         Task AddStudent(Student Student);
+        Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default);
+        Task<List<Student>> GetPagedStudentsAsync(int page, int pageSize, CancellationToken cancellationToken = default);
         Task SaveChanges();
     }
 }
