@@ -7,12 +7,12 @@ using SchoolManagement.Domain.Entities;
 namespace SchoolManagement.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
-public class studentController : ControllerBase
+[Route("api/student")]
+public class StudentController : ControllerBase
 {
     private readonly IMediator _mediator;
 
-    public studentController(IMediator mediator)
+    public StudentController(IMediator mediator)
     {
         _mediator = mediator  ?? throw new ArgumentNullException(nameof(mediator));;
     }
@@ -29,9 +29,8 @@ public class studentController : ControllerBase
     }
     
     [HttpGet]
-    public async Task<IActionResult> GetPagedData([FromQuery] int page = 1, [FromQuery] int pageSize = 10)
+    public async Task<IActionResult> GetPagedData([FromQuery] GetPagedQuery query)
     {
-        var query = new GetPagedQuery() { Page = page, PageSize = pageSize };
         var result = await _mediator.Send(query);
         return Ok(result);
     }

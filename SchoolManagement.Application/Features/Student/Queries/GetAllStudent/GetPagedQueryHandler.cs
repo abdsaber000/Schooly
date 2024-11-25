@@ -19,9 +19,6 @@ public class GetPagedQueryHandler : IRequestHandler<GetPagedQuery, PagedResult<S
     
     public async Task<PagedResult<StudentDto>>Handle(GetPagedQuery request, CancellationToken cancellationToken)
     {
-        if (request.Page <= 0 || request.PageSize <= 0)
-            throw new ArgumentException("Page and page size must be greater than 0.");
-        
         var totalCount = await _studentRepository.GetTotalCountAsync(cancellationToken);
         
         var students = await _studentRepository
