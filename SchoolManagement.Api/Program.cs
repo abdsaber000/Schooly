@@ -1,14 +1,24 @@
+using System.Globalization;
 using System.Text;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using SchoolManagement.Domain.Interfaces.Repositories;
 using SchoolManagement.Infrastructure.DbContext;
 using SchoolManagement.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Localization;
 using Microsoft.IdentityModel.Tokens;
+using presentationLayer;
 using SchoolManagement.Application.Extensions;
+using SchoolManagement.Application.Features.Pagination;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Features.Rooms.Service;
+using SchoolManagement.Infrastructure.Seeder;
+
+
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -49,10 +59,16 @@ builder.Services.AddAuthentication(options =>
 
 #region injecting interfaces and their implementations
 
-// builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+
+//builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*option => option.SignIn.RequireConfirmedAccount = true*/)
     .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddScoped<AgoraTokenService>();
+
 builder.Services.AddScoped<AgoraTokenService>();
 
 #endregion
@@ -69,7 +85,51 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 #endregion
 
+#region Localization
+
+builder.Services.AddLocalization();
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSingleton<IStringLocalizerFactory, JSonStringLocalizerFactory>();
+builder.Services.AddMvc()
+    .AddDataAnnotationsLocalization(options =>
+    {
+        options.DataAnnotationLocalizerProvider = (type, factory) =>
+            factory.Create(typeof(JSonStringLocalizerFactory));
+    });
+
+builder.Services.Configure<RequestLocalizationOptions>(options =>
+{
+    var supportedCultures = new[]
+    {
+        new CultureInfo("ar-EG"),
+        new CultureInfo("en-US")
+    };
+    options.DefaultRequestCulture = new RequestCulture(culture: supportedCultures[0]);
+    options.SupportedCultures = supportedCultures;
+});
+
+#endregion
+
 var app = builder.Build();
+
+ #region RolesSeeder
+
+using var scope = app.Services.CreateScope();
+try
+{
+    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    await DefaultRoles.SeedAsync(roleManager);
+}
+catch (Exception exception)
+{
+    Console.WriteLine(exception);
+    throw;
+}
+
+
+#endregion
+
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -77,6 +137,13 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+var supportedCultures = new[] { "ar-EG", "en-US" };
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[0])
+    .AddSupportedCultures(supportedCultures);
+  
+app.UseRequestLocalization(localizationOptions);
 
 app.UseHttpsRedirection();
 

@@ -18,7 +18,7 @@ public class RegisterUserCommand : IRequest<Result<string>>
     [Required]
     public string Password { get; set; } = string.Empty;
     [Required]
-    public DateTime Birthday { get; set; } 
+    public DateOnly Birthday { get; set; } 
 }
 
 public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, Result<string>>
@@ -41,7 +41,7 @@ public class RegisterUserCommandHandler : IRequestHandler<RegisterUserCommand, R
             UserName = request.Email,
             Email = request.Email,
             Gender = request.Gender,
-            DateOfBirth = request.Birthday
+          //  DateOfBirth = request.Birthday
         };
         var createdUser = await _userManager.CreateAsync(user , request.Password);
         return createdUser.Succeeded ? Result<string>.Success(user.Id) : Result<string>.Failure("Failed to create user");

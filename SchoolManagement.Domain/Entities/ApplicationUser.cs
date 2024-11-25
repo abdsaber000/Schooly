@@ -6,7 +6,7 @@ namespace SchoolManagement.Domain.Entities;
 // TPT (Table Per Type)
 public class ApplicationUser : IdentityUser  
 {
-    public string? ProfilePhoto { get; set; } 
-    public Gender Gender { get; set; }
-    public DateTime DateOfBirth { get; set; }
+    public string  Name { get; set; }
+    public Gender? Gender { get; set; }
+    public DateOnly? DateOfBarith { get; set; }
 }

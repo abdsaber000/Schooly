@@ -1,0 +1,14 @@
+{
+  "Student name is required" : "اسم الطالب مطلوب",
+  "DateOfBirth is required" : "تاريخ الميلاد مطلوب",
+  "Gender is required" : "عنوان السكن مطلوب",
+  "Address is required" : "العنوان مطلوب",
+  "Date Of Joining is required" : "تاريخ الإلتحاق بالمدرسة مطلوب",
+  "Department is required" : "قسم المدرسه مطلوب",
+  "Grade is required" : "الصف الدراسي مطلوب",
+  "Parent name is required" : "اسم ولي الامر مطلوب",
+  "Parent relation is required" : "علاقة ولي الامر مطلوبة",
+  "Parent job is required" : "وظيفة ولي الامر مطلوبة",
+  "Parent phone is required" : "رقم ولي الامر مطلوب",
+  "Student created successfully" : "تم اضافة الطالب بنجاح"
+}
