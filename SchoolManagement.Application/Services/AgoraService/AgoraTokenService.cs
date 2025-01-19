@@ -1,4 +1,6 @@
 using Microsoft.Extensions.Configuration;
+using AgoraNET;
+using RtcTokenBuilder = AgoraNET.RtcTokenBuilder;
 
 namespace SchoolManagement.Application.Features.Rooms.Service;
 
@@ -12,17 +14,14 @@ public class AgoraTokenService
         _appId = configuration["AgoraSettings:AppId"];
         _appCertificate = configuration["AgoraSettings:AppCertificate"];
     }
-
     public string GenerateToken(string channelName, string userId, int expirationTimeInSeconds)
     {
-        var privilegeExpiredTs = (int)(DateTime.UtcNow.AddSeconds(expirationTimeInSeconds).Subtract(new DateTime(1970, 1, 1))).TotalSeconds;
+        DateTime expirationTime = DateTime.UtcNow.AddSeconds(expirationTimeInSeconds);
+        uint unixTimestamp = (uint)(expirationTime.Subtract(new DateTime(1970, 1, 1)).TotalSeconds);
 
-        return RtcTokenBuilder.BuildTokenWithUid(
-            _appId,
-            _appCertificate,
-            channelName,
-            userId,
-            RtcTokenBuilder.RtcRole.Publisher,
-            privilegeExpiredTs);
+        string token = new RtcTokenBuilder().BuildToken(
+            _appId, _appCertificate, channelName, userId, RtcUserRole.Publisher, unixTimestamp);
+        
+        return token;
     }
 }

@@ -10,5 +10,6 @@
   "Parent relation is required" : "علاقة ولي الامر مطلوبة",
   "Parent job is required" : "وظيفة ولي الامر مطلوبة",
   "Parent phone is required" : "رقم ولي الامر مطلوب",
-  "Student created successfully" : "تم اضافة الطالب بنجاح"
+  "Student created successfully" : "تم اضافة الطالب بنجاح",
+  "Expiration time must be greater than or equal 5 minutes." : "وقت الاجتماع يجب الا يقل عن 5 دقائق"
 }
