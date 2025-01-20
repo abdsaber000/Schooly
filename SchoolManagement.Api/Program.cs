@@ -14,7 +14,7 @@ using presentationLayer;
 using SchoolManagement.Application.Extensions;
 using SchoolManagement.Application.Features.Pagination;
 using SchoolManagement.Domain.Entities;
-using SchoolManagement.Application.Features.Rooms.Service;
+using SchoolManagement.Application.Services.AgoraService;
 using SchoolManagement.Infrastructure.Seeder;
 
 
