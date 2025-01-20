@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
-using SchoolManagement.Application.Features.Rooms.Service;
 
 namespace SchoolManagement.Application.Features.Rooms.Commands.CreateRoom;
 
@@ -17,6 +16,6 @@ public class CreateRoomResponse
     public string ChannelName { get; set; } = string.Empty;
     public string UserId { get; set; } = string.Empty;
     public string Token { get; set; } = string.Empty;
-    public DateTime expiresAt { get; set; }
+    public DateTime ExpiresAt { get; set; }
 }
 

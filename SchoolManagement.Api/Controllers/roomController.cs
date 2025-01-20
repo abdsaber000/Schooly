@@ -15,7 +15,7 @@ public class roomController : ControllerBase
         _mediator = mediator;
     }
 
-    [HttpPost("create")]
+    [HttpPost]
     public async Task<IActionResult> CreateRoom([FromBody] CreateRoomCommand command)
     {
         var result = await _mediator.Send(command);
