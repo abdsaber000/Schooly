@@ -2,8 +2,7 @@ using Microsoft.Extensions.Configuration;
 using AgoraNET;
 using RtcTokenBuilder = AgoraNET.RtcTokenBuilder;
 
-namespace SchoolManagement.Application.Features.Rooms.Service;
-
+namespace SchoolManagement.Application.Services.AgoraService;
 public class AgoraTokenService
 {
     private readonly string _appId;
