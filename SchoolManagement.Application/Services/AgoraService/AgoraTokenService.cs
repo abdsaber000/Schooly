@@ -1,8 +1,8 @@
-using Microsoft.Extensions.Configuration;
 using AgoraNET;
+using Microsoft.Extensions.Configuration;
 using RtcTokenBuilder = AgoraNET.RtcTokenBuilder;
 
-namespace SchoolManagement.Application.Features.Rooms.Service;
+namespace SchoolManagement.Application.Services.AgoraService;
 
 public class AgoraTokenService
 {
