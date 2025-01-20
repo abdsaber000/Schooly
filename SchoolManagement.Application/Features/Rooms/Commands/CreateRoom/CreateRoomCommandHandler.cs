@@ -1,5 +1,5 @@
 using MediatR;
-using SchoolManagement.Application.Features.Rooms.Service;
+using SchoolManagement.Application.Services.AgoraService;
 
 namespace SchoolManagement.Application.Features.Rooms.Commands.CreateRoom;
 

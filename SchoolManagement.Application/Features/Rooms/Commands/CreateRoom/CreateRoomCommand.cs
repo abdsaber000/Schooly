@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
-using SchoolManagement.Application.Features.Rooms.Service;
+
 
 namespace SchoolManagement.Application.Features.Rooms.Commands.CreateRoom;
 
