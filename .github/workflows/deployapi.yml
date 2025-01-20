@@ -3,6 +3,9 @@ name: School Management System API
 on:
   workflow_dispatch:
 
+env:
+  AZURE_WEBAPP_NAME: "School-Management"
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -18,3 +21,13 @@ jobs:
       
       - name: Build
         run: dotnet build ./SchoolManagement.Api/SchoolManagement.Api.csproj --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish ./SchoolManagement.Api/SchoolManagement.Api.csproj --configuration Release --output ./publish
+      
+      - name: Deploy to Azure
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.API_PUBLISH_SECRET }}
+          package: ./publish
