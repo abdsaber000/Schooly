@@ -11,5 +11,11 @@
   "Parent job is required" : "وظيفة ولي الامر مطلوبة",
   "Parent phone is required" : "رقم ولي الامر مطلوب",
   "Student created successfully" : "تم اضافة الطالب بنجاح",
-  "Expiration time must be greater than or equal 5 minutes." : "وقت الاجتماع يجب الا يقل عن 5 دقائق"
+  "Expiration time must be greater than or equal 5 minutes." : "وقت الاجتماع يجب الا يقل عن 5 دقائق",
+  "Password must be at least 6 characters" : "يجب أن تكون كلمة المرور 6 أحرف على الأقل",
+  "Invalid email format" : "تنسيق البريد الإلكتروني غير صالح",
+  "Email is required" : "البريد الإلكتروني مطلوب",
+  "Email already exists": "الايميل موجود بالفعل",
+  "Invalid Credentials.": "البيانات غير صحيحة"
+          
 }

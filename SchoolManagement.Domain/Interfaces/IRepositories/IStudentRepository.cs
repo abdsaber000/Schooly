@@ -9,7 +9,8 @@ namespace SchoolManagement.Domain.Interfaces.Repositories
 {
     public interface IStudentRepository : IGenericRepository
     {
-        Task AddStudent(Student Student);
+        Task AddStudent(Student student , string password);
+        Task<Student?> GetStudentByEmail(string email); 
         Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default);
         Task<List<Student>> GetPagedStudentsAsync(int page, int pageSize, CancellationToken cancellationToken = default);
         Task SaveChanges();

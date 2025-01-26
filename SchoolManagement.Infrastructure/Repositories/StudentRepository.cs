@@ -18,12 +18,18 @@ namespace SchoolManagement.Infrastructure.Repositories
             _appDbContext = appDbContext;
             _userManager = userManager;
         }
-        public async Task AddStudent(Student Student)
+        public async Task AddStudent(Student student , string password)
         {
-            var createdUser = await _userManager.CreateAsync(Student , "Aa#123456");
-            await _userManager.AddToRoleAsync(Student, Roles.Student);
+            var createdUser = await _userManager.CreateAsync(student , password);
+            await _userManager.AddToRoleAsync(student, Roles.Student);
         }
-
+        public async Task<Student?> GetStudentByEmail(string email)
+        {
+            var student = await _appDbContext.Users
+                .OfType<Student>()
+                .FirstOrDefaultAsync(s => s.Email == email);
+            return student;
+        }
         public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
         {
             return await _appDbContext.Users.OfType<Student>().CountAsync(cancellationToken);

@@ -7,7 +7,7 @@ using SchoolManagement.Infrastructure.DbContext;
 namespace SchoolManagement.Api.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/auth")]
 public class AuthenticationController : ControllerBase
 {
     private readonly IMediator _mediator;
@@ -17,14 +17,14 @@ public class AuthenticationController : ControllerBase
     }
 
     [HttpPost]
-    [Route("Register")]
-    public async Task<IActionResult> Register([FromBody] RegisterUserCommand command)
+    [Route("register")]
+    public async Task<IActionResult> Register([FromBody] RegisterStudentCommand command)
     {
         return Ok(await _mediator.Send(command));
     }
 
     [HttpPost]
-    [Route("Login")]
+    [Route("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
     {
         return Ok(await _mediator.Send(command));

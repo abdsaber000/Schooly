@@ -5,16 +5,14 @@ namespace SchoolManagement.Application.Features.Rooms.Commands.CreateRoom;
 
 public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, CreateRoomResponse>
 {
-    private readonly AgoraTokenService _agoraTokenService;
-
-    public CreateRoomCommandHandler(AgoraTokenService agoraTokenService)
+    private readonly IAgoraService _agoraService;
+    public CreateRoomCommandHandler(IAgoraService agoraService)
     {
-        _agoraTokenService = agoraTokenService;
+        _agoraService = agoraService;
     }
-
     public Task<CreateRoomResponse> Handle(CreateRoomCommand request, CancellationToken cancellationToken)
     {
-        var token = _agoraTokenService.GenerateToken(
+        var token = _agoraService.GenerateToken(
             request.ChannelName,
             request.UserId,
             request.ExpirationTimeInSeconds);
@@ -24,7 +22,7 @@ public class CreateRoomCommandHandler : IRequestHandler<CreateRoomCommand, Creat
             ChannelName = request.ChannelName,
             UserId = request.UserId,
             Token = token,
-            expiresAt = DateTime.UtcNow.AddSeconds(request.ExpirationTimeInSeconds)
+            ExpiresAt = DateTime.UtcNow.AddSeconds(request.ExpirationTimeInSeconds)
         });
     }
 }
