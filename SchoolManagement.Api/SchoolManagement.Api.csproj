@@ -29,5 +29,8 @@
     <ProjectReference Include="..\SchoolManagement.Domain\SchoolManagement.Domain.csproj" />
     <ProjectReference Include="..\SchoolManagement.Infrastructure\SchoolManagement.Infrastructure.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Uploads/" />
+  </ItemGroup>
 
 </Project>
