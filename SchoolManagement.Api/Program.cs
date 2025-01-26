@@ -14,6 +14,8 @@ using SchoolManagement.Application.Extensions;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Services.AgoraService;
 using SchoolManagement.Infrastructure.Seeder;
+using SchoolManagement.Domain.Interfaces.IRepositories;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,9 +63,10 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
-
+builder.Services.AddScoped<IUploadedFileRepositry, UploadedFileRepositry>();
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*option => option.SignIn.RequireConfirmedAccount = true*/)
     .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddScoped<AgoraTokenService>();
 
 builder.Services.AddScoped<AgoraTokenService>();
 
