@@ -1,6 +1,6 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SchoolManagement.Application.Features.Student.Dtos;
+using SchoolManagement.Application.Features.Authentication.Dtos;
 using SchoolManagement.Infrastructure.DbContext;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces.Repositories;

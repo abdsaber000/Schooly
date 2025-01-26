@@ -1,18 +1,20 @@
-using Microsoft.Extensions.Configuration;
 using AgoraNET;
 using RtcTokenBuilder = AgoraNET.RtcTokenBuilder;
+using Microsoft.Extensions.Configuration;
 
 namespace SchoolManagement.Application.Services.AgoraService;
-public class AgoraTokenService
+
+public class AgoraService : IAgoraService
 {
     private readonly string _appId;
     private readonly string _appCertificate;
-
-    public AgoraTokenService(IConfiguration configuration)
+    
+    public AgoraService(IConfiguration configuration)
     {
         _appId = configuration["AgoraSettings:AppId"];
         _appCertificate = configuration["AgoraSettings:AppCertificate"];
     }
+
     public string GenerateToken(string channelName, string userId, int expirationTimeInSeconds)
     {
         DateTime expirationTime = DateTime.UtcNow.AddSeconds(expirationTimeInSeconds);

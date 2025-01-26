@@ -11,5 +11,10 @@
   "Parent job is required" : "Parent job is required" ,
   "Parent phone is required" : "Parent phone is required",
   "Student created successfully": "Student created successfully",
-  "Expiration time must be greater than or equal 5 minutes.": "Expiration time must be greater than or equal 5 minutes."
+  "Expiration time must be greater than or equal 5 minutes.": "Expiration time must be greater than or equal 5 minutes.",
+  "Password must be at least 6 characters":   "Password must be at least 6 characters",
+  "Invalid email format":  "Invalid email format",
+  "Email is required":   "Email is required",
+  "Email already exists":  "Email already exists",
+  "Invalid Credentials.": "Invalid Credentials."
 }
