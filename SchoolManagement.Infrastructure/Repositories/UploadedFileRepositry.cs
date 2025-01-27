@@ -30,6 +30,6 @@ public class UploadedFileRepositry : IUploadedFileRepositry
 
     public bool IsFileExists(string FileName)
     {
-        return _appDbContext.UploadedFiles.Any(file => file.FileName == FileName);
+        return _appDbContext.UploadedFiles.Any(file => file.StoredFileName == FileName);
     }
 }
