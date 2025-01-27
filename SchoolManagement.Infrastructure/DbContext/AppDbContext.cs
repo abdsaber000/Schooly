@@ -33,4 +33,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
                 .ToTable("Teacher");
     }
     public DbSet<Parent> Parents { get; set; }
+    public DbSet<UploadedFile> UploadedFiles {get; set;}
 }

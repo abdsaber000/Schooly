@@ -1,18 +1,18 @@
-using SchoolManagement.Application.Features.Student.Commands.AddStudent;
+using SchoolManagement.Application.Features.Authentication.Commands.Register;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Enums;
 
-namespace SchoolManagement.Application.Features.Student.Dtos;
+namespace SchoolManagement.Application.Features.Authentication.Dtos;
 
 public class StudentDto
 {
-    public string Id { get; set; }
-    public string StudentName { get; set; }
-    public string StudentId { get; set; }
+    public string Id { get; set; } = string.Empty;
+    public string StudentName { get; set; } = string.Empty;
+    public string StudentId { get; set; } = string.Empty;
     public Department Department { get; set; }
     public Grade Grade { get; set; }
-    public string ParentName { get; set; }
-    public string ParentPhone1 { get; set; }
+    public string ParentName { get; set; } = string.Empty;
+    public string ParentPhone1 { get; set; } = string.Empty;
     public DateOnly DateOfJoining { get; set; }
 }
 
@@ -25,7 +25,7 @@ public static class StudentDtoExtensionMethold
         
         return Math.Abs(unique16DigitNumber % 9999999999999999L) + 1000000000000000L;
     }
-    public static Domain.Entities.Student ToStudent(this AddStudentCommand command)
+    public static Domain.Entities.Student ToStudent(this RegisterStudentCommand command)
     {
         string unique16DigitNumber = GenerateUnique16DigitNumber().ToString();
         var uniqString = Guid.NewGuid().ToString();
@@ -43,6 +43,8 @@ public static class StudentDtoExtensionMethold
             StudentId = unique16DigitNumber,
             ParentId = parent.ParentId,
             Name = command.StudentName,
+            Email = command.StudentEmail,
+            UserName = command.StudentEmail,
             Address = command.Address,
             Department = command.Department,
             Gender = command.Gender,
@@ -50,8 +52,6 @@ public static class StudentDtoExtensionMethold
             DateOfJoining = command.DateOfJoining,
             DateOfBarith = command.DateOfBirth,
             Parent = parent,
-            Email = uniqString,
-            UserName = uniqString
         };
     }
 

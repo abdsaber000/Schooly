@@ -14,7 +14,9 @@ using presentationLayer;
 using SchoolManagement.Application.Extensions;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Services.AgoraService;
+using SchoolManagement.Application.Services.TokenService;
 using SchoolManagement.Infrastructure.Seeder;
+using SchoolManagement.Domain.Interfaces.IRepositories;
 
 
 
@@ -33,6 +35,18 @@ var Configuration = builder.Configuration;
 //     config.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 
 builder.Services.AddApplicationServices();
+
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
 
 #region Configure JWT
 builder.Services.AddAuthentication(options =>
@@ -63,15 +77,26 @@ builder.Services.AddLocalization(options => options.ResourcesPath = "Resources")
 
 //builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IUploadedFileRepositry, UploadedFileRepositry>();
+builder.Services.AddScoped<ITokenService, TokenService>();
+builder.Services.AddScoped<IAgoraService , AgoraService>();
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(/*option => option.SignIn.RequireConfirmedAccount = true*/)
-    .AddEntityFrameworkStores<AppDbContext>();
-builder.Services.AddScoped<AgoraTokenService>();
-
-builder.Services.AddScoped<AgoraTokenService>();
 
 #endregion
 
+#region Add Identity password seeting
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+    {
+        options.Password.RequireDigit = false;            // No digit required
+        options.Password.RequiredLength = 6;              // Minimum length of 6
+        options.Password.RequireNonAlphanumeric = false;  // No special character required
+        options.Password.RequireUppercase = false;        // No uppercase letter required
+        options.Password.RequireLowercase = false;        // No lowercase letter required
+        options.Password.RequiredUniqueChars = 1;
+    })
+    .AddEntityFrameworkStores<AppDbContext>()  
+    .AddDefaultTokenProviders();  
+#endregion
 #region DataBase Config
         
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
