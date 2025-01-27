@@ -166,7 +166,9 @@ var supportedCultures = new[] { "ar-EG", "en-US" };
 var localizationOptions = new RequestLocalizationOptions()
     .SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures);
-  
+
+app.UseCors("AllowAll");
+
 app.UseRequestLocalization(localizationOptions);
 
 app.UseHttpsRedirection();
