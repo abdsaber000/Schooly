@@ -36,6 +36,18 @@ var Configuration = builder.Configuration;
 
 builder.Services.AddApplicationServices();
 
+// Add CORS services
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll",
+        builder =>
+        {
+            builder.AllowAnyOrigin()
+                   .AllowAnyMethod()
+                   .AllowAnyHeader();
+        });
+});
+
 #region Configure JWT
 builder.Services.AddAuthentication(options =>
 {
