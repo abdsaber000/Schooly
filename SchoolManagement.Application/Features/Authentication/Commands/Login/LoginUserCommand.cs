@@ -38,6 +38,6 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
             return Result<string>.Failure(_localizer["Invalid Credentials."]);
         }
         var token = await _tokenService.GenerateToken(existUser);
-        return Result<string>.Success("" , token);
+        return Result<string>.Success(_localizer["Login successfully"] , token);
     }
 }

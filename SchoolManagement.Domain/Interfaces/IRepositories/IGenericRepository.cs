@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SchoolManagement.Domain.Interfaces.Repositories
+﻿namespace SchoolManagement.Domain.Interfaces.IRepositories
 {
-    public interface IGenericRepository
+    public interface IGenericRepository<T> where T : class
     {
+        Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default);
+        Task<List<T>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default);
     }
+
 }

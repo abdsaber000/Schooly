@@ -16,5 +16,20 @@
   "Invalid email format":  "Invalid email format",
   "Email is required":   "Email is required",
   "Email already exists":  "Email already exists",
-  "Invalid Credentials.": "Invalid Credentials."
+  "Invalid Credentials.": "Invalid Credentials.",
+  "Login successfully": "Login successfully",
+  "End time is required": "End time is required",
+  "Start time is required": "Start time is required",
+  "Date is required": "Date is required",
+  "Lesson type is required": "Lesson type is required",
+  "Title is required": "Title is required",
+  "Subject is required": "Subject is required",
+  "Teacher id is required": "Teacher id is required",
+  "Lesson created successfully": "Lesson created successfully",
+  "Lesson not found.": "Lesson not found.",
+  "You can only join 5 minutes before the lesson starts.":   "You can only join 5 minutes before the lesson starts.",
+  "You cannot join , the lesson has ended.": "You cannot join , the lesson has ended.",
+  "Token generated successfully": "Token generated successfully",
+  "Lesson updated successfully": "Lesson updated successfully",
+  "Lesson deleted successfully": "Lesson deleted successfully"
 }

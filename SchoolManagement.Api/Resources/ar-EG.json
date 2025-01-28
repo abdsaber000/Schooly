@@ -16,6 +16,20 @@
   "Invalid email format" : "تنسيق البريد الإلكتروني غير صالح",
   "Email is required" : "البريد الإلكتروني مطلوب",
   "Email already exists": "الايميل موجود بالفعل",
-  "Invalid Credentials.": "البيانات غير صحيحة"
-          
+  "Invalid Credentials.": "البيانات غير صحيحة",
+  "Login successfully": "تم تسجيل الدخول بنجاح",
+  "End time is required": "وقت النهايه مطلوب",
+  "Start time is required": "وقت البدايه مطلوب",
+  "Date is required": "التاريح مطلوب",
+  "Lesson type is required": "نوع الحصة مطلوبة",
+  "Title is required": "العنوان مطلوب",
+  "Subject is required": "المادة مطلوبة",
+  "Teacher id is required": "رقم الاستاذ مطلوب",
+  "Lesson created successfully": "تم اضافة الجصة بنجاح",
+  "Lesson not found.": "لا يوجد حصة",
+  "You can only join 5 minutes before the lesson starts.": "يمكنك الدخول قبل 5 دقائق فقط قبل بدء الحصة",
+  "You cannot join , the lesson has ended.": "لا يمكنك الدخول الحصة قد انتهت",
+  "Token generated successfully": "Token generated successfully",
+  "Lesson updated successfully": "تم تعديل الحصة بنجاح",
+  "Lesson deleted successfully": "تم حذف الحصه بنجاح"
 }

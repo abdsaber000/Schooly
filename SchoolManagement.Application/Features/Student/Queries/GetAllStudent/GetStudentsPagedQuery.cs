@@ -1,7 +1,8 @@
 using MediatR;
-using SchoolManagement.Application.Features.Authentication.Dtos;
 using SchoolManagement.Application.Features.Pagination;
-using SchoolManagement.Domain.Entities;
+using SchoolManagement.Application.Features.Student.Dtos;
+
+namespace SchoolManagement.Application.Features.Student.Queries.GetAllStudent;
 
 public class GetStudentsPagedQuery : IRequest<PagedResult<StudentDto>>
 {

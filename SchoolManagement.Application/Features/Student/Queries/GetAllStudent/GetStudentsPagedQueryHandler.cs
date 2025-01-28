@@ -1,9 +1,8 @@
 using MediatR;
-using SchoolManagement.Application.Features.Authentication.Dtos;
 using SchoolManagement.Application.Features.Pagination;
+using SchoolManagement.Application.Features.Student.Dtos;
 using SchoolManagement.Domain.Interfaces.IRepositories;
-using SchoolManagement.Domain.Interfaces.Repositories;
-using SchoolManagement.Infrastructure.DbContext;
+
 
 namespace SchoolManagement.Application.Features.Student.Queries.GetAllStudent;
 
