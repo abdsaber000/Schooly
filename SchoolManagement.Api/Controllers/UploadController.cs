@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Upload.Commands;
 using SchoolManagement.Application.Features.Upload.Queries;
+using SchoolManagement.Application.Services.ResponseService;
 using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers
@@ -12,21 +13,23 @@ namespace SchoolManagement.Api.Controllers
     public class UploadController : ControllerBase
     {
         private readonly IMediator _mediator;
-        public UploadController(IMediator mediator){
+        private readonly IResponseService _responseService;
+        public UploadController(IMediator mediator, IResponseService responseService){
             _mediator = mediator;
+            _responseService = responseService;
         }
 
         [HttpGet]
         [Route("all")]
 
         public async Task<IActionResult> GetAllFiles(){
-            return Ok(await _mediator.Send(new GetAllFilesQuery()));
+            return _responseService.CreateResponse(await _mediator.Send(new GetAllFilesQuery()));
         }
 
         [HttpPost]
         [Route("upload")]
         public async Task<IActionResult> UploadFile(UploadFileCommand command){
-            return Ok(await _mediator.Send(command));
+            return _responseService.CreateResponse(await _mediator.Send(command));
         } 
 
         [HttpGet]

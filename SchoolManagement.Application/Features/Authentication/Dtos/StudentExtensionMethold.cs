@@ -1,3 +1,4 @@
+using SchoolManagement.Application.Features.Authentication.Commands.Login;
 using SchoolManagement.Application.Features.Authentication.Commands.Register;
 using SchoolManagement.Domain.Entities;
 
@@ -41,4 +42,15 @@ public static class StudentExtensionMetholdauth
             Parent = parent,
         };
     }
+
+    public static LoginDto ToLoginDto(this ApplicationUser user)
+    {
+        return new LoginDto()
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Email = user.Email
+        };
+    }
+    
 }
