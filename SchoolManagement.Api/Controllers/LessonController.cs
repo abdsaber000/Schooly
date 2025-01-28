@@ -32,8 +32,8 @@ public class LessonController : ControllerBase
         return Ok(await _mediator.Send(new JoinLessonCommand(id)));
     }
 
-    [HttpGet("all")]
-    public async Task<IActionResult> GetAllLessons([FromQuery] GetLessonsPagedQuery query)
+    [HttpGet("upcoming")]
+    public async Task<IActionResult> GetAllComingLessons([FromQuery] GetLessonsPagedQuery query)
     {
         return Ok(await _mediator.Send(query));
     }

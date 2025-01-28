@@ -45,6 +45,30 @@ public class LessonRepository : ILessonRepository
         _appDbContext.Lessons.Remove(lesson);
     }
 
+    public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.Now;
+
+        return await _appDbContext.Lessons
+            .Where(lesson => lesson.Date > DateOnly.FromDateTime(now) || 
+                             (lesson.Date == DateOnly.FromDateTime(now) && lesson.To > TimeOnly.FromDateTime(now)))
+            .CountAsync(cancellationToken);
+    }
+
+    public async Task<List<Lesson>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var now = DateTime.Now;
+
+        return await _appDbContext.Lessons
+            .Where(lesson => lesson.Date > DateOnly.FromDateTime(now) || 
+                             (lesson.Date == DateOnly.FromDateTime(now) && lesson.To > TimeOnly.FromDateTime(now)))
+            .OrderBy(lesson => lesson.Date)
+            .ThenBy(lesson => lesson.From)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
+    }
+
     public async Task SaveChanges()
     {
         await _appDbContext.SaveChangesAsync();
