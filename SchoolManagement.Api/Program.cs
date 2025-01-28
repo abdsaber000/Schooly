@@ -75,12 +75,12 @@ builder.Services.AddAuthentication(options =>
 builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
 
-//builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IUploadedFileRepositry, UploadedFileRepositry>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAgoraService , AgoraService>();
-
+builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 
 #endregion
 

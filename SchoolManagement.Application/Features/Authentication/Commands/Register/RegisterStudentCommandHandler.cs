@@ -25,6 +25,6 @@ public class RegisterStudentCommandHandler : IRequestHandler<RegisterStudentComm
         }
         var student = request.ToStudent();
         await _studentRepository.AddStudent(student, request.Password);
-        return Result<string>.Success(_localizer["Student created successfully"]);
+        return Result<string>.SuccessMessage(_localizer["Student created successfully"]);
     }
 }

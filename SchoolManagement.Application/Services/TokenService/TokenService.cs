@@ -17,7 +17,6 @@ public class TokenService : ITokenService
         _userManager = userManager;
         _configuration = configuration;
     }
-
     public async Task<string> GenerateToken(ApplicationUser user)
     {
         var claims = new List<Claim>();
