@@ -6,13 +6,13 @@ namespace SchoolManagement.Application.Features.Lesson.Queries.GetAllLessons;
 
 public class GetLessonsPagedQueryHandler :IRequestHandler<GetLessonsPagedQuery , PagedResult<Domain.Entities.Lesson>>
 {
-    private readonly IGenericRepository<Domain.Entities.Lesson> _lessonRepository;
+    private readonly ILessonRepository _lessonRepository;
 
-    public GetLessonsPagedQueryHandler(IGenericRepository<Domain.Entities.Lesson> lessonRepository)
+    public GetLessonsPagedQueryHandler(ILessonRepository lessonRepository)
     {
         _lessonRepository = lessonRepository;
     }
-    
+
     public async Task<PagedResult<Domain.Entities.Lesson>> Handle(GetLessonsPagedQuery request, CancellationToken cancellationToken)
     {
         var totalCount = await _lessonRepository.GetTotalCountAsync(cancellationToken);
