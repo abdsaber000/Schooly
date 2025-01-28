@@ -1,28 +1,25 @@
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Application.Features.Authentication.Dtos;
-using SchoolManagement.Infrastructure.DbContext;
-using SchoolManagement.Domain.Entities;
+using SchoolManagement.Application.Features.Pagination;
+using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Domain.Interfaces.Repositories;
+using SchoolManagement.Infrastructure.DbContext;
 
-namespace SchoolManagement.Application.Features.Pagination;
+namespace SchoolManagement.Application.Features.Student.Queries.GetAllStudent;
 
-public class GetPagedQueryHandler : IRequestHandler<GetPagedQuery, PagedResult<StudentDto>> 
+public class GetStudentsPagedQueryHandler : IRequestHandler<GetStudentsPagedQuery, PagedResult<StudentDto>> 
 {
-    private readonly AppDbContext _context;
-    private readonly IStudentRepository _studentRepository;
-    public GetPagedQueryHandler(AppDbContext context, IStudentRepository studentRepository)
+    private readonly IGenericRepository<Domain.Entities.Student> _studentRepository;
+    public GetStudentsPagedQueryHandler( IGenericRepository<Domain.Entities.Student> studentRepository)
     {
-        _context = context;
         _studentRepository = studentRepository;
     }
-    
-    public async Task<PagedResult<StudentDto>>Handle(GetPagedQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<StudentDto>>Handle(GetStudentsPagedQuery request, CancellationToken cancellationToken)
     {
         var totalCount = await _studentRepository.GetTotalCountAsync(cancellationToken);
         
         var students = await _studentRepository
-            .GetPagedStudentsAsync(request.Page, request.PageSize, cancellationToken);
+            .GetPagedAsync(request.Page, request.PageSize, cancellationToken);
 
         var studentsDto = new List<StudentDto>();
         foreach (var student in students)
