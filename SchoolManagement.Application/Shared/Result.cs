@@ -19,7 +19,15 @@ public class Result<T>
             StatusCode = HttpStatusCode.OK
         };
     }
-
+    public static Result<string> SuccessMessage(string message)
+    {
+        return new Result<string>()
+        {
+            Message = message,
+            IsSuccess = true,
+            StatusCode = HttpStatusCode.OK
+        };
+    }
     public static Result<T> Success(T Data, string Token)
     {
         return new Result<T>()
@@ -30,7 +38,16 @@ public class Result<T>
             Token = Token
         };
     }
-
+    public static Result<T> Success(string message, string Token)
+    {
+        return new Result<T>()
+        {
+            Message = message,
+            IsSuccess = true,
+            StatusCode = HttpStatusCode.OK,
+            Token = Token
+        };
+    }
     public static Result<T>Failure(string message)
     {
         return new Result<T>()

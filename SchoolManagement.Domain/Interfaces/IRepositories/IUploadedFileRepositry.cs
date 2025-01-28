@@ -4,7 +4,7 @@ using SchoolManagement.Domain.Interfaces.Repositories;
 
 namespace SchoolManagement.Domain.Interfaces.IRepositories;
 
-public interface IUploadedFileRepositry : IGenericRepository
+public interface IUploadedFileRepositry 
 {
     Task<List<UploadedFile>> GetAllFiles();
     Task<UploadedFile> GetFileByName(string FileName);
