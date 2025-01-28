@@ -25,8 +25,8 @@ public static class StudentDtoExtensionMethold
             StudentId = student.StudentId,
             Department = student.Department,
             Grade = student.Grade,
-            ParentName = student.Parent.ParentName,
-            ParentPhone1 = student.Parent.Phone1,
+            ParentName = student.Parent is null ? "" : student.Parent.ParentName,
+            ParentPhone1 = student.Parent is null ? "" : student.Parent.Phone1,
             DateOfJoining = student.DateOfJoining
         };
     }

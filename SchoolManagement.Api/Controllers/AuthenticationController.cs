@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Authentication.Commands.Login;
 using SchoolManagement.Application.Features.Authentication.Commands.Register;
-using SchoolManagement.Infrastructure.DbContext;
+using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
 
@@ -11,22 +11,25 @@ namespace SchoolManagement.Api.Controllers;
 public class AuthenticationController : ControllerBase
 {
     private readonly IMediator _mediator;
-    public AuthenticationController(IMediator mediator)
+    private readonly IResponseService _responseService;
+    public AuthenticationController(IMediator mediator 
+                    , IResponseService responseService)
     {
         _mediator = mediator;
+        _responseService = responseService;
     }
 
     [HttpPost]
     [Route("register")]
     public async Task<IActionResult> Register([FromBody] RegisterStudentCommand command)
     {
-        return Ok(await _mediator.Send(command));
+        return _responseService.CreateResponse(await _mediator.Send(command));
     }
 
     [HttpPost]
     [Route("login")]
     public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
     {
-        return Ok(await _mediator.Send(command));
+        return _responseService.CreateResponse(await _mediator.Send(command));
     }
 }
