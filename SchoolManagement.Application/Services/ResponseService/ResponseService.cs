@@ -24,9 +24,23 @@ public class ResponseService : IResponseService
         }
         return new BadRequestObjectResult("unhandled error");
     }
-
+    private class Meta {
+        public int TotalItems { get; set; }
+        public int PageSize { get; set; }
+        public int CurrentPage { get; set; }
+        public int TotalPages { get; set; }
+       
+    }
+    private Meta GetMeta<T> (PagedResult<T> result){
+        return new Meta(){
+            TotalItems = result.TotalItems,
+            PageSize = result.PageSize,
+            CurrentPage = result.Page,
+            TotalPages = result.TotalPages,
+        };
+    }
     public IActionResult CreateResponse<T>(PagedResult<T> result)
     {
-        return CreateResponse(Result<PagedResult<T>>.Success(result));
+        return new OkObjectResult(new {Data = result.Items , Meta = GetMeta(result)});
     }
 }
