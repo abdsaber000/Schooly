@@ -1,4 +1,4 @@
-using System;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Pagination;
 using SchoolManagement.Application.Shared;
@@ -19,10 +19,19 @@ public class ResponseService : IResponseService
             }else if(result.Data != null){
                 return new OkObjectResult(new { data = result.Data });
             }
-        }else{
-            return new BadRequestObjectResult(new { message = result.Message });
         }
-        return new BadRequestObjectResult("unhandled error");
+
+        var error = new { message = result.Message };
+        switch(result.StatusCode){
+            case HttpStatusCode.UnprocessableEntity:
+                return new UnprocessableEntityObjectResult(error);
+            case HttpStatusCode.BadRequest:
+                return new BadRequestObjectResult(error);
+            case HttpStatusCode.Unauthorized:
+                return new UnauthorizedObjectResult(error);
+            default:
+                return new BadRequestObjectResult(error);
+        }
     }
     private class Meta {
         public int TotalItems { get; set; }

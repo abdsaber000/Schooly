@@ -10,50 +10,52 @@ public class Result<T>
     public string Message { get; set; } = string.Empty;
     public string Token { get; set; } = string.Empty;
 
-    public static Result<T> Success(T Data)
+    public static Result<T> Success(T Data , HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         return new Result<T>()
         {
             Data = Data,
             IsSuccess = true,
-            StatusCode = HttpStatusCode.OK
+            StatusCode = statusCode
         };
     }
-    public static Result<string> SuccessMessage(string message)
+    
+    public static Result<string> SuccessMessage(string message , HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         return new Result<string>()
         {
             Message = message,
             IsSuccess = true,
-            StatusCode = HttpStatusCode.OK
+            StatusCode = statusCode
         };
     }
-    public static Result<T> Success(T Data, string Token)
+    
+    public static Result<T> Success(T Data, string Token , HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         return new Result<T>()
         {
             Data = Data,
             IsSuccess = true,
-            StatusCode = HttpStatusCode.OK,
+            StatusCode = statusCode,
             Token = Token
         };
     }
-    public static Result<T> Success(string message, string Token)
+    public static Result<T> Success(string message, string Token, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         return new Result<T>()
         {
             Message = message,
             IsSuccess = true,
-            StatusCode = HttpStatusCode.OK,
+            StatusCode = statusCode,
             Token = Token
         };
     }
-    public static Result<T>Failure(string message)
+    public static Result<T>Failure(string message , HttpStatusCode statusCode = HttpStatusCode.BadRequest)
     {
         return new Result<T>()
         {
             Message = message,
-            StatusCode = HttpStatusCode.BadRequest
+            StatusCode = statusCode
         };
     }
 }
