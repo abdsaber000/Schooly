@@ -38,23 +38,20 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
         {
             return Result<string>.Failure(_localizer["Lesson not found."]);
         }
-
         var nowUtc = DateTime.UtcNow;
-
+        
         var lessonStartTimeEgypt = lesson.Date.ToDateTime(lesson.From);
         var lessonEndTimeEgypt = lesson.Date.ToDateTime(lesson.To);
-
+        
         var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
-
-        var lessonStartTimeUtc = TimeZoneInfo.ConvertTimeToUtc(lessonStartTimeEgypt, egyptTimeZone);
-        var lessonEndTimeUtc = TimeZoneInfo.ConvertTimeToUtc(lessonEndTimeEgypt, egyptTimeZone);
-
-        if (nowUtc < lessonStartTimeUtc.AddMinutes(-5))
+        
+        var nowEgypt = TimeZoneInfo.ConvertTimeFromUtc(nowUtc, egyptTimeZone);
+        
+        if (nowEgypt < lessonStartTimeEgypt.AddMinutes(-5))
         {
             return Result<string>.Failure(_localizer["You can only join 5 minutes before the lesson starts."]);
         }
-
-        if (nowUtc > lessonEndTimeUtc)
+        if (nowEgypt > lessonEndTimeEgypt)
         {
             return Result<string>.Failure(_localizer["You cannot join, the lesson has ended."]);
         }
