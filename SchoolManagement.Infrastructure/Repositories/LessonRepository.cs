@@ -45,15 +45,20 @@ public class LessonRepository : ILessonRepository
         _appDbContext.Lessons.Remove(lesson);
     }
 
-    public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
-    {
-        var now = DateTime.Now;
-
-        return await _appDbContext.Lessons
-            .Where(lesson => lesson.Date > DateOnly.FromDateTime(now) || 
-                             (lesson.Date == DateOnly.FromDateTime(now) && lesson.To > TimeOnly.FromDateTime(now)))
-            .CountAsync(cancellationToken);
-    }
+   public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
+   {
+       var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
+   
+       var nowEgypt = TimeZoneInfo.ConvertTime(DateTime.Now, egyptTimeZone);
+   
+       var todayEgypt = DateOnly.FromDateTime(nowEgypt);
+       var currentTimeEgypt = TimeOnly.FromDateTime(nowEgypt);
+   
+       return await _appDbContext.Lessons
+           .Where(lesson => lesson.Date > todayEgypt || 
+                            (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt))
+           .CountAsync(cancellationToken);
+   }
 
     public async Task<List<Lesson>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
     {

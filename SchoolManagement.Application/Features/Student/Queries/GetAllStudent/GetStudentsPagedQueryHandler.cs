@@ -5,7 +5,6 @@ using SchoolManagement.Domain.Interfaces.IRepositories;
 
 
 namespace SchoolManagement.Application.Features.Student.Queries.GetAllStudent;
-
 public class GetStudentsPagedQueryHandler : IRequestHandler<GetStudentsPagedQuery, PagedResult<StudentDto>> 
 {
     private readonly IGenericRepository<Domain.Entities.Student> _studentRepository;

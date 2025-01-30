@@ -5,5 +5,4 @@
         Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default);
         Task<List<T>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default);
     }
-
 }
