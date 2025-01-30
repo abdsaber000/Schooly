@@ -1,4 +1,5 @@
 using System.ComponentModel.DataAnnotations;
+using System.Net;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
@@ -16,6 +17,7 @@ public class LoginUserCommand : IRequest<Result<LoginDto>>
     public string Email { get; set; } = string.Empty;
     [Required]
     public string Password { get; set; } = string.Empty;
+    public bool RememberMe { get; set; } = true;
 }
 
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginDto>>
@@ -36,9 +38,9 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
                                 && await _userManager.CheckPasswordAsync(existUser, request.Password);
         if (existUser is null || !isCorrectPassword )
         {
-            return Result<LoginDto>.Failure(_localizer["Invalid Credentials."]);
+            return Result<LoginDto>.Failure(_localizer["Invalid Credentials."] , HttpStatusCode.Unauthorized);
         }
-        var token = await _tokenService.GenerateToken(existUser);
+        var token = await _tokenService.GenerateToken(existUser, request.RememberMe);
         return Result<LoginDto>.Success(existUser.ToLoginDto(), token);
     }
 }

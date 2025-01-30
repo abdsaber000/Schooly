@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Localization;
 using SchoolManagement.Application.Services.AgoraService;
+using SchoolManagement.Application.Services.EgyptTimeService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 
@@ -21,13 +22,15 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
     private readonly ILessonRepository _lessonRepository;
     private readonly IAgoraService _agoraService;
     private readonly IStringLocalizer<JoinLessonCommandHandler> _localizer;
+    private readonly IEgyptTime _egyptTime;
 
     public JoinLessonCommandHandler(ILessonRepository lessonRepository, IAgoraService agoraService,
-        IStringLocalizer<JoinLessonCommandHandler> localizer)
+        IStringLocalizer<JoinLessonCommandHandler> localizer, IEgyptTime egyptTime)
     {
         _lessonRepository = lessonRepository;
         _agoraService = agoraService;
         _localizer = localizer;
+        _egyptTime = egyptTime;
     }
 
     public async Task<Result<string>> Handle(JoinLessonCommand request, CancellationToken cancellationToken)
@@ -53,7 +56,7 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
         }
         if (nowEgypt > lessonEndTimeEgypt)
         {
-            return Result<string>.Failure(_localizer["You cannot join, the lesson has ended."]);
+            return Result<string>.Failure(_localizer["You cannot join , the lesson has ended."]);
         }
 
         var token = _agoraService.GenerateToken(lesson.Title, "0", 7200);

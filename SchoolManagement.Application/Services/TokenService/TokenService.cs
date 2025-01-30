@@ -17,7 +17,7 @@ public class TokenService : ITokenService
         _userManager = userManager;
         _configuration = configuration;
     }
-    public async Task<string> GenerateToken(ApplicationUser user)
+    public async Task<string> GenerateToken(ApplicationUser user, bool rememberMe)
     {
         var claims = new List<Claim>();
 
@@ -42,7 +42,7 @@ public class TokenService : ITokenService
             issuer: _configuration["JWT:ValidIssuer"],
             audience: _configuration["JWT:ValidAudience"],
             claims: claims,
-            expires: DateTime.Now.AddHours(1),
+            expires: rememberMe? DateTime.Now.AddDays(30) : DateTime.Now.AddHours(1),
             signingCredentials: signingCred
         );
 
