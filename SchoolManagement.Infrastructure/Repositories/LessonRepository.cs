@@ -8,12 +8,20 @@ namespace SchoolManagement.Infrastructure.Repositories;
 public class LessonRepository : ILessonRepository
 {
     private readonly AppDbContext _appDbContext;
-
     public LessonRepository(AppDbContext appDbContext)
     {
         _appDbContext = appDbContext;
     }
-    
+    private (DateOnly TodayEgypt, TimeOnly CurrentTimeEgypt) GetCurrentEgyptTime()
+    {
+        var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
+        var nowEgypt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, egyptTimeZone);
+
+        var todayEgypt = DateOnly.FromDateTime(nowEgypt);
+        var currentTimeEgypt = TimeOnly.FromDateTime(nowEgypt);
+
+        return (todayEgypt, currentTimeEgypt);
+    }
     public async Task CreateLesson(Lesson lesson)
     {
         await _appDbContext.Lessons.AddAsync(lesson);
@@ -45,35 +53,28 @@ public class LessonRepository : ILessonRepository
         _appDbContext.Lessons.Remove(lesson);
     }
 
-   public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
-   {
-       var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
-   
-       var nowEgypt = TimeZoneInfo.ConvertTime(DateTime.Now, egyptTimeZone);
-   
-       var todayEgypt = DateOnly.FromDateTime(nowEgypt);
-       var currentTimeEgypt = TimeOnly.FromDateTime(nowEgypt);
-   
-       return await _appDbContext.Lessons
-           .Where(lesson => lesson.Date > todayEgypt || 
-                            (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt))
-           .CountAsync(cancellationToken);
-   }
-
-    public async Task<List<Lesson>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
     {
-        var now = DateTime.Now;
+        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
 
         return await _appDbContext.Lessons
-            .Where(lesson => lesson.Date > DateOnly.FromDateTime(now) || 
-                             (lesson.Date == DateOnly.FromDateTime(now) && lesson.To > TimeOnly.FromDateTime(now)))
+            .Where(lesson => lesson.Date > todayEgypt || 
+                             (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt))
+            .CountAsync(cancellationToken);
+    }
+    public async Task<List<Lesson>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    {
+        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
+
+        return await _appDbContext.Lessons
+            .Where(lesson => lesson.Date > todayEgypt || 
+                             (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt))
             .OrderBy(lesson => lesson.Date)
             .ThenBy(lesson => lesson.From)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
     }
-
     public async Task SaveChanges()
     {
         await _appDbContext.SaveChangesAsync();
