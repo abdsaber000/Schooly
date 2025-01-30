@@ -14,6 +14,7 @@ using presentationLayer;
 using SchoolManagement.Application.Extensions;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Services.AgoraService;
+using SchoolManagement.Application.Services.EgyptTimeService;
 using SchoolManagement.Application.Services.TokenService;
 using SchoolManagement.Infrastructure.Seeder;
 using SchoolManagement.Domain.Interfaces.IRepositories;
@@ -82,6 +83,7 @@ builder.Services.AddScoped<IUploadedFileRepositry, UploadedFileRepositry>();
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAgoraService , AgoraService>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
+builder.Services.AddScoped<IEgyptTime, EgyptTime>();
 
 #endregion
 
