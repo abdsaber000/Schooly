@@ -7,7 +7,7 @@ using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Features.Lesson.Queries.JoinLesson;
 
-public class JoinLessonCommand : IRequest<Result<string>>
+public class JoinLessonCommand : IRequest<Result<JoinLessonDto>>
 {
     public string Id { get; }
 
@@ -17,7 +17,7 @@ public class JoinLessonCommand : IRequest<Result<string>>
     }
 }
 
-public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Result<string>>
+public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Result<JoinLessonDto>>
 {
     private readonly ILessonRepository _lessonRepository;
     private readonly IAgoraService _agoraService;
@@ -33,13 +33,13 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
         _egyptTime = egyptTime;
     }
 
-    public async Task<Result<string>> Handle(JoinLessonCommand request, CancellationToken cancellationToken)
+    public async Task<Result<JoinLessonDto>> Handle(JoinLessonCommand request, CancellationToken cancellationToken)
     {
         var lesson = await _lessonRepository.GetLessonById(request.Id);
 
         if (lesson is null)
         {
-            return Result<string>.Failure(_localizer["Lesson not found."]);
+            return Result<JoinLessonDto>.Failure(_localizer["Lesson not found."]);
         }
         var nowUtc = DateTime.UtcNow;
         
@@ -52,14 +52,15 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
         
         if (nowEgypt < lessonStartTimeEgypt.AddMinutes(-5))
         {
-            return Result<string>.Failure(_localizer["You can only join 5 minutes before the lesson starts."]);
+            return Result<JoinLessonDto>.Failure(_localizer["You can only join 5 minutes before the lesson starts."]);
         }
         if (nowEgypt > lessonEndTimeEgypt)
         {
-            return Result<string>.Failure(_localizer["You cannot join , the lesson has ended."]);
+            return Result<JoinLessonDto>.Failure(_localizer["You cannot join , the lesson has ended."]);
         }
 
-        var token = _agoraService.GenerateToken(lesson.Title, "0", 7200);
-        return Result<string>.Success(token);
+        var token =  _agoraService.GenerateToken(lesson.Title, "0", 7200); 
+        return Result<JoinLessonDto>.Success(new JoinLessonDto { Token = token });
+
     }
 }
