@@ -40,11 +40,11 @@ public class Result<T>
             Token = Token
         };
     }
-    public static Result<T> Success(string message, string Token, HttpStatusCode statusCode = HttpStatusCode.OK)
+
+    public static Result<T> Success(string Token, HttpStatusCode statusCode = HttpStatusCode.OK)
     {
         return new Result<T>()
         {
-            Message = message,
             IsSuccess = true,
             StatusCode = statusCode,
             Token = Token

@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.Extensions.Localization;
 using SchoolManagement.Application.Services.AgoraService;
+using SchoolManagement.Application.Services.EgyptTimeService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 
@@ -21,38 +22,45 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
     private readonly ILessonRepository _lessonRepository;
     private readonly IAgoraService _agoraService;
     private readonly IStringLocalizer<JoinLessonCommandHandler> _localizer;
-    
-    public JoinLessonCommandHandler(ILessonRepository lessonRepository, IAgoraService agoraService, IStringLocalizer<JoinLessonCommandHandler> localizer)
+    private readonly IEgyptTime _egyptTime;
+
+    public JoinLessonCommandHandler(ILessonRepository lessonRepository, IAgoraService agoraService,
+        IStringLocalizer<JoinLessonCommandHandler> localizer, IEgyptTime egyptTime)
     {
         _lessonRepository = lessonRepository;
         _agoraService = agoraService;
         _localizer = localizer;
+        _egyptTime = egyptTime;
     }
 
     public async Task<Result<JoinLessonDto>> Handle(JoinLessonCommand request, CancellationToken cancellationToken)
     {
         var lesson = await _lessonRepository.GetLessonById(request.Id);
-        
+
         if (lesson is null)
         {
             return Result<JoinLessonDto>.Failure(_localizer["Lesson not found."]);
         }
-
-        var now = DateTime.Now;
+        var nowUtc = DateTime.UtcNow;
         
-        var lessonStartTime = lesson.Date.ToDateTime(lesson.From);
-        var lessonEndTime = lesson.Date.ToDateTime(lesson.To);
-
-        if (now < lessonStartTime.AddMinutes(-5))
+        var lessonStartTimeEgypt = lesson.Date.ToDateTime(lesson.From);
+        var lessonEndTimeEgypt = lesson.Date.ToDateTime(lesson.To);
+        
+        var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
+        
+        var nowEgypt = TimeZoneInfo.ConvertTimeFromUtc(nowUtc, egyptTimeZone);
+        
+        if (nowEgypt < lessonStartTimeEgypt.AddMinutes(-5))
         {
             return Result<JoinLessonDto>.Failure(_localizer["You can only join 5 minutes before the lesson starts."]);
         }
-        if (now > lessonEndTime)
+        if (nowEgypt > lessonEndTimeEgypt)
         {
             return Result<JoinLessonDto>.Failure(_localizer["You cannot join , the lesson has ended."]);
         }
 
         var token =  _agoraService.GenerateToken(lesson.Title, "0", 7200); 
         return Result<JoinLessonDto>.Success(new JoinLessonDto { Token = token });
+
     }
 }
