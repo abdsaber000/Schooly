@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Lesson.Command.CreateLesson;
 using SchoolManagement.Application.Features.Lesson.Command.DeleteLesson;
@@ -10,6 +11,7 @@ using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/lesson")]
 public class LessonController : ControllerBase

@@ -1,4 +1,5 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Upload.Commands;
@@ -8,6 +9,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers
 {
+    [Authorize]
     [Route("api/upload")]
     [ApiController]
     public class UploadController : ControllerBase

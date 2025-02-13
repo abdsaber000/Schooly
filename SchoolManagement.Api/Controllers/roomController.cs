@@ -1,9 +1,11 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Rooms.Commands.CreateRoom;
 
 namespace SchoolManagement.Api.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class roomController : ControllerBase
