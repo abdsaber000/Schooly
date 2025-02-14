@@ -11,7 +11,7 @@ using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
 
-[Authorize]
+// [Authorize(AuthenticationSchemes = "Bearer")]
 [ApiController]
 [Route("api/lesson")]
 public class LessonController : ControllerBase

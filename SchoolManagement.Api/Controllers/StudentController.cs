@@ -8,7 +8,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
-[Authorize]
+// [Authorize]
 [ApiController]
 [Route("api/student")]
 public class StudentController : ControllerBase
