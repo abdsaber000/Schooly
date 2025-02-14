@@ -9,7 +9,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers
 {
-    [Authorize]
+    // [Authorize]
     [Route("api/upload")]
     [ApiController]
     public class UploadController : ControllerBase
