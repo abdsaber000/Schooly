@@ -31,5 +31,10 @@
   "You cannot join , the lesson has ended.": "You cannot join , the lesson has ended.",
   "Token generated successfully": "Token generated successfully",
   "Lesson updated successfully": "Lesson updated successfully",
-  "Lesson deleted successfully": "Lesson deleted successfully"
+  "Lesson deleted successfully": "Lesson deleted successfully",
+  "Teacher created successfully": "Teacher created successfully",
+  "Class Room Created successfully": "Class Room Created successfully",
+  "There is no class with this id": "There is no class with this id",
+  "Class Updated Successfully": "Class Updated Successfully",
+  "Class Room Deleted Successfully": "Class Room Deleted Successfully"
 }

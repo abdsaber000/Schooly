@@ -1,0 +1,27 @@
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Application.Features.Teacher.Command.AddTeacherCommand;
+using SchoolManagement.Application.Services.ResponseService;
+
+namespace SchoolManagement.Api.Controllers;
+
+[ApiController]
+[Route("api/teacher")]
+public class TeacherController : ControllerBase
+{
+    private readonly IMediator _mediator;
+    private readonly IResponseService _responseService;
+    public TeacherController(IMediator mediator, IResponseService responseService)
+    {
+        _mediator = mediator;
+        _responseService = responseService;
+    }
+
+    [HttpPost]
+    public async Task<IActionResult> AddTeacher([FromBody] AddTeacherCommand command)
+    {
+        var result = await _mediator.Send(command);
+        return _responseService.CreateResponse(result);
+    }
+}
