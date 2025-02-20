@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Domain.Entities;
-using SchoolManagement.Domain.Interfaces.Repositories;
+using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Infrastructure.DbContext;
 
 

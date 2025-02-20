@@ -4,7 +4,6 @@ using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using SchoolManagement.Domain.Interfaces.Repositories;
 using SchoolManagement.Infrastructure.DbContext;
 using SchoolManagement.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -111,6 +110,8 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAgoraService , AgoraService>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IEgyptTime, EgyptTime>();
+builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
+builder.Services.AddScoped<IClassRoomRepository, ClassRoomRepository>();
 
 #endregion
 

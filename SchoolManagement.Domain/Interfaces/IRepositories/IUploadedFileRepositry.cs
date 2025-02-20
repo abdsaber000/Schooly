@@ -1,6 +1,5 @@
 using System;
 using SchoolManagement.Domain.Entities;
-using SchoolManagement.Domain.Interfaces.Repositories;
 
 namespace SchoolManagement.Domain.Interfaces.IRepositories;
 

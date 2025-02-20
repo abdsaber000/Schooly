@@ -31,5 +31,10 @@
   "You cannot join , the lesson has ended.": "لا يمكنك الدخول الحصة قد انتهت",
   "Token generated successfully": "Token generated successfully",
   "Lesson updated successfully": "تم تعديل الحصة بنجاح",
-  "Lesson deleted successfully": "تم حذف الحصه بنجاح"
+  "Lesson deleted successfully": "تم حذف الحصه بنجاح",
+  "Teacher created successfully": "تم اضافة المعلم بنجاح",
+  "Class Room Created successfully": "تم اضافة الفصل بنجاح",
+  "There is no class with this id":"لا يوجد فصل بهذا الرقم",
+  "Class Updated Successfully": "تم تعديل معلومات الفصل بنجاح",
+  "Class Room Deleted Successfully": "تم حذف الفصل بنجاح"
 }

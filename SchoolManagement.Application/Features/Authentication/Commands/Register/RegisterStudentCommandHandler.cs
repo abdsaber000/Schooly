@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.Extensions.Localization;
 using SchoolManagement.Application.Features.Authentication.Dtos;
 using SchoolManagement.Application.Shared;
-using SchoolManagement.Domain.Interfaces.Repositories;
+using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Features.Authentication.Commands.Register;
 
