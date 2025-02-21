@@ -38,8 +38,7 @@ public class LessonRepository : ILessonRepository
         var lesson = await _appDbContext.Lessons.FirstOrDefaultAsync(l => l.Id == updatedLesson.Id);
         
         lesson.TeacherId = updatedLesson.TeacherId;
-        lesson.Subject = updatedLesson.Subject;
-        lesson.Grade = updatedLesson.Grade;
+        lesson.ClassRoomId = updatedLesson.ClassRoomId;
         lesson.Title = updatedLesson.Title;
         lesson.LessonType = updatedLesson.LessonType;
         lesson.Date = updatedLesson.Date;

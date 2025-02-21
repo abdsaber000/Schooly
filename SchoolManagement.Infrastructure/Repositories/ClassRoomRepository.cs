@@ -14,19 +14,19 @@ public class ClassRoomRepository : IClassRoomRepository
         _appDbContext = appDbContext;
     }
 
-    public async Task AddClassRoom(ClassRooms classRooms)
+    public async Task AddClassRoom(ClassRoom classRooms)
     {
         await _appDbContext.ClassRooms.AddAsync(classRooms);
     }
 
-    public async Task<ClassRooms?> GetClassRoomById(Guid id)
+    public async Task<ClassRoom?> GetClassRoomById(Guid id)
     {
         return await _appDbContext.ClassRooms.FindAsync(id);
     }
 
-    public async Task UpdateClassRoom(ClassRooms updatedClassRooms)
+    public async Task UpdateClassRoom(ClassRoom updatedClassRooms)
     {
-        var classRoom = await _appDbContext.ClassRooms.FindAsync(updatedClassRooms.Id);
+        var classRoom = await _appDbContext.ClassRooms.FindAsync(updatedClassRooms.ClassRoomId);
         classRoom.Grade = updatedClassRooms.Grade;
         classRoom.Subject = updatedClassRooms.Subject;
     }
@@ -37,7 +37,7 @@ public class ClassRoomRepository : IClassRoomRepository
         _appDbContext.ClassRooms.Remove(classRoom);
     }
 
-    public async Task<List<ClassRooms>> GetAllClassRoom()
+    public async Task<List<ClassRoom>> GetAllClassRoom()
     {
         return await _appDbContext.ClassRooms.ToListAsync();
     }
