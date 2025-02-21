@@ -10,15 +10,9 @@ public class UpdateLessonCommand : IRequest<Result<string>>
     [Required]
     public string Id { get; set; } = string.Empty;
     
-    [Required(ErrorMessage = "Teacher id is required")]
-    public string TeacherId { get; set; } = string.Empty;
+    [Required]
+    public Guid ClassRoomId { get; set; }
     
-    [Required(ErrorMessage = "Subject is required")]
-    public string Subject { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Grade is required")]
-    public string Grade { get; set; } = string.Empty;
-
     [Required(ErrorMessage = "Title is required")]
     public string Title { get; set; } = string.Empty;
 

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using SchoolManagement.Domain.Entities;
-using SchoolManagement.Domain.Interfaces.IRepositories;
+﻿using SchoolManagement.Domain.Entities;
 
-namespace SchoolManagement.Domain.Interfaces.Repositories
+namespace SchoolManagement.Domain.Interfaces.IRepositories
 {
     public interface IStudentRepository
     {

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
+using Microsoft.Identity.Client;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Enums;
 
@@ -7,14 +8,8 @@ namespace SchoolManagement.Application.Features.Lesson.Command.CreateLesson;
 
 public class CreateLessonCommand : IRequest<Result<string>>
 {
-    [Required(ErrorMessage = "Teacher id is required")]
-    public string TeacherId { get; set; } = string.Empty;
-    
-    [Required(ErrorMessage = "Subject is required")]
-    public string Subject { get; set; } = string.Empty;
-
-    [Required(ErrorMessage = "Grade is required")]
-    public string Grade { get; set; } = string.Empty;
+    [Required] 
+    public Guid ClassRoomId { get; set; }
 
     [Required(ErrorMessage = "Title is required")]
     public string Title { get; set; } = string.Empty;
