@@ -11,10 +11,8 @@ public static class lessonExtinsionMethold
         return new Domain.Entities.Lesson()
         {
             Id = Guid.NewGuid().ToString(),
-            TeacherId = command.TeacherId,
-            Subject = command.Subject,
+            ClassRoomId = command.ClassRoomId,
             Title = command.Title,
-            Grade = command.Grade,
             LessonType = command.LessonType,
             Date = command.Date,
             From = command.From,
@@ -26,10 +24,8 @@ public static class lessonExtinsionMethold
         return new Domain.Entities.Lesson()
         {
             Id = command.Id,
-            TeacherId = command.TeacherId,
-            Subject = command.Subject,
+            ClassRoomId = command.ClassRoomId,
             Title = command.Title,
-            Grade = command.Grade,
             LessonType = command.LessonType,
             Date = command.Date,
             From = command.From,

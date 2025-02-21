@@ -1,8 +1,10 @@
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Authentication.Commands.Login;
 using SchoolManagement.Application.Features.Authentication.Commands.Register;
 using SchoolManagement.Application.Services.ResponseService;
+using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
@@ -18,7 +20,8 @@ public class AuthenticationController : ControllerBase
         _mediator = mediator;
         _responseService = responseService;
     }
-
+    
+   
     [HttpPost]
     [Route("register")]
     public async Task<IActionResult> Register([FromBody] RegisterStudentCommand command)

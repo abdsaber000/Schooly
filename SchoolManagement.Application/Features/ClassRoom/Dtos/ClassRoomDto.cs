@@ -14,29 +14,29 @@ public  class ClassRoomDto
 
 public static class classRoomExtensionMethold
 {
-    public static ClassRooms ToClassRooms(this AddClassRoomCommand Command)
+    public static Domain.Entities.ClassRoom ToClassRooms(this AddClassRoomCommand Command)
     {
-        return new ClassRooms()
+        return new Domain.Entities.ClassRoom()
         {
-            Id = new Guid(),
+            ClassRoomId = new Guid(),
             Grade = Command.Grade,
             Subject = Command.Subject
         };
     }
-    public static ClassRooms ToUpdatedClassRooms(this UpdateClassrRoomCommand Command)
+    public static Domain.Entities.ClassRoom ToUpdatedClassRooms(this UpdateClassrRoomCommand Command)
     {
-        return new ClassRooms()
+        return new Domain.Entities.ClassRoom()
         {
-            Id = Command.id,
+            ClassRoomId = Command.id,
             Grade = Command.Grade,
             Subject = Command.Subject
         };
     }
-    public static ClassRoomDto ToClassRoomsDto(this ClassRooms classRooms)
+    public static ClassRoomDto ToClassRoomsDto(this Domain.Entities.ClassRoom classRooms)
     {
         return new ClassRoomDto()
         {
-            Id = classRooms.Id,
+            Id = classRooms.ClassRoomId,
             Grade = classRooms.Grade,
             Subject = classRooms.Subject
         };

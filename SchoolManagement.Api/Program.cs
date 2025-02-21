@@ -112,7 +112,7 @@ builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IEgyptTime, EgyptTime>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IClassRoomRepository, ClassRoomRepository>();
-
+builder.Services.AddHttpContextAccessor();
 #endregion
 
 #region Add Identity password seeting

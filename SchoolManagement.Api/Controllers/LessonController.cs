@@ -8,6 +8,7 @@ using SchoolManagement.Application.Features.Lesson.Queries.GetAllLessons;
 using SchoolManagement.Application.Features.Lesson.Queries.GetLesson;
 using SchoolManagement.Application.Features.Lesson.Queries.JoinLesson;
 using SchoolManagement.Application.Services.ResponseService;
+using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
@@ -24,37 +25,43 @@ public class LessonController : ControllerBase
         _mediator = mediator;
         _responseService = responseService;
     }
-
+ 
+    [Authorize(Roles = Roles.Teacher)]
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateLessonCommand command)
     {
         return _responseService.CreateResponse(await _mediator.Send(command));
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpPost("join/{id}")]
     public async Task<IActionResult> Join(string id)
     {
         return _responseService.CreateResponse(await _mediator.Send(new JoinLessonCommand(id)));
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpGet("upcoming")]
     public async Task<IActionResult> GetAllComingLessons([FromQuery] GetLessonsPagedQuery query)
     {
         return _responseService.CreateResponse(await _mediator.Send(query));
     }
-
+    
+    [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetLessonById(string id)
     {
         return _responseService.CreateResponse(await _mediator.Send(new GetLessonQuery(id)));
     }
 
+    [Authorize(Roles = Roles.Teacher)]
     [HttpPut]
     public async Task<IActionResult> UpdateLesson(UpdateLessonCommand command)
     {
         return _responseService.CreateResponse(await _mediator.Send(command));
     }
 
+    [Authorize(Roles = Roles.Teacher)]
     [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteLesson(string id)
     {
