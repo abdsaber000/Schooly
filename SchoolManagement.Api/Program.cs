@@ -111,6 +111,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAgoraService , AgoraService>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IEgyptTime, EgyptTime>();
+builder.Services.AddScoped<IPostRepositry, PostRepositry>();
 
 #endregion
 
