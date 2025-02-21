@@ -37,5 +37,10 @@
     "Validation.SubjectRequired": "Subject is required.",
     "Validation.BodyRequired": "Email body is required.",
     "Email.Success": "Email sent successfully.",
-    "Email.Failed": "Failed to send email: {0}"
+    "Email.Failed": "Failed to send email: {0}",
+    "Teacher created successfully": "Teacher created successfully",
+    "Class Room Created successfully": "Class Room Created successfully",
+    "There is no class with this id": "There is no class with this id",
+    "Class Updated Successfully": "Class Updated Successfully",
+    "Class Room Deleted Successfully": "Class Room Deleted Successfully"
 }

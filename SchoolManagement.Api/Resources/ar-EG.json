@@ -37,5 +37,10 @@
     "Validation.SubjectRequired": "الموضوع مطلوب.",
     "Validation.BodyRequired": "محتوى البريد مطلوب.",
     "Email.Success": "تم إرسال البريد الإلكتروني بنجاح.",
-    "Email.Failed": "فشل في إرسال البريد الإلكتروني: {0}"
+    "Email.Failed": "فشل في إرسال البريد الإلكتروني: {0}",
+    "Teacher created successfully": "تم اضافة المعلم بنجاح",
+    "Class Room Created successfully": "تم اضافة الفصل بنجاح",
+    "There is no class with this id":"لا يوجد فصل بهذا الرقم",
+    "Class Updated Successfully": "تم تعديل معلومات الفصل بنجاح",
+    "Class Room Deleted Successfully": "تم حذف الفصل بنجاح"
 }
