@@ -55,7 +55,9 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
         {
             Content = request.Content,
             Author = user,
-            AuthorId = user.Id
+            AuthorId = user.Id,
+            Post = post,
+            PostId = post.Id
         };
         await _commentRepositry.AddAsync(comment);
         
