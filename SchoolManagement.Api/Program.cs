@@ -111,6 +111,7 @@ builder.Services.AddScoped<IAgoraService , AgoraService>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IEgyptTime, EgyptTime>();
 builder.Services.AddScoped<IPostRepositry, PostRepositry>();
+builder.Services.AddScoped<ICommentRepositry, CommentRepositry>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IClassRoomRepository, ClassRoomRepository>();
 builder.Services.AddHttpContextAccessor();

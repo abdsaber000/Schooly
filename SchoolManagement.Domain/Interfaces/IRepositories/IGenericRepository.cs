@@ -4,5 +4,10 @@
     {
         Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default);
         Task<List<T>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default);
+        Task<List<T>> GetAllAsync();
+        Task<T?> GetByIdAsync(int id);
+        Task AddAsync(T entity);
+        Task Update(T entity);
+        Task Delete(T entity);
     }
 }

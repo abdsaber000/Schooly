@@ -12,7 +12,8 @@ static public class PostExtensionMethod
         return new Domain.Entities.Post()
         {
             Content = command.Content,
-            AuthorId = author.Id
+            AuthorId = author.Id,
+            Author = author
         };
     }
 }
