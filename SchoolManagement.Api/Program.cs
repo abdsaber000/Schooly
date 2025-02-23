@@ -18,6 +18,7 @@ using SchoolManagement.Application.Services.TokenService;
 using SchoolManagement.Infrastructure.Seeder;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Application.Services.ResponseService;
+using SchoolManagement.Application.Services.EmailService;
 
 
 
@@ -110,6 +111,7 @@ builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAgoraService , AgoraService>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IEgyptTime, EgyptTime>();
+builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IClassRoomRepository, ClassRoomRepository>();
 builder.Services.AddHttpContextAccessor();
