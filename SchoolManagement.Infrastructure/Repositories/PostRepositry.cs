@@ -46,6 +46,7 @@ public class PostRepositry : IPostRepositry
                             .OrderBy(post => post.CreatedAt)
                             .Skip((page - 1) * pageSize)
                             .Take(pageSize)
+                            .Include(post => post.Comments)
                             .ToListAsync();
     }
 
@@ -56,7 +57,10 @@ public class PostRepositry : IPostRepositry
 
     public async Task<List<Post>> GetPostsByAuthor(string authorId)
     {
-        return await _context.Posts.Where(post => post.AuthorId == authorId).ToListAsync();
+        return await _context.Posts
+            .Where(post => post.AuthorId == authorId)
+            .Include(post => post.Comments)
+            .ToListAsync();
     }
 
     public async Task<List<Post>> GetPostsByAuthorPagedAsync(string authorId , int page, int pageSize)
@@ -66,6 +70,7 @@ public class PostRepositry : IPostRepositry
                         .OrderBy(post => post.CreatedAt)
                         .Skip((page - 1) * pageSize)
                         .Take(pageSize)
+                        .Include(post => post.Comments)
                         .ToListAsync();
     }
 
