@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Comment.Command.CreateComment;
+using SchoolManagement.Application.Features.Comment.Command.DeleteComment;
+using SchoolManagement.Application.Features.Comment.Command.UpdateComment;
 using SchoolManagement.Application.Features.Comment.Query.GetAllQuery;
 using SchoolManagement.Application.Services.ResponseService;
 
@@ -28,6 +30,16 @@ namespace SchoolManagement.Api.Controllers
 
         [HttpPost]
         public async Task<IActionResult> CreateComment([FromBody] CreateCommentCommand command){
+            return _responseService.CreateResponse(await _mediator.Send(command));
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> UpdateComment([FromBody] UpdateCommentCommand command){
+            return _responseService.CreateResponse(await _mediator.Send(command));
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteComment([FromRoute] DeleteCommentCommand command){
             return _responseService.CreateResponse(await _mediator.Send(command));
         }
     }

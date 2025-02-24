@@ -1,4 +1,5 @@
 using System;
+using System.Net;
 using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
@@ -37,18 +38,18 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
 
         if (userIdClaim is null)
         {
-            return Result<string>.Failure("User is not authenticated.");
+            return Result<string>.Failure("User is not authenticated.", HttpStatusCode.Unauthorized);
         }
         var userId = userIdClaim.Value;
         var user = await _userManager.FindByIdAsync(userId);
         if(user is null){
-            return Result<string>.Failure("User is not found.");
+            return Result<string>.Failure("User is not found.", HttpStatusCode.NotFound);
         }
         var post = await _postRepositry.GetPostById(request.PostId);
 
         if(post is null)
         {
-            return Result<string>.Failure("Post not found.");
+            return Result<string>.Failure("Post not found.", HttpStatusCode.NotFound);
         }
 
         var comment = new Comment()
@@ -63,6 +64,6 @@ public class CreateCommentCommandHandler : IRequestHandler<CreateCommentCommand,
         
         post.Comments.Add(comment);
         await _postRepositry.UpdatePost(post);
-        return Result<string>.Success("Comment is added successfully.");
+        return Result<string>.SuccessMessage("Comment is added successfully.");
     }
 }

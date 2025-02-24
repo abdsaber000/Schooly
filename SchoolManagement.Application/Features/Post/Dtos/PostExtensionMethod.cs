@@ -27,7 +27,9 @@ static public class PostExtensionMethod
                 Id = comment.Id,
                 Content = comment.Content,
                 CreatedAt = comment.CreatedAt
-            }).ToList()
+            })
+            .OrderBy(c => c.CreatedAt)
+            .ToList()
         };
     }
 
