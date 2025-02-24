@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagement.Infrastructure.DbContext;
 
@@ -11,9 +12,11 @@ using SchoolManagement.Infrastructure.DbContext;
 namespace SchoolManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250222122037_AddCreatedAtInComment")]
+    partial class AddCreatedAtInComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -251,26 +254,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.ToTable("ClassRooms");
                 });
 
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Homeworke", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("classRoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("fileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("lessonId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Homeworkes");
-
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -290,7 +273,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -507,20 +490,16 @@ namespace SchoolManagement.Infrastructure.Migrations
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Comment", b =>
                 {
                     b.HasOne("SchoolManagement.Domain.Entities.ApplicationUser", "Author")
-                        .WithMany("Comments")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolManagement.Domain.Entities.Post", "Post")
+                    b.HasOne("SchoolManagement.Domain.Entities.Post", null)
                         .WithMany("Comments")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
-                        .IsRequired();
+                        .HasForeignKey("PostId");
 
                     b.Navigation("Author");
-
-                    b.Navigation("Post");
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Lesson", b =>
@@ -537,9 +516,9 @@ namespace SchoolManagement.Infrastructure.Migrations
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Post", b =>
                 {
                     b.HasOne("SchoolManagement.Domain.Entities.ApplicationUser", "Author")
-                        .WithMany("Posts")
+                        .WithMany()
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -569,13 +548,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .HasForeignKey("SchoolManagement.Domain.Entities.Teacher", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.ApplicationUser", b =>
-                {
-                    b.Navigation("Comments");
-
-                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Post", b =>

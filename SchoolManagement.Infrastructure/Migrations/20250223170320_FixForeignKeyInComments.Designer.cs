@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagement.Infrastructure.DbContext;
 
@@ -11,9 +12,11 @@ using SchoolManagement.Infrastructure.DbContext;
 namespace SchoolManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250223170320_FixForeignKeyInComments")]
+    partial class FixForeignKeyInComments
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -250,26 +253,6 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.ToTable("ClassRooms");
                 });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Homeworke", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("classRoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("fileName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<Guid>("lessonId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Homeworkes");
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Comment", b =>
                 {
