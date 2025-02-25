@@ -9,4 +9,6 @@ public class ApplicationUser : IdentityUser
     public string  Name { get; set; }
     public Gender? Gender { get; set; }
     public DateOnly? DateOfBarith { get; set; }
+    public ICollection<Post> Posts {get; set;} = new List<Post>();
+    public ICollection<Comment> Comments {get; set;} = new List<Comment>();
 }
