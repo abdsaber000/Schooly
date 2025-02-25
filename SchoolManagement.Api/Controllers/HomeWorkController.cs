@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.HomeWorke.Commands.AddHomeworke;
 using MediatR;
 using SchoolManagement.Application.Services.ResponseService;
+using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
@@ -19,6 +20,7 @@ public class HomeWorkController : ControllerBase
       _responseService = responseService;
    }
    [HttpPost]
+   [Authorize(Roles = Roles.Teacher)]
    public async Task<IActionResult> AddHomeWork(AddHomeWorkCommands commands)
    {
       return _responseService.CreateResponse(await _mediator.Send(commands));
