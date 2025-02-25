@@ -4,18 +4,18 @@ using SchoolManagement.Infrastructure.DbContext;
 
 namespace SchoolManagement.Infrastructure.Repositories;
 
-public class HomeworkeRepository : IHomeworkeRepository
+public class HomeWorkRepository : IHomeWorkRepository
 {
     public readonly AppDbContext _context;
 
-    public HomeworkeRepository(AppDbContext context)
+    public HomeWorkRepository(AppDbContext context)
     {
         _context = context;
     }
     
-    public async Task AddHomeworke(Homeworke homeworke)
+    public async Task AddHomeWork(HomeWork homeWork)
     {
-        await _context.Homeworkes.AddAsync(homeworke);
+        await _context.HomeWorks.AddAsync(homeWork);
         await _context.SaveChangesAsync();
     }
 }

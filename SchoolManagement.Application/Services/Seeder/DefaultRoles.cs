@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SchoolManagement.Domain.Entities;
 
-namespace SchoolManagement.Infrastructure.Seeder;
+namespace SchoolManagement.Application.Services.Seeder;
 
 public static class DefaultRoles
 {

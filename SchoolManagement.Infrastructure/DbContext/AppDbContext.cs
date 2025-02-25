@@ -36,5 +36,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<UploadedFile> UploadedFiles {get; set;}
     public DbSet<Lesson> Lessons { get; set; }
     public DbSet<ClassRoom> ClassRooms { get; set; }
-    public DbSet<Homeworke> Homeworkes { get; set; }
+    public DbSet<HomeWork> HomeWorks { get; set; }
 }

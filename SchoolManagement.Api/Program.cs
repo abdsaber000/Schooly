@@ -15,11 +15,11 @@ using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Services.AgoraService;
 using SchoolManagement.Application.Services.EgyptTimeService;
 using SchoolManagement.Application.Services.TokenService;
-using SchoolManagement.Infrastructure.Seeder;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Application.Services.ResponseService;
 using SchoolManagement.Application.Services.EmailService;
-
+using SchoolManagement.Application.Services.FileService;
+using SchoolManagement.Application.Services.Seeder;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -115,6 +115,8 @@ builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IClassRoomRepository, ClassRoomRepository>();
 builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<IHomeWorkRepository, HomeWorkRepository>();
+builder.Services.AddScoped<IFileService, FileService>();
 #endregion
 
 #region Add Identity password seeting

@@ -30,7 +30,7 @@
     <ProjectReference Include="..\SchoolManagement.Infrastructure\SchoolManagement.Infrastructure.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Uploads/" />
+    <Folder Include="Uploads\" />
   </ItemGroup>
 
 </Project>
