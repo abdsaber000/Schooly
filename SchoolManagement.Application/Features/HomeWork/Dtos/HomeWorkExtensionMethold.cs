@@ -5,7 +5,7 @@ namespace SchoolManagement.Application.Features.HomeWork.Dtos;
 
 public static class HomeWorkExtensionMethold
 {
-    public static Domain.Entities.HomeWork ToHomeWork(this AddHomeWorkCommands commands, ApplicationUser teacher , string fileName)
+    public static Domain.Entities.HomeWork? ToHomeWork(this AddHomeWorkCommands commands, ApplicationUser teacher , string fileName)
     {
         return new Domain.Entities.HomeWork()
         {

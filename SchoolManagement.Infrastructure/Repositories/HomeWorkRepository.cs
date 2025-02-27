@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Infrastructure.DbContext;
@@ -13,9 +14,20 @@ public class HomeWorkRepository : IHomeWorkRepository
         _context = context;
     }
     
-    public async Task AddHomeWork(HomeWork homeWork)
+    public async Task AddHomeWork(HomeWork? homeWork)
     {
         await _context.HomeWorks.AddAsync(homeWork);
         await _context.SaveChangesAsync();
+    }
+
+    public async Task<List<HomeWork?>> GetAllClassRoomHomeWork(Guid classRoomId)
+    {
+        return await _context.HomeWorks
+            .Where(c => c.classRoomId == classRoomId).ToListAsync();
+    }
+
+    public async Task<HomeWork?> GetHomeWork(Guid homeWorkId)
+    {
+        return await _context.HomeWorks.FindAsync(homeWorkId);
     }
 }
