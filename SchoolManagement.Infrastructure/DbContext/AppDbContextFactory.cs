@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 
 namespace SchoolManagement.Infrastructure.DbContext;
 
@@ -7,9 +8,13 @@ public class AppDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
 {
     public AppDbContext CreateDbContext(string[] args)
     {
+        IConfigurationRoot configuration = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory() + "/../SchoolManagement.Api/")
+            .AddJsonFile("appsettings.json")
+            .Build();
         var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-
-        optionsBuilder.UseSqlServer("Server=tcp:abdo-server.database.windows.net,1433;Initial Catalog=SchoolManagement;Persist Security Info=False;User ID=db-admin;Password=Ss12345678;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+        string connectionString = configuration.GetConnectionString("DefaultConnection") ?? "";
+        optionsBuilder.UseSqlServer(connectionString);
         return new AppDbContext(optionsBuilder.Options);
     }
 }

@@ -43,5 +43,6 @@
     "There is no class with this id":"لا يوجد فصل بهذا الرقم",
     "Class Updated Successfully": "تم تعديل معلومات الفصل بنجاح",
     "Class Room Deleted Successfully": "تم حذف الفصل بنجاح",
-    "Homework added Successfully": "تم اضافة الواجب بنجاح"
+    "Homework added Successfully": "تم اضافة الواجب بنجاح",
+    "HomeWork deleted successfully" : "تم حذف الواجب بنجاح"
 }

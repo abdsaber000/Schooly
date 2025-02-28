@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.HomeWorke.Commands.AddHomeworke;
 using MediatR;
+using SchoolManagement.Application.Features.HomeWork.Commands.DeleteHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Query.GetAllClassRoomHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Query.GetHomeWork;
 using SchoolManagement.Application.Services.ResponseService;
@@ -28,9 +29,9 @@ public class HomeWorkController : ControllerBase
       return _responseService.CreateResponse(await _mediator.Send(commands));
    }
 
-   [HttpGet("all/{classRoomId}")]
+   [HttpGet("all")]
    [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
-   public async Task<IActionResult> GetAllHomeWork(Guid classRoomId)
+   public async Task<IActionResult> GetAllHomeWork([FromQuery] Guid classRoomId)
    {
       return _responseService.CreateResponse(await _mediator.Send(new GetAllClassRoomHomeWorkQuery(classRoomId)));
    }
@@ -40,5 +41,12 @@ public class HomeWorkController : ControllerBase
    public async Task<IActionResult> GetHomeWork(Guid id)
    {
       return _responseService.CreateResponse(await _mediator.Send(new GetHomeWorkQuery(id)));
+   }
+
+   [HttpDelete]
+   [Authorize(Roles = Roles.Teacher)]
+   public async Task<IActionResult> DeleteHomeWork(Guid HomeWorkId)
+   {
+      return _responseService.CreateResponse(await _mediator.Send(new DeleteHomeWorkCommand(HomeWorkId)));
    }
 }

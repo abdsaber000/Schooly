@@ -6,11 +6,11 @@ namespace SchoolManagement.Application.Features.HomeWork.Query.GetAllClassRoomHo
 
 public class GetAllClassRoomHomeWorkQuery : IRequest<Result<List<Domain.Entities.HomeWork>>>
 {
-    public Guid classRoomId;
+    public Guid ClassRoomId { get;}
 
     public GetAllClassRoomHomeWorkQuery(Guid classRoomId)
     {
-        classRoomId = classRoomId;
+        ClassRoomId = classRoomId;
     }
 }
 
@@ -24,7 +24,7 @@ public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetAllClassRo
 
     public async Task<Result<List<Domain.Entities.HomeWork>>> Handle(GetAllClassRoomHomeWorkQuery request, CancellationToken cancellationToken)
     {
-        var homeWorks =  await _homeWorkRepository.GetAllClassRoomHomeWork(request.classRoomId);
+        var homeWorks =  await _homeWorkRepository.GetAllClassRoomHomeWork(request.ClassRoomId);
         return Result<List<Domain.Entities.HomeWork>>.Success(homeWorks);
     }
 }

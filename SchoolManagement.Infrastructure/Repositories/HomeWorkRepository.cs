@@ -20,7 +20,7 @@ public class HomeWorkRepository : IHomeWorkRepository
         await _context.SaveChangesAsync();
     }
 
-    public async Task<List<HomeWork?>> GetAllClassRoomHomeWork(Guid classRoomId)
+    public async Task<List<HomeWork>> GetAllClassRoomHomeWork(Guid classRoomId)
     {
         return await _context.HomeWorks
             .Where(c => c.classRoomId == classRoomId).ToListAsync();
@@ -29,5 +29,15 @@ public class HomeWorkRepository : IHomeWorkRepository
     public async Task<HomeWork?> GetHomeWork(Guid homeWorkId)
     {
         return await _context.HomeWorks.FindAsync(homeWorkId);
+    }
+
+    public async Task DeleteHomeWork(Guid homeWorkId)
+    {
+        var homeWork = await _context.HomeWorks.FindAsync(homeWorkId);
+        if (homeWorkId != null)
+        {
+             _context.HomeWorks.Remove(homeWork);
+            await _context.SaveChangesAsync();
+        }
     }
 }
