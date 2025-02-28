@@ -191,11 +191,11 @@ catch (Exception exception)
 
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
+// if (app.Environment.IsDevelopment())
+// {
     app.UseSwagger();
     app.UseSwaggerUI();
-}
+//}
 
 var supportedCultures = new[] { "ar-EG", "en-US" };
 var localizationOptions = new RequestLocalizationOptions()
