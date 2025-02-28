@@ -12,8 +12,8 @@ using SchoolManagement.Infrastructure.DbContext;
 namespace SchoolManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250220203349_AddCommentsAndPosts")]
-    partial class AddCommentsAndPosts
+    [Migration("20250228190523_InitialNewMigration")]
+    partial class InitialNewMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -235,6 +235,25 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.UseTptMappingStrategy();
                 });
 
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.ClassRoom", b =>
+                {
+                    b.Property<Guid>("ClassRoomId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Grade")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ClassRoomId");
+
+                    b.ToTable("ClassRooms");
+                });
+
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Comment", b =>
                 {
                     b.Property<int>("Id")
@@ -251,7 +270,10 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("PostId")
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -268,22 +290,17 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<Guid>("ClassRoomId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateOnly>("Date")
                         .HasColumnType("date");
 
                     b.Property<TimeOnly>("From")
                         .HasColumnType("time");
 
-                    b.Property<string>("Grade")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("LessonType")
                         .HasColumnType("int");
-
-                    b.Property<string>("Subject")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("TeacherId")
                         .IsRequired()
@@ -297,6 +314,8 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .HasColumnType("time");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ClassRoomId");
 
                     b.ToTable("Lessons");
                 });
@@ -471,24 +490,39 @@ namespace SchoolManagement.Infrastructure.Migrations
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Comment", b =>
                 {
                     b.HasOne("SchoolManagement.Domain.Entities.ApplicationUser", "Author")
-                        .WithMany()
+                        .WithMany("Comments")
                         .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.HasOne("SchoolManagement.Domain.Entities.Post", "Post")
+                        .WithMany("Comments")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.ClientCascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Post");
+                });
+
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.Lesson", b =>
+                {
+                    b.HasOne("SchoolManagement.Domain.Entities.ClassRoom", "ClassRoom")
+                        .WithMany()
+                        .HasForeignKey("ClassRoomId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolManagement.Domain.Entities.Post", null)
-                        .WithMany("Comments")
-                        .HasForeignKey("PostId");
-
-                    b.Navigation("Author");
+                    b.Navigation("ClassRoom");
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Post", b =>
                 {
                     b.HasOne("SchoolManagement.Domain.Entities.ApplicationUser", "Author")
-                        .WithMany()
+                        .WithMany("Posts")
                         .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
                     b.Navigation("Author");
@@ -518,6 +552,13 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .HasForeignKey("SchoolManagement.Domain.Entities.Teacher", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("SchoolManagement.Domain.Entities.ApplicationUser", b =>
+                {
+                    b.Navigation("Comments");
+
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Post", b =>
