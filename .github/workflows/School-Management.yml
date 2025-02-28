@@ -30,7 +30,7 @@ jobs:
       uses: SamKirkland/FTP-Deploy-Action@4.1.0
       with:
         server: ${{ secrets.MONSTERASP_FTP_HOST }}
-        ftp-username: ${{ secrets.MONSTERASP_FTP_USERNAME }}
-        ftp-password: ${{ secrets.MONSTERASP_FTP_PASSWORD }}
+        username: ${{ secrets.MONSTERASP_FTP_USERNAME }}
+        password: ${{ secrets.MONSTERASP_FTP_PASSWORD }}
         local-dir: ./publish
         git-ftp-args: --insecure
