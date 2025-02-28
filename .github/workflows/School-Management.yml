@@ -1,36 +1,40 @@
-name: Build and deploy .NET Core application to Web App School-Management
-on:
-  push:
-    branches:
-    - main
+name: Build, publish and deploy to MonsterASP.NET
+on: [push]
+
 env:
   AZURE_WEBAPP_NAME: School-Management
   AZURE_WEBAPP_PACKAGE_PATH: SchoolManagement.Api/publish
   CONFIGURATION: Release
   DOTNET_CORE_VERSION: 8.0.x
   WORKING_DIRECTORY: SchoolManagement.Api
+
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build_and_deploy:
+    runs-on: windows-latest
     steps:
-    - uses: actions/checkout@v4
-    - name: Setup .NET SDK
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: ${{ env.DOTNET_CORE_VERSION }}
-    - name: Restore
-      run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
-    - name: Build
-      run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-restore
-    - name: Test
-      run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
-    - name: Publish
-      run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration ${{ env.CONFIGURATION }} --no-build --output "${{ env.AZURE_WEBAPP_PACKAGE_PATH }}"
-    - name: Deploy to MonsterASP
-      uses: SamKirkland/FTP-Deploy-Action@4.1.0
-      with:
-        server: ${{ secrets.MONSTERASP_FTP_HOST }}
-        username: ${{ secrets.MONSTERASP_FTP_USERNAME }}
-        password: ${{ secrets.MONSTERASP_FTP_PASSWORD }}
-        local-dir: ./SchoolManagement.Api/publish/
-        git-ftp-args: --insecure
+      - uses: actions/checkout@v4
+
+      - name: Setup .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 8.0.x
+          
+      - name: Install dependencies
+        run: dotnet restore "${{ env.WORKING_DIRECTORY }}"
+        
+      - name: Build
+        run: dotnet build "${{ env.WORKING_DIRECTORY }}" --configuration Release --no-restore
+
+      - name: Publish
+        run: dotnet publish "${{ env.WORKING_DIRECTORY }}" --configuration Release --output ./publish --runtime win-x86 
+        
+      - name: Test with .NET
+        run: dotnet test "${{ env.WORKING_DIRECTORY }}" --no-build
+
+      - name: Deploy to MonsterASP.NET via WebDeploy
+        uses: rasmusbuchholdt/simply-web-deploy@2.1.0
+        with:
+          website-name: ${{ secrets.WEBSITE_NAME }}
+          server-computer-name: ${{ secrets.SERVER_COMPUTER_NAME }}
+          server-username: ${{ secrets.SERVER_USERNAME }}
+          server-password: ${{ secrets.SERVER_PASSWORD }}
