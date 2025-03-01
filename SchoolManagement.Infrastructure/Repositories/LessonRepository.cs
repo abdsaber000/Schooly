@@ -49,7 +49,7 @@ public class LessonRepository : ILessonRepository
     public async Task Delete(string id)
     {
         var lesson = await _appDbContext.Lessons.FirstOrDefaultAsync(l => l.Id == id); 
-        _appDbContext.Lessons.Remove(lesson);
+        if(lesson != null) _appDbContext.Lessons.Remove(lesson);
     }
 
     public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
