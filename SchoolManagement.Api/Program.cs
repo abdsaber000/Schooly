@@ -19,6 +19,7 @@ using SchoolManagement.Infrastructure.Seeder;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Application.Services.ResponseService;
 using SchoolManagement.Application.Services.EmailService;
+using SchoolManagement.Application.Services.FaceRecognitionService;
 
 
 
@@ -116,6 +117,7 @@ builder.Services.AddScoped<ICommentRepositry, CommentRepositry>();
 builder.Services.AddScoped<IEmailService, EmailService>();
 builder.Services.AddScoped<ITeacherRepository, TeacherRepository>();
 builder.Services.AddScoped<IClassRoomRepository, ClassRoomRepository>();
+builder.Services.AddScoped<IFaceRecognitionService, FaceRecognitionService>();
 builder.Services.AddHttpContextAccessor();
 #endregion
 
