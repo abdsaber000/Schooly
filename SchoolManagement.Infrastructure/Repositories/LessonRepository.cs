@@ -30,7 +30,9 @@ public class LessonRepository : ILessonRepository
 
     public async Task<Lesson?> GetLessonById(string id)
     {
-        var lesson = await _appDbContext.Lessons.FirstOrDefaultAsync(l => l.Id == id);
+        var lesson = await _appDbContext.Lessons
+            .Include(l => l.ClassRoom)
+            .FirstOrDefaultAsync(l => l.Id == id);
         return lesson;
     }
 
@@ -70,6 +72,7 @@ public class LessonRepository : ILessonRepository
         var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
 
         return await _appDbContext.Lessons
+            .Include(lesson => lesson.ClassRoom)
             .Where(lesson => lesson.Date > todayEgypt || 
                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt))
             .OrderBy(lesson => lesson.Date)
