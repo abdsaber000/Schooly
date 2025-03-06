@@ -119,6 +119,8 @@ builder.Services.AddScoped<IClassRoomRepository, ClassRoomRepository>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IHomeWorkRepository, HomeWorkRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
+builder.Services.AddTransient<IResetCodeRepository, ResetCodeRepository>();
+
 #endregion
 
 #region Add Identity password seeting
