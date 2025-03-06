@@ -25,6 +25,7 @@ public class LessonRepository : ILessonRepository
     public async Task CreateLesson(Lesson lesson)
     {
         await _appDbContext.Lessons.AddAsync(lesson);
+        await _appDbContext.SaveChangesAsync();
     }
 
     public async Task<Lesson?> GetLessonById(string id)
@@ -44,12 +45,15 @@ public class LessonRepository : ILessonRepository
         lesson.Date = updatedLesson.Date;
         lesson.From = updatedLesson.From;
         lesson.To = updatedLesson.To;
+        
+        await _appDbContext.SaveChangesAsync();
     }
 
     public async Task Delete(string id)
     {
         var lesson = await _appDbContext.Lessons.FirstOrDefaultAsync(l => l.Id == id); 
         if(lesson != null) _appDbContext.Lessons.Remove(lesson);
+        await _appDbContext.SaveChangesAsync();
     }
 
     public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
@@ -74,8 +78,14 @@ public class LessonRepository : ILessonRepository
             .Take(pageSize)
             .ToListAsync(cancellationToken);
     }
-    public async Task SaveChanges()
+
+    public async Task<bool> IsClassRoomAvailable(Guid classRoomId, DateOnly date, TimeOnly from, TimeOnly to)
     {
-        await _appDbContext.SaveChangesAsync();
+        var overlappingLessons = await _appDbContext.Lessons
+            .Where(l => l.ClassRoomId == classRoomId && l.Date == date)
+            .Where(l => (l.From < to && l.To > from))
+            .AnyAsync();
+        
+        return !overlappingLessons;
     }
 }

@@ -10,5 +10,5 @@ public interface ILessonRepository
     public Task Delete(string id);
     Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default);
     Task<List<Lesson>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default);
-    Task SaveChanges();
+    Task<bool> IsClassRoomAvailable(Guid classRoomId, DateOnly date, TimeOnly from, TimeOnly to);
 }
