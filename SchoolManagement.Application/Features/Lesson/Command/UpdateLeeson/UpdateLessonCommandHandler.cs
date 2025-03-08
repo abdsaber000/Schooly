@@ -26,7 +26,6 @@ public class UpdateLessonCommandHandler:IRequestHandler<UpdateLessonCommand , Re
         }
         var updatedLesson = request.ToUpdatedLesson();
         await _lessonRepository.Update(updatedLesson);
-        await _lessonRepository.SaveChanges();
         
         return Result<string>.SuccessMessage(_localizer["Lesson updated successfully"]);
     }

@@ -32,4 +32,20 @@ public static class lessonExtinsionMethold
             To = command.To
         };
     }
+
+    public static LessonDto ToLessonDto(this Domain.Entities.Lesson lesson)
+    {
+        return new LessonDto()
+        {
+            Id = lesson.Id,
+            LessonType = lesson.LessonType,
+            Title = lesson.Title,
+            Subject = lesson.ClassRoom.Subject,
+            Grade = lesson.ClassRoom.Grade,
+            TeacherId = lesson.TeacherId,
+            Date = lesson.Date,
+            From = lesson.From,
+            To = lesson.To
+        };
+    }
 }

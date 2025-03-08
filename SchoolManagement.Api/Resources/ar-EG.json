@@ -25,8 +25,9 @@
     "Title is required": "العنوان مطلوب",
     "Subject is required": "المادة مطلوبة",
     "Teacher id is required": "رقم الاستاذ مطلوب",
-    "Lesson created successfully": "تم اضافة الجصة بنجاح",
+    "Lesson created successfully": "تم اضافة الحصة بنجاح",
     "Lesson not found.": "لا يوجد حصة",
+    "Classroom is not available in this time": "لا يمكنك اضافة حصة في هذا الوقت الفصل غير متاح",
     "You can only join 5 minutes before the lesson starts.": "يمكنك الدخول قبل 5 دقائق فقط قبل بدء الحصة",
     "You cannot join , the lesson has ended.": "لا يمكنك الدخول الحصة قد انتهت",
     "Token generated successfully": "Token generated successfully",
@@ -56,5 +57,5 @@
     "InternalServerError": "حدث خطأ أثناء معالجة طلبك.",
     "PasswordMustBeAtLeast6Characters": "يجب أن تكون كلمة المرور 6 أحرف على الأقل.",
     "NoStudentFoundForEmail": "لم يتم العثور على طالب لهذا البريد الإلكتروني.",
-    "PasswordResetSuccessful": "تم إعادة تعيين كلمة المرور بنجاح.",
+    "PasswordResetSuccessful": "تم إعادة تعيين كلمة المرور بنجاح."
 }

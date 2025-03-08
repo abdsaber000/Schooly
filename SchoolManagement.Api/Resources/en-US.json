@@ -27,6 +27,7 @@
     "Teacher id is required": "Teacher id is required",
     "Lesson created successfully": "Lesson created successfully",
     "Lesson not found.": "Lesson not found.",
+    "Classroom is not available in this time": "Classroom is not available in this time",
     "You can only join 5 minutes before the lesson starts.": "You can only join 5 minutes before the lesson starts.",
     "You cannot join , the lesson has ended.": "You cannot join , the lesson has ended.",
     "Token generated successfully": "Token generated successfully",
@@ -56,5 +57,5 @@
     "InternalServerError": "An error occurred while processing your request.",
     "PasswordMustBeAtLeast6Characters": "Password must be at least 6 characters.",
     "NoStudentFoundForEmail": "No student found for this email.",
-    "PasswordResetSuccessful": "Password reset successful.",
+    "PasswordResetSuccessful": "Password reset successful."
 }

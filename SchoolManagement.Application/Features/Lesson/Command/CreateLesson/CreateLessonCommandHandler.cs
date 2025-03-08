@@ -22,18 +22,19 @@ public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand , 
 
     public async Task<Result<string>> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
     {
-        var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
-
-        if (userIdClaim is null)
+        var isClassRoomAvailable =
+            await _lessonRepository.IsClassRoomAvailable(request.ClassRoomId, request.Date, request.From, request.To);
+        if (!isClassRoomAvailable)
         {
-            return Result<string>.Failure("User is not authenticated.");
+            return Result<string>.Failure(_localizer["Classroom is not available in this time"]);
         }
+        var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
+        
         var teacherId = userIdClaim.Value;
         var lesson = request.ToLesson();
         lesson.TeacherId = teacherId;
         
         await _lessonRepository.CreateLesson(lesson);
-        await _lessonRepository.SaveChanges();
         
         return Result<string>.SuccessMessage(_localizer["Lesson created successfully"]);
     }

@@ -33,7 +33,6 @@ public class DeleteLessonCommandHandeler : IRequestHandler<DeleteLessonCommand ,
             return Result<string>.Failure(_localizer["Lesson not found."]);
         }
         await _lessonRepository.Delete(request.Id);
-        await _lessonRepository.SaveChanges();
         
         return Result<string>.SuccessMessage(_localizer["Lesson deleted successfully"]);
     }
