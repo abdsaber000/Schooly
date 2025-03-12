@@ -3,7 +3,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Domain.Interfaces.IRepositories;
 
-public interface ICommentRepositry : IGenericRepository<Comment>
+public interface ICommentRepositry : IGenericRepository<Comment , int>
 {
 
 }

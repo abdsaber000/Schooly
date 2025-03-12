@@ -13,15 +13,21 @@ public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand , 
     private readonly ILessonRepository _lessonRepository;
     private readonly IStringLocalizer<CreateLessonCommandHandler> _localizer;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public CreateLessonCommandHandler(ILessonRepository lessonRepository, IStringLocalizer<CreateLessonCommandHandler> localizer, IHttpContextAccessor httpContextAccessor)
+    private readonly IClassRoomRepository _classRoomRepository;
+    public CreateLessonCommandHandler(ILessonRepository lessonRepository, IStringLocalizer<CreateLessonCommandHandler> localizer, IHttpContextAccessor httpContextAccessor, IClassRoomRepository classRoomRepository)
     {
         _lessonRepository = lessonRepository;
         _localizer = localizer;
         _httpContextAccessor = httpContextAccessor;
+        _classRoomRepository = classRoomRepository;
     }
 
     public async Task<Result<string>> Handle(CreateLessonCommand request, CancellationToken cancellationToken)
     {
+        var classRoom = await _classRoomRepository.GetByIdAsync(request.ClassRoomId);
+        if (classRoom is null) {
+            return Result<string>.Failure(_localizer["Classroom not found"]);
+        }
         var isClassRoomAvailable =
             await _lessonRepository.IsClassRoomAvailable(request.ClassRoomId, request.Date, request.From, request.To);
         if (!isClassRoomAvailable)

@@ -2,7 +2,7 @@
 
 namespace SchoolManagement.Domain.Interfaces.IRepositories
 {
-    public interface IStudentRepository
+    public interface IStudentRepository : IGenericRepository<Student , string>
     {
         Task AddStudent(Student student , string password);
         Task<Student?> GetStudentByEmail(string email); 

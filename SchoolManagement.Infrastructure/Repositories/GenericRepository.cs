@@ -4,7 +4,7 @@ using SchoolManagement.Infrastructure.DbContext;
 
 namespace SchoolManagement.Infrastructure.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T, TKey> : IGenericRepository<T, TKey> where T : class
     {
         private readonly AppDbContext _appDbContext;
         public GenericRepository(AppDbContext appDbContext)
@@ -28,7 +28,7 @@ namespace SchoolManagement.Infrastructure.Repositories
             return await _appDbContext.Set<T>().ToListAsync();
         }
 
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync(TKey id)
         {
             return await _appDbContext.Set<T>().FindAsync(id);
         }

@@ -57,5 +57,11 @@
     "InternalServerError": "An error occurred while processing your request.",
     "PasswordMustBeAtLeast6Characters": "Password must be at least 6 characters.",
     "NoStudentFoundForEmail": "No student found for this email.",
-    "PasswordResetSuccessful": "Password reset successful."
+    "PasswordResetSuccessful": "Password reset successful.",
+    "Student is already assigned": "Student is already assigned",
+    "Student not found": "Student not found",
+    "Classroom not found": "Classroom not found",
+    "Student assigned to classroom successfully": "Student assigned to classroom successfully",
+    "Student is already not assigned": "Student is already not assigned",
+    "Student delete from classroom successfully": "Student delete from classroom successfully"
 }

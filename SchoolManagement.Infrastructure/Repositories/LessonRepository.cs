@@ -58,23 +58,25 @@ public class LessonRepository : ILessonRepository
         await _appDbContext.SaveChangesAsync();
     }
 
-    public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
+    public async Task<int> GetTotalCountAsync(Guid classRoomId , CancellationToken cancellationToken = default)
     {
         var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
 
         return await _appDbContext.Lessons
-            .Where(lesson => lesson.Date > todayEgypt || 
-                             (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt))
+            .Where(lesson => lesson.ClassRoom.ClassRoomId == classRoomId && 
+                             (lesson.Date > todayEgypt || 
+                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
             .CountAsync(cancellationToken);
     }
-    public async Task<List<Lesson>> GetPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
+    public async Task<List<Lesson>> GetPagedAsync(int page, int pageSize , Guid classRoomId, CancellationToken cancellationToken = default)
     {
         var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
 
         return await _appDbContext.Lessons
             .Include(lesson => lesson.ClassRoom)
-            .Where(lesson => lesson.Date > todayEgypt || 
-                             (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt))
+            .Where(lesson => lesson.ClassRoom.ClassRoomId == classRoomId && 
+                             (lesson.Date > todayEgypt || 
+                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
             .OrderBy(lesson => lesson.Date)
             .ThenBy(lesson => lesson.From)
             .Skip((page - 1) * pageSize)

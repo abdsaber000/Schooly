@@ -30,8 +30,7 @@ public class AddClassRoomCommandHandler:IRequestHandler<AddClassRoomCommand , Re
     public async Task<Result<string>> Handle(AddClassRoomCommand request, CancellationToken cancellationToken)
     {
         var classRoom = request.ToClassRooms();
-        await _classRoomRepository.AddClassRoom(classRoom);
-        await _classRoomRepository.SaveChange();
+        await _classRoomRepository.AddAsync(classRoom);
 
         return Result<string>.SuccessMessage(_localizer["Class Room Created successfully"]);
     }
