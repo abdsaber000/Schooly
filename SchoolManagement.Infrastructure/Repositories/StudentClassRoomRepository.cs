@@ -5,7 +5,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Infrastructure.Repositories;
 
-public class StudentClassRoomRepository : GenericRepository<StudentClassRoom , Guid>, IStudentClassRoomRepository
+public class StudentClassRoomRepository : GenericRepository<StudentClassRoom>, IStudentClassRoomRepository
 {
     private readonly AppDbContext _appDbContext;
     public StudentClassRoomRepository(AppDbContext appDbContext) : base(appDbContext)

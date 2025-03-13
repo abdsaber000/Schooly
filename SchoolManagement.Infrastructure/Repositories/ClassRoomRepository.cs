@@ -5,7 +5,7 @@ using SchoolManagement.Infrastructure.DbContext;
 
 namespace SchoolManagement.Infrastructure.Repositories;
 
-public class ClassRoomRepository : GenericRepository<ClassRoom , Guid>, IClassRoomRepository
+public class ClassRoomRepository : GenericRepository<ClassRoom>, IClassRoomRepository
 {
     private readonly AppDbContext _appDbContext;
 

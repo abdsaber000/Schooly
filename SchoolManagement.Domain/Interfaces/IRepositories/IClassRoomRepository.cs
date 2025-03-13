@@ -2,7 +2,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Domain.Interfaces.IRepositories;
 
-public interface IClassRoomRepository: IGenericRepository<ClassRoom , Guid>
+public interface IClassRoomRepository: IGenericRepository<ClassRoom>
 {
     public Task<List<ClassRoom>> GetAllClassRoom();
     

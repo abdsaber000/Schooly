@@ -7,7 +7,7 @@ using SchoolManagement.Infrastructure.DbContext;
 
 namespace SchoolManagement.Infrastructure.Repositories
 {
-    public class StudentRepository : GenericRepository<Student , string>, IStudentRepository 
+    public class StudentRepository : GenericRepository<Student>, IStudentRepository 
     {
         
         private readonly AppDbContext _appDbContext;
