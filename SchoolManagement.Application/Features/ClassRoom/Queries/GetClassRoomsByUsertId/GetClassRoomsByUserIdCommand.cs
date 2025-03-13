@@ -1,13 +1,12 @@
 using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using SchoolManagement.Application.Features.ClassRoom.Dtos;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 
-namespace SchoolManagement.Application.Features.ClassRoom.Queries.GetClassRoomsByStudentId;
+namespace SchoolManagement.Application.Features.ClassRoom.Queries.GetClassRoomsByUsertId;
 
 public class GetClassRoomsByUserIdCommand: IRequest<Result<List<ClassRoomDto>>>
 {

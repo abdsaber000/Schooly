@@ -2,7 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using SchoolManagement.Application.Features.ClassRoom.Queries.GetClassRoomsByStudentId;
+using SchoolManagement.Application.Features.ClassRoom.Queries.GetClassRoomsByUsertId;
 using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
