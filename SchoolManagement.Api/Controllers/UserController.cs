@@ -1,0 +1,29 @@
+using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Application.Features.ClassRoom.Queries.GetClassRoomsByStudentId;
+using SchoolManagement.Application.Services.ResponseService;
+
+namespace SchoolManagement.Api.Controllers;
+
+[ApiController]
+[Authorize(AuthenticationSchemes = "Bearer")]
+[Route("api/user")]
+public class UserController : ControllerBase
+{
+    private readonly IResponseService _responseService;
+    private readonly IMediator _mediator;
+    public UserController(IResponseService responseService, IMediator mediator)
+    {
+        _responseService = responseService;
+        _mediator = mediator;
+    }
+
+    [HttpGet]
+    [Route("classrooms")]
+    public async Task<IActionResult> GetClassRoomsByUserId()
+    {
+        return _responseService.CreateResponse(await _mediator.Send(new GetClassRoomsByUserIdCommand()));
+    }
+}

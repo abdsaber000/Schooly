@@ -17,4 +17,9 @@ public class ClassRoomRepository : GenericRepository<ClassRoom>, IClassRoomRepos
     {
         return await _appDbContext.ClassRooms.ToListAsync();
     }
+    public async Task<List<ClassRoom>> GetAllClassRoomsByTeacherId(string teacherId)
+    {
+        return await _appDbContext.ClassRooms.Where(c => c.TeacherId == teacherId)
+            .ToListAsync();
+    }
 }
