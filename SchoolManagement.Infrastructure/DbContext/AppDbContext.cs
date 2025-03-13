@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Infrastructure.DbContext;
@@ -49,6 +50,22 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(p => p.Comments)
             .HasForeignKey(c => c.PostId)
             .OnDelete(DeleteBehavior.ClientCascade);
+        
+        // Configure the many-to-many relationship
+        modelBuilder.Entity<StudentClassRoom>()
+            .HasKey(sc => new { sc.StudentId, sc.ClassRoomId }); // Composite primary key
+
+        modelBuilder.Entity<StudentClassRoom>()
+            .HasOne(sc => sc.Student)
+            .WithMany(s => s.StudentClassRooms)
+            .HasForeignKey(sc => sc.StudentId)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<StudentClassRoom>()
+            .HasOne(sc => sc.ClassRoom)
+            .WithMany(c => c.StudentClassRooms)
+            .HasForeignKey(sc => sc.ClassRoomId)
+            .OnDelete(DeleteBehavior.Cascade);
     }
     public DbSet<Parent> Parents { get; set; }
     public DbSet<UploadedFile> UploadedFiles { get; set; }
@@ -58,5 +75,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<ClassRoom> ClassRooms { get; set; }
     public DbSet<HomeWork> HomeWorks { get; set; }
     public DbSet<ResetCode> ResetCodes { get; set; }
-
+    public DbSet<StudentClassRoom> StudentClassRooms { get; set; }
 }

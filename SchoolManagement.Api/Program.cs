@@ -120,6 +120,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<IHomeWorkRepository, HomeWorkRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddTransient<IResetCodeRepository, ResetCodeRepository>();
+builder.Services.AddScoped<IStudentClassRoomRepository, StudentClassRoomRepository>();
 
 #endregion
 

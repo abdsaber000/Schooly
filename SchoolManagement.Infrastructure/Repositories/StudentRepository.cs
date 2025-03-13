@@ -7,17 +7,19 @@ using SchoolManagement.Infrastructure.DbContext;
 
 namespace SchoolManagement.Infrastructure.Repositories
 {
-    public class StudentRepository : IStudentRepository
+    public class StudentRepository : GenericRepository<Student>, IStudentRepository 
     {
         
         private readonly AppDbContext _appDbContext;
         private readonly UserManager<ApplicationUser> _userManager;
 
-        public StudentRepository(AppDbContext appDbContext, UserManager<ApplicationUser> userManager)
+
+        public StudentRepository(AppDbContext appDbContext, UserManager<ApplicationUser> userManager) : base(appDbContext)
         {
             _appDbContext = appDbContext;
             _userManager = userManager;
         }
+
         public async Task AddStudent(Student student , string password)
         {
             var createdUser = await _userManager.CreateAsync(student , password);
