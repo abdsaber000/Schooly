@@ -5,10 +5,10 @@ using SchoolManagement.Infrastructure.DbContext;
 
 namespace SchoolManagement.Infrastructure.Repositories;
 
-public class LessonRepository : ILessonRepository
+public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
 {
     private readonly AppDbContext _appDbContext;
-    public LessonRepository(AppDbContext appDbContext)
+    public LessonRepository(AppDbContext appDbContext): base(appDbContext)
     {
         _appDbContext = appDbContext;
     }
@@ -22,20 +22,6 @@ public class LessonRepository : ILessonRepository
 
         return (todayEgypt, currentTimeEgypt);
     }
-    public async Task CreateLesson(Lesson lesson)
-    {
-        await _appDbContext.Lessons.AddAsync(lesson);
-        await _appDbContext.SaveChangesAsync();
-    }
-
-    public async Task<Lesson?> GetLessonById(string id)
-    {
-        var lesson = await _appDbContext.Lessons
-            .Include(l => l.ClassRoom)
-            .FirstOrDefaultAsync(l => l.Id == id);
-        return lesson;
-    }
-
     public async Task Update(Lesson updatedLesson)
     {
         var lesson = await _appDbContext.Lessons.FirstOrDefaultAsync(l => l.Id == updatedLesson.Id);
@@ -50,14 +36,6 @@ public class LessonRepository : ILessonRepository
         
         await _appDbContext.SaveChangesAsync();
     }
-
-    public async Task Delete(string id)
-    {
-        var lesson = await _appDbContext.Lessons.FirstOrDefaultAsync(l => l.Id == id); 
-        if(lesson != null) _appDbContext.Lessons.Remove(lesson);
-        await _appDbContext.SaveChangesAsync();
-    }
-
     public async Task<int> GetTotalCountAsync(Guid classRoomId , CancellationToken cancellationToken = default)
     {
         var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();

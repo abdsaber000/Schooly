@@ -46,6 +46,7 @@
     "Class Room Deleted Successfully": "تم حذف الفصل بنجاح",
     "Homework added Successfully": "تم اضافة الواجب بنجاح",
     "HomeWork deleted successfully": "تم حذف الواجب بنجاح",
+    "HomeWork not found" : "لا يوجد واجب",
     "Password reset email sent successfully": "تم إرسال بريد إعادة تعيين كلمة المرور بنجاح",
     "This email isn't linked to a student account.": "هذا البريد الإلكتروني غير مرتبط بأي حساب طالب.",
     "EmailRequired": "البريد الإلكتروني مطلوب.",

@@ -2,10 +2,8 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Domain.Interfaces.IRepositories;
 
-public interface IHomeWorkRepository
+public interface IHomeWorkRepository : IGenericRepository<HomeWork>
 {
-   public Task AddHomeWork(HomeWork? homeWork);
    public Task<List<HomeWork>> GetAllClassRoomHomeWork(Guid classRoomId);
-   public Task<HomeWork?> GetHomeWork(Guid homeWorkId);
-   public Task DeleteHomeWork(Guid homeWorkId);
+   public Task<HomeWork> GetHomeWorkByFileName(string fileName);
 }
