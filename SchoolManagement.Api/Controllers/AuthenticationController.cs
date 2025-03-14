@@ -1,8 +1,10 @@
 using MediatR;
+using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Authentication.Commands.Login;
 using SchoolManagement.Application.Features.Authentication.Commands.Register;
 using SchoolManagement.Application.Features.Authentication.Commands.RegisterFace;
+using SchoolManagement.Application.Features.Authentication.Commands.VerifyFace;
 using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
@@ -38,6 +40,12 @@ public class AuthenticationController : ControllerBase
     [HttpPost]
     [Route("register-face")]
     public async Task<IActionResult> RegisterFace([FromForm] RegisterFaceCommand command){
+        return _responseService.CreateResponse(await _mediator.Send(command));
+    }
+
+    [HttpPost]
+    [Route("verify-face")]
+    public async Task<IActionResult> VerifyFace([FromForm] VerifyFaceCommand command){
         return _responseService.CreateResponse(await _mediator.Send(command));
     }
 }
