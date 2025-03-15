@@ -30,19 +30,11 @@ public class HomeWorkController : ControllerBase
    }
 
    [HttpGet("all")]
-   [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
    public async Task<IActionResult> GetAllHomeWork([FromQuery] Guid classRoomId)
    {
       return _responseService.CreateResponse(await _mediator.Send(new GetAllClassRoomHomeWorkQuery(classRoomId)));
    }
-
-   [HttpGet("{fileName}")]
-   public async Task<IActionResult> GetHomeWork(string fileName)
-   {
-      var result = await _mediator.Send(new GetHomeWorkQuery(fileName));
-      return Ok(result);
-   }
-
+   
    [HttpDelete]
    [Authorize(Roles = Roles.Teacher)]
    public async Task<IActionResult> DeleteHomeWork(string fileName)

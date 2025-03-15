@@ -22,9 +22,8 @@ public class AddHomeWorkCommandsHandler : IRequestHandler<AddHomeWorkCommands , 
     private readonly ILessonRepository _lessonRepository;
     private readonly IClassRoomRepository _classRoomRepository;
 
-    public AddHomeWorkCommandsHandler(IFileService fileService, IHomeWorkRepository homeWorkRepository, IStringLocalizer<AddHomeWorkCommandsHandler> localizer, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, IClassRoomRepository classRoomRepository, ILessonRepository lessonRepository)
+    public AddHomeWorkCommandsHandler(IHomeWorkRepository homeWorkRepository, IStringLocalizer<AddHomeWorkCommandsHandler> localizer, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, IClassRoomRepository classRoomRepository, ILessonRepository lessonRepository)
     {
-        _fileService = fileService;
         _homeWorkRepository = homeWorkRepository;
         _localizer = localizer;
         _httpContextAccessor = httpContextAccessor;
@@ -46,9 +45,8 @@ public class AddHomeWorkCommandsHandler : IRequestHandler<AddHomeWorkCommands , 
         {
             return Result<string>.Failure(_localizer["Classroom not found"]);
         }
-        var fileName = await _fileService.UploadFile(request.file);
         var teacher = _userManager.GetUserAsync(_httpContextAccessor?.HttpContext.User).Result;
-        var homeWork = request.ToHomeWork(teacher, fileName);
+        var homeWork = request.ToHomeWork(teacher);
         await _homeWorkRepository.AddAsync(homeWork);
         return Result<string>.SuccessMessage(_localizer["Homework added Successfully"]);
     }

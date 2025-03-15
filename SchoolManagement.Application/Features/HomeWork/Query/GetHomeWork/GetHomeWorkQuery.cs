@@ -10,7 +10,6 @@ namespace SchoolManagement.Application.Features.HomeWork.Query.GetHomeWork;
 public class GetHomeWorkQuery : IRequest<IActionResult>
 {
     public string fileName;
-
     public GetHomeWorkQuery(string fileName)
     {
         this.fileName = fileName;
@@ -28,13 +27,13 @@ public class GetHomeWorkQueryHandler : IRequestHandler<GetHomeWorkQuery, IAction
     }
     public async Task<IActionResult> Handle(GetHomeWorkQuery request, CancellationToken cancellationToken)
     {
-        var homeWork = await _homeWorkRepository.GetHomeWorkByFileName(request.fileName);
+        var homeWork = await _homeWorkRepository.GetHomeWorkByFileUrl(request.fileName);
         if (homeWork is null)
         {
             return new NotFoundResult();
         }
 
-        var file = await _fileService.GetFileAsync(homeWork.fileName);
+        var file = await _fileService.GetFileAsync(homeWork.FileUrl);
         return file;
     }
 }

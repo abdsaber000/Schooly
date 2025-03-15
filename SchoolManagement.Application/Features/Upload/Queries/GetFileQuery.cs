@@ -3,52 +3,36 @@ using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.FileProviders;
+using SchoolManagement.Application.Services.FileService;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Features.Upload.Queries;
 
 public class GetFileQuery : IRequest<IActionResult>
 {
-    public string FileName { get; set; } = string.Empty;
-    public GetFileQuery(string fileName)
+    public GetFileQuery(string fileUrl)
     {
-        FileName = fileName;
+        FileUrl = fileUrl;
     }
+
+    public string FileUrl { get; set; }
+   
 }
 
 public class GetFileQueryHandler : IRequestHandler<GetFileQuery, IActionResult>
 {
     private readonly IUploadedFileRepositry _uploadedFileRepositry;
     private readonly IWebHostEnvironment _webHostEnvironment;
+    private readonly IFileService _fileService;
     public GetFileQueryHandler(IUploadedFileRepositry uploadedFileRepositry
-        , IWebHostEnvironment webHostEnvironment)
+        , IWebHostEnvironment webHostEnvironment, IFileService fileService)
     {
         _uploadedFileRepositry = uploadedFileRepositry;
         _webHostEnvironment = webHostEnvironment;
+        _fileService = fileService;
     }
     public async Task<IActionResult> Handle(GetFileQuery request, CancellationToken cancellationToken)
     {
-        var file = await _uploadedFileRepositry.GetFileByName(request.FileName);
-        if (file == null)
-        {
-            return new NotFoundResult();
-        }
-        var path = Path.Combine(_webHostEnvironment.ContentRootPath, "Uploads", file.StoredFileName);
-
-        using FileStream fileStream = new(path, FileMode.Open);
-
-        // MemoryStream memoryStream = new();
-
-        // await fileStream.CopyToAsync(memoryStream);
-        // memoryStream.Position = 0;
-
-        // return new FileStreamResult(memoryStream, file.ContentType)
-        // {
-        //     FileDownloadName = file.FileName
-        // };
-
-        return new PhysicalFileResult(path , file.ContentType){
-            FileDownloadName = file.FileName
-        };
+        return await _fileService.GetFileAsync(request.FileUrl);
     }
 }

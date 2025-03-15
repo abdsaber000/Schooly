@@ -18,8 +18,8 @@ public class HomeWorkRepository : GenericRepository<HomeWork> , IHomeWorkReposit
             .Where(c => c.classRoomId == classRoomId).ToListAsync();
     }
 
-    public async Task<HomeWork> GetHomeWorkByFileName(string fileName)
+    public async Task<HomeWork> GetHomeWorkByFileUrl(string fileUrl)
     {
-        return await _appDbContext.HomeWorks.FirstOrDefaultAsync(h => h.fileName == fileName);
+        return await _appDbContext.HomeWorks.FirstOrDefaultAsync(h => h.FileUrl == fileUrl);
     }
 }
