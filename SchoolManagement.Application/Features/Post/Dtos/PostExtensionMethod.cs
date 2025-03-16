@@ -32,7 +32,9 @@ static public class PostExtensionMethod
             Comments = post.Comments.Select(comment => new CommentsDto(){
                 Id = comment.Id,
                 Content = comment.Content,
-                CreatedAt = comment.CreatedAt
+                CreatedAt = comment.CreatedAt,
+                AuthorId = comment.AuthorId,
+                AuthorName = comment.Author.Name
             })
             .OrderBy(c => c.CreatedAt)
             .ToList()
