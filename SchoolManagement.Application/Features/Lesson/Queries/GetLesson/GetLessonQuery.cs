@@ -7,8 +7,8 @@ namespace SchoolManagement.Application.Features.Lesson.Queries.GetLesson;
 
 public class GetLessonQuery : IRequest<Result<LessonDto>>
 {
-    public string Id { get;}
-    public GetLessonQuery(string id)
+    public Guid Id { get;}
+    public GetLessonQuery(Guid id)
     {
         Id = id;
     }
@@ -25,7 +25,7 @@ public class GetLessonQueryHandler : IRequestHandler<GetLessonQuery , Result<Les
 
     public async Task<Result<LessonDto>> Handle(GetLessonQuery request, CancellationToken cancellationToken)
     {
-        var lesson = await _lessonRepository.GetLessonById(request.Id);
+        var lesson = await _lessonRepository.GetByIdAsync(request.Id);
     
         if (lesson == null)
         {

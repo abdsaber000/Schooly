@@ -13,5 +13,5 @@ public class AddHomeWorkCommands : IRequest<Result<string>>
     [Required]
     public Guid classRoomId { get; set; }
     [Required]    
-    public IFormFile file { get; set; }
+    public string FileUrl { get; set; }
 }

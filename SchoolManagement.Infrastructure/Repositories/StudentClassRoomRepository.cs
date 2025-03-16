@@ -18,4 +18,13 @@ public class StudentClassRoomRepository : GenericRepository<StudentClassRoom>, I
         return await _appDbContext.StudentClassRooms.FirstOrDefaultAsync(sc =>
             sc.StudentId == studentId && sc.ClassRoomId == classRoomId);
     }
+
+    public async Task<List<ClassRoom>> GetAllClassRoomsByStudentId(string studentId)
+    {
+        return await _appDbContext.StudentClassRooms
+            .Include(sc => sc.ClassRoom)  
+            .Where(sc => sc.StudentId == studentId)  
+            .Select(sc => sc.ClassRoom)  
+            .ToListAsync();  
+    }
 }

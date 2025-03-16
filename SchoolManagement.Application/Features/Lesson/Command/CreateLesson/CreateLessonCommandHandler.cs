@@ -40,7 +40,7 @@ public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand , 
         var lesson = request.ToLesson();
         lesson.TeacherId = teacherId;
         
-        await _lessonRepository.CreateLesson(lesson);
+        await _lessonRepository.AddAsync(lesson);
         
         return Result<string>.SuccessMessage(_localizer["Lesson created successfully"]);
     }

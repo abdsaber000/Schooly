@@ -22,4 +22,10 @@ public class ClassRoomRepository : GenericRepository<ClassRoom>, IClassRoomRepos
     {
         return await _appDbContext.ClassRooms.CountAsync(x => x.Id == id) > 0;
     }
+    
+    public async Task<List<ClassRoom>> GetAllClassRoomsByTeacherId(string teacherId)
+    {
+        return await _appDbContext.ClassRooms.Where(c => c.TeacherId == teacherId)
+            .ToListAsync();
+    }
 }

@@ -1,7 +1,10 @@
 using System;
+using System.ComponentModel.DataAnnotations;
 using MediatR;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
+using SchoolManagement.Application.Services.FileService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces.IRepositories;
@@ -10,36 +13,19 @@ namespace SchoolManagement.Application.Features.Upload.Commands;
 
 public class UploadFileCommand : IRequest<Result<UploadedFile>>
 {
-    required public IFormFile formFile {get; set;}
+    [Required] public IFormFile formFile {get; set;}
 }
 
 public class UploadFileCommandHandler : IRequestHandler<UploadFileCommand, Result<UploadedFile>>
 {
-    private readonly IUploadedFileRepositry _uploadedFileRepositry;
-    private readonly IWebHostEnvironment _webHostEnvironment;
-    public UploadFileCommandHandler(IUploadedFileRepositry uploadedFileRepositry
-        , IWebHostEnvironment webHostEnvironment)
+    private readonly IFileService _fileService;
+    public UploadFileCommandHandler(IFileService fileService)
     {
-        _uploadedFileRepositry = uploadedFileRepositry;
-        _webHostEnvironment = webHostEnvironment;
+        _fileService = fileService;
     }
     public async Task<Result<UploadedFile>> Handle(UploadFileCommand request, CancellationToken cancellationToken)
     {
-        var file = request.formFile;
-        var fakeFileName = Path.GetRandomFileName();
-        var uploadedFile = new UploadedFile
-        {
-            FileName = file.FileName,
-            ContentType = file.ContentType,
-            StoredFileName = fakeFileName
-        };
-        var path = Path.Combine(_webHostEnvironment.ContentRootPath, "Uploads", fakeFileName);
-
-        using FileStream fileStream = new(path, FileMode.Create);
-
-        await file.CopyToAsync(fileStream);
-        
-        await _uploadedFileRepositry.AddFile(uploadedFile);
+        var uploadedFile = await _fileService.UploadFile(request.formFile);
         return Result<UploadedFile>.Success(uploadedFile);
     }
 }

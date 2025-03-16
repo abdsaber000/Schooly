@@ -5,7 +5,7 @@ namespace SchoolManagement.Domain.Entities;
 
 public class Lesson
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
     public string TeacherId { get; set; } = string.Empty;
     
     [ForeignKey("ClassRooms")] 

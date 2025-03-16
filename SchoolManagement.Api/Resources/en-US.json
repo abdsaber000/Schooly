@@ -46,6 +46,7 @@
     "Class Room Deleted Successfully": "Class Room Deleted Successfully",
     "Homework added Successfully": "Homework added Successfully",
     "HomeWork deleted successfully": "HomeWork deleted successfully",
+    "HomeWork not found" : "HomeWork not found", 
     "Password reset email sent successfully": "Password reset email sent successfully",
     "This email isn't linked to a student account.": "This email isn't linked to a student account.",
     "EmailRequired": "Email is required.",
