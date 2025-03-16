@@ -41,7 +41,7 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
         var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
 
         return await _appDbContext.Lessons
-            .Where(lesson => lesson.ClassRoom.ClassRoomId == classRoomId && 
+            .Where(lesson => lesson.ClassRoom.Id == classRoomId && 
                              (lesson.Date > todayEgypt || 
                               (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
             .CountAsync(cancellationToken);
@@ -52,7 +52,7 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
 
         return await _appDbContext.Lessons
             .Include(lesson => lesson.ClassRoom)
-            .Where(lesson => lesson.ClassRoom.ClassRoomId == classRoomId && 
+            .Where(lesson => lesson.ClassRoom.Id == classRoomId && 
                              (lesson.Date > todayEgypt || 
                               (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
             .OrderBy(lesson => lesson.Date)

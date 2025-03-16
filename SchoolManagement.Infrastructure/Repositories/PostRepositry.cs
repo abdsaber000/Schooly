@@ -47,6 +47,8 @@ public class PostRepositry : IPostRepositry
                             .Skip((page - 1) * pageSize)
                             .Take(pageSize)
                             .Include(post => post.Comments)
+                            .Include(post => post.Author)
+                            .Include(post => post.ClassRoom)
                             .ToListAsync();
     }
 
@@ -71,6 +73,8 @@ public class PostRepositry : IPostRepositry
                         .Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .Include(post => post.Comments)
+                        .Include(post => post.Author)
+                        .Include(post => post.ClassRoom)
                         .ToListAsync();
     }
 

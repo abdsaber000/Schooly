@@ -19,7 +19,7 @@ public static class classRoomExtensionMethold
     {
         return new Domain.Entities.ClassRoom()
         {
-            ClassRoomId = new Guid(),
+            Id = new Guid(),
             Grade = Command.Grade,
             Subject = Command.Subject
         };
@@ -28,7 +28,7 @@ public static class classRoomExtensionMethold
     {
         return new Domain.Entities.ClassRoom()
         {
-            ClassRoomId = Command.id,
+            Id = Command.id,
             Grade = Command.Grade,
             Subject = Command.Subject
         };
@@ -37,7 +37,7 @@ public static class classRoomExtensionMethold
     {
         return new ClassRoomDto()
         {
-            Id = classRooms.ClassRoomId,
+            Id = classRooms.Id,
             TeacherId = classRooms.TeacherId,
             Grade = classRooms.Grade,
             Subject = classRooms.Subject
