@@ -46,7 +46,7 @@
     "Class Room Deleted Successfully": "Class Room Deleted Successfully",
     "Homework added Successfully": "Homework added Successfully",
     "HomeWork deleted successfully": "HomeWork deleted successfully",
-    "HomeWork not found" : "HomeWork not found", 
+    "HomeWork not found": "HomeWork not found",
     "Password reset email sent successfully": "Password reset email sent successfully",
     "This email isn't linked to a student account.": "This email isn't linked to a student account.",
     "EmailRequired": "Email is required.",
@@ -64,5 +64,9 @@
     "Classroom not found": "Classroom not found",
     "Student assigned to classroom successfully": "Student assigned to classroom successfully",
     "Student is already not assigned": "Student is already not assigned",
-    "Student delete from classroom successfully": "Student delete from classroom successfully"
+    "Student delete from classroom successfully": "Student delete from classroom successfully",
+    "Invalid email format.": "Invalid email format.",
+    "Verification code is required": "Verification code is required",
+    "Verification code must contain only numbers": "Verification code must contain only numbers",
+    "Verification code must be exactly 6 digits": "Verification code must be exactly 6 digits"
 }

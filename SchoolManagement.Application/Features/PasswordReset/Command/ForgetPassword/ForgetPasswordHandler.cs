@@ -15,7 +15,7 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ForgetPass
     public class ForgetPasswordCommandHandler : IRequestHandler<ForgetPasswordCommand, Result<string>>
     {
         private readonly IStudentRepository _studentRepository;
-        private readonly IResetCodeRepository _resetCodeRepository;
+        private readonly IResetCaodeRepository _resetCodeRepository;
         private readonly IEmailService _emailService;
         private readonly IStringLocalizer<ForgetPasswordCommandHandler> _localizer;
 
@@ -35,11 +35,6 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ForgetPass
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(request.Email))
-                {
-                    return Result<string>.Failure(_localizer["Email is required."], HttpStatusCode.BadRequest);
-                }
-
                 var user = await _studentRepository.GetStudentByEmail(request.Email);
                 if (user == null)
                 {
@@ -84,8 +79,8 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ForgetPass
             var verificationCodeBytes = new byte[4];
             RandomNumberGenerator.Fill(verificationCodeBytes);
             var verificationCodeNumber = BitConverter.ToInt32(verificationCodeBytes) % 1000000;
-            if (verificationCodeNumber < 0) verificationCodeNumber *= -1; 
-            return verificationCodeNumber.ToString("D6"); 
+            if (verificationCodeNumber < 0) verificationCodeNumber *= -1;
+            return verificationCodeNumber.ToString("D6");
         }
 
         private string GenerateEmailBody(string userName, string email, string verificationCode)

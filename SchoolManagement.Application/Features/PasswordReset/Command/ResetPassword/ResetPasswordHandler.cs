@@ -33,11 +33,6 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ResetPassw
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(request.Email))
-                {
-                    return Result<string>.Failure(_localizer["EmailRequired"], HttpStatusCode.BadRequest);
-                }
-
                 if (string.IsNullOrWhiteSpace(request.NewPassword) || request.NewPassword.Length < 6)
                 {
                     return Result<string>.Failure(_localizer["PasswordMustBeAtLeast6Characters"], HttpStatusCode.BadRequest);
@@ -50,7 +45,7 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ResetPassw
                 }
 
                 var token = await _userManager.GeneratePasswordResetTokenAsync(student);
-                var result = await _userManager.ResetPasswordAsync(student, token, request.NewPassword); 
+                var result = await _userManager.ResetPasswordAsync(student, token, request.NewPassword);
 
                 if (!result.Succeeded)
                 {

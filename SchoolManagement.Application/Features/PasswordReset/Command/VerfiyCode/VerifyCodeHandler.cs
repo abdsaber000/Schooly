@@ -24,16 +24,6 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.VerifyCode
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(request.Email))
-                {
-                    return Result<string>.Failure(_localizer["EmailRequired"], HttpStatusCode.BadRequest);
-                }
-
-                if (string.IsNullOrWhiteSpace(request.Code) || request.Code.Length != 6 || !int.TryParse(request.Code, out _))
-                {
-                    return Result<string>.Failure(_localizer["InvalidCodeFormat"], HttpStatusCode.BadRequest);
-                }
-
                 var resetCode = await _resetCodeRepository.GetResetCodeByEmailAsync(request.Email, cancellationToken);
                 if (resetCode == null)
                 {

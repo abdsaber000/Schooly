@@ -20,11 +20,30 @@ using SchoolManagement.Application.Services.ResponseService;
 using SchoolManagement.Application.Services.EmailService;
 using SchoolManagement.Application.Services.FileService;
 using SchoolManagement.Application.Services.Seeder;
+using Microsoft.AspNetCore.Mvc;
+
+
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
+{
+    options.InvalidModelStateResponseFactory = context =>
+    {
+        var localizer = context.HttpContext.RequestServices.GetRequiredService<IStringLocalizer<JSonStringLocalizerFactory>>();
+
+        var errorMessages = context.ModelState.Values
+            .SelectMany(v => v.Errors)
+            .Select(e => localizer[e.ErrorMessage])
+            .ToList();
+
+        string errorMessage = errorMessages.Any() ? string.Join(" ", errorMessages) : localizer["InvalidInput"];
+
+        return new BadRequestObjectResult(new { message = errorMessage });
+    };
+});
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -87,7 +106,8 @@ builder.Services.AddSwaggerGen(c =>
 #region Configure JWT
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options => {
-        options.TokenValidationParameters = new TokenValidationParameters(){
+        options.TokenValidationParameters = new TokenValidationParameters()
+        {
             ValidateIssuer = true,
             ValidateAudience = true,
             ValidateLifetime = true,
@@ -108,7 +128,7 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IUploadedFileRepositry, UploadedFileRepositry>();
 builder.Services.AddScoped<ITokenService, TokenService>();
-builder.Services.AddScoped<IAgoraService , AgoraService>();
+builder.Services.AddScoped<IAgoraService, AgoraService>();
 builder.Services.AddScoped<ILessonRepository, LessonRepository>();
 builder.Services.AddScoped<IEgyptTime, EgyptTime>();
 builder.Services.AddScoped<IPostRepositry, PostRepositry>();
@@ -126,19 +146,19 @@ builder.Services.AddScoped<IStudentClassRoomRepository, StudentClassRoomReposito
 
 #region Add Identity password seeting
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
-    {
-        options.Password.RequireDigit = false;            // No digit required
-        options.Password.RequiredLength = 6;              // Minimum length of 6
-        options.Password.RequireNonAlphanumeric = false;  // No special character required
-        options.Password.RequireUppercase = false;        // No uppercase letter required
-        options.Password.RequireLowercase = false;        // No lowercase letter required
-        options.Password.RequiredUniqueChars = 1;
-    })
-    .AddEntityFrameworkStores<AppDbContext>()  
-    .AddDefaultTokenProviders();  
+{
+    options.Password.RequireDigit = false;            // No digit required
+    options.Password.RequiredLength = 6;              // Minimum length of 6
+    options.Password.RequireNonAlphanumeric = false;  // No special character required
+    options.Password.RequireUppercase = false;        // No uppercase letter required
+    options.Password.RequireLowercase = false;        // No lowercase letter required
+    options.Password.RequiredUniqueChars = 1;
+})
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 #endregion
 #region DataBase Config
-        
+
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
 builder.Services.AddDbContext<AppDbContext>(options =>
 {
@@ -176,7 +196,7 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 
 var app = builder.Build();
 
- #region RolesSeeder
+#region RolesSeeder
 
 using var scope = app.Services.CreateScope();
 try
@@ -198,8 +218,8 @@ catch (Exception exception)
 // Configure the HTTP request pipeline.
 // if (app.Environment.IsDevelopment())
 // {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+app.UseSwagger();
+app.UseSwaggerUI();
 //}
 
 var supportedCultures = new[] { "ar-EG", "en-US" };
