@@ -33,11 +33,6 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ResetPassw
         {
             try
             {
-                if (string.IsNullOrWhiteSpace(request.NewPassword) || request.NewPassword.Length < 6)
-                {
-                    return Result<string>.Failure(_localizer["PasswordMustBeAtLeast6Characters"], HttpStatusCode.BadRequest);
-                }
-
                 var student = await _studentRepository.GetStudentByEmail(request.Email);
                 if (student == null)
                 {

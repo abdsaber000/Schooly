@@ -10,6 +10,7 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ResetPassw
         [Required(ErrorMessage = "Email is required")]
         [EmailAddress(ErrorMessage = "Invalid email format")]
         public string Email { get; set; } = string.Empty;
+        [Required(ErrorMessage = "PasswordMustBeAtLeast6Characters")]
         public string NewPassword { get; set; } = string.Empty;
     }
 }
