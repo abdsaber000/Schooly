@@ -17,4 +17,9 @@ public class ClassRoomRepository : GenericRepository<ClassRoom>, IClassRoomRepos
     {
         return await _appDbContext.ClassRooms.ToListAsync();
     }
+
+    public async Task<bool> IsExistAsync(Guid id)
+    {
+        return await _appDbContext.ClassRooms.CountAsync(x => x.Id == id) > 0;
+    }
 }

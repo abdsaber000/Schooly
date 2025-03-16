@@ -5,5 +5,6 @@ namespace SchoolManagement.Domain.Interfaces.IRepositories;
 public interface IClassRoomRepository: IGenericRepository<ClassRoom>
 {
     public Task<List<ClassRoom>> GetAllClassRoom();
+    public Task<bool> IsExistAsync(Guid id);
     
 }
