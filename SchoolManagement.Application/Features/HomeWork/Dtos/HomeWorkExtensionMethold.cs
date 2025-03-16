@@ -5,14 +5,14 @@ namespace SchoolManagement.Application.Features.HomeWork.Dtos;
 
 public static class HomeWorkExtensionMethold
 {
-    public static Domain.Entities.HomeWork? ToHomeWork(this AddHomeWorkCommands commands, ApplicationUser teacher , string fileName)
+    public static Domain.Entities.HomeWork? ToHomeWork(this AddHomeWorkCommands commands, ApplicationUser teacher)
     {
         return new Domain.Entities.HomeWork()
         {
-            fileName = fileName,
+            Id = new Guid(),
+            FileUrl = commands.FileUrl,
             classRoomId = commands.classRoomId,
             lessonId = commands.lessonId,
-            Id = new Guid(),
             teacherId = teacher.Id
         };
     }

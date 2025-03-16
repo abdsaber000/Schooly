@@ -9,9 +9,9 @@ namespace SchoolManagement.Application.Features.Lesson.Queries.JoinLesson;
 
 public class JoinLessonCommand : IRequest<Result<JoinLessonDto>>
 {
-    public string Id { get; }
+    public Guid Id { get; }
 
-    public JoinLessonCommand(string id)
+    public JoinLessonCommand(Guid id)
     {
         Id = id;
     }
@@ -35,7 +35,7 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
 
     public async Task<Result<JoinLessonDto>> Handle(JoinLessonCommand request, CancellationToken cancellationToken)
     {
-        var lesson = await _lessonRepository.GetLessonById(request.Id);
+        var lesson = await _lessonRepository.GetByIdAsync(request.Id);
 
         if (lesson is null)
         {
