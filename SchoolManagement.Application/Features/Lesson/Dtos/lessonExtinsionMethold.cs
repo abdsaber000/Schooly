@@ -10,7 +10,7 @@ public static class lessonExtinsionMethold
     {
         return new Domain.Entities.Lesson()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid(),
             ClassRoomId = command.ClassRoomId,
             Title = command.Title,
             LessonType = command.LessonType,

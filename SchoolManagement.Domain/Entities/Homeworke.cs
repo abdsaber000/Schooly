@@ -6,5 +6,5 @@ public class HomeWork
     public Guid lessonId { get; set; }
     public Guid classRoomId { get; set; }
     public string teacherId { get; set; }
-    public string fileName { get; set; }
+    public string FileUrl { get; set; }
 }

@@ -29,15 +29,14 @@ namespace SchoolManagement.Api.Controllers
         }
 
         [HttpPost]
-        [Route("upload")]
         public async Task<IActionResult> UploadFile(UploadFileCommand command){
             return _responseService.CreateResponse(await _mediator.Send(command));
         } 
 
         [HttpGet]
-        [Route("{fileName}")]
-        public async Task<IActionResult> GetFile([FromRoute] string fileName){
-            return await _mediator.Send(new GetFileQuery(fileName));
+        [Route("{fileUrl}")]
+        public async Task<IActionResult> GetFile([FromRoute] string fileUrl){
+            return await _mediator.Send(new GetFileQuery(fileUrl));
         }
     }
 }

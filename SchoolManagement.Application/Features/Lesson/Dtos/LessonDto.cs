@@ -4,7 +4,7 @@ namespace SchoolManagement.Application.Features.Lesson.Dtos;
 
 public class LessonDto
 {
-    public string Id { get; set; } = string.Empty;
+    public Guid Id { get; set; } 
     public string TeacherId { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;
     public string Grade { get; set; } = string.Empty;

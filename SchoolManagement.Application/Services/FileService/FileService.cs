@@ -1,33 +1,73 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.StaticFiles;
+using SchoolManagement.Domain.Entities;
+using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Services.FileService;
 
 public class FileService : IFileService
 {
+    private readonly IUploadedFileRepositry _uploadedFileRepositry;
     private readonly IWebHostEnvironment _webHostEnvironment;
-
-    public FileService(IWebHostEnvironment webHostEnvironment)
+    public FileService(IWebHostEnvironment webHostEnvironment, IUploadedFileRepositry uploadedFileRepositry)
     {
         _webHostEnvironment = webHostEnvironment;
+        _uploadedFileRepositry = uploadedFileRepositry;
+    }
+    public async Task<UploadedFile> UploadFile(IFormFile file)
+    {
+        var fakeFileName = Path.GetRandomFileName();
+        var uploadedFile = new UploadedFile
+        {
+            FileName = file.FileName,
+            ContentType = file.ContentType,
+            StoredFileName = fakeFileName
+        };
+        var path = Path.Combine(_webHostEnvironment.ContentRootPath, "Uploads", fakeFileName);
+
+        using FileStream fileStream = new(path, FileMode.Create);
+
+        await file.CopyToAsync(fileStream);
+        
+        await _uploadedFileRepositry.AddFile(uploadedFile);
+        return uploadedFile;
+    }
+    public async Task<IActionResult> GetFileAsync(string fileUrl)
+    {
+        var file = await _uploadedFileRepositry.GetFileByName(fileUrl);
+        if (file == null)
+        {
+            return new NotFoundResult();
+        }
+        var path = Path.Combine(_webHostEnvironment.ContentRootPath, "Uploads", file.StoredFileName);
+
+        using FileStream fileStream = new(path, FileMode.Open);
+        
+        return new PhysicalFileResult(path , file.ContentType){
+            FileDownloadName = file.FileName
+        };
     }
 
-
-    public async Task<string> UploadFile(IFormFile file)
+    public async Task<IActionResult> DeleteFileAsync(string fileUrl)
     {
-        string uniqueFileName = string.Empty;
-
-        if (file is not null && file.Length > 0)
+        var uploadsFolder = Path.Combine(_webHostEnvironment.ContentRootPath, "Uploads");
+        var filePath = Path.Combine(uploadsFolder, fileUrl);
+        if (!System.IO.File.Exists(filePath))
         {
-            string uploadsFolder = Path.Combine(_webHostEnvironment.ContentRootPath , "Uploads");
-            uniqueFileName = Guid.NewGuid() + "_" + file.FileName;
-            string filePath = Path.Combine(uploadsFolder, uniqueFileName);
-
-            using (var fileStream = new FileStream(filePath, FileMode.Create , FileAccess.Write, FileShare.None, 4096, useAsync: true))
-            {
-                await file.CopyToAsync(fileStream);
-            }
+            return new NotFoundResult();
         }
-        return uniqueFileName;
+        try
+        {
+            System.IO.File.Delete(filePath);
+            await _uploadedFileRepositry.DeleteByFileUrl(fileUrl);
+            return new OkResult();
+        }
+        catch (Exception ex)
+        {
+            return new StatusCodeResult(StatusCodes.Status500InternalServerError);
+        }
+
     }
 }
