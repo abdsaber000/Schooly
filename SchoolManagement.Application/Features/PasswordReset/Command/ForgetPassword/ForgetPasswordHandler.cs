@@ -15,7 +15,7 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ForgetPass
     public class ForgetPasswordCommandHandler : IRequestHandler<ForgetPasswordCommand, Result<string>>
     {
         private readonly IStudentRepository _studentRepository;
-        private readonly IResetCaodeRepository _resetCodeRepository;
+        private readonly IResetCodeRepository _resetCodeRepository;
         private readonly IEmailService _emailService;
         private readonly IStringLocalizer<ForgetPasswordCommandHandler> _localizer;
 
