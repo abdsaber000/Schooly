@@ -2,22 +2,21 @@ using System.Security.Claims;
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
-using SchoolManagement.Application.Features.Lesson.Dtos;
+using SchoolManagement.Application.Features.HomeWork.Dtos;
 using SchoolManagement.Application.Features.Pagination;
-using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Features.HomeWork.Query.GetAllClassRoomHomeWork;
 
-public class GetAllClassRoomHomeWorkQuery : IRequest<Result<List<Domain.Entities.HomeWork>>>
+public class GetAllClassRoomHomeWorkQuery : IRequest<PagedResult<HomeWorkDto>>
 {
     public int page { get; set; } = 1;
     public int pageSize { get; set; } = 10;
     public Guid ClassRoomId { get; set; }
 }
 
-public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetAllClassRoomHomeWorkQuery, Result<List<Domain.Entities.HomeWork>>>
+public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetAllClassRoomHomeWorkQuery, PagedResult<HomeWorkDto>>
 {
     private readonly IHomeWorkRepository _homeWorkRepository;
     private readonly IClassRoomRepository _classRoomRepository;
@@ -33,7 +32,7 @@ public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetAllClassRo
         _studentClassRoomRepository = studentClassRoomRepository;
     }
 
-    public async Task<Result<List<Domain.Entities.HomeWork>>> Handle(GetAllClassRoomHomeWorkQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<HomeWorkDto>> Handle(GetAllClassRoomHomeWorkQuery request, CancellationToken cancellationToken)
     {
         var user = _httpContextAccessor.HttpContext?.User;
         var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
@@ -44,7 +43,7 @@ public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetAllClassRo
             var classRoom = await _classRoomRepository.GetByIdAsync(request.ClassRoomId);
             if (classRoom is null)
             {
-                return Result<List<Domain.Entities.HomeWork>>.Failure(_localizer["Classroom not found"]);
+                return new PagedResult<HomeWorkDto>();
             }
             totalCount = await _homeWorkRepository
                 .GetTotalCountAsyncByClassRoomId(request.ClassRoomId, cancellationToken);
@@ -75,9 +74,9 @@ public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetAllClassRo
         }
 
         var ActiveHomeWorkDto = ActiveHomeWork
-            .Select(lesson => lesson.())
+            .Select(homeWork => homeWork.ToHomeWorkDto())
             .ToList();
-        return new PagedResult<LessonDto>
+        return new PagedResult<HomeWorkDto>
         {
             TotalItems = totalCount,
             Page = request.page,

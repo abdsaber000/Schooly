@@ -23,7 +23,6 @@ namespace SchoolManagement.Api.Controllers
 
         [HttpGet]
         [Route("all")]
-
         public async Task<IActionResult> GetAllFiles(){
             return _responseService.CreateResponse(await _mediator.Send(new GetAllFilesQuery()));
         }
@@ -34,9 +33,9 @@ namespace SchoolManagement.Api.Controllers
         } 
 
         [HttpGet]
-        [Route("{fileUrl}")]
-        public async Task<IActionResult> GetFile([FromRoute] string fileUrl){
-            return await _mediator.Send(new GetFileQuery(fileUrl));
+        [Route("{fileName}")]
+        public async Task<IActionResult> GetFile([FromRoute] string fileName){
+            return await _mediator.Send(new GetFileQuery(fileName));
         }
     }
 }
