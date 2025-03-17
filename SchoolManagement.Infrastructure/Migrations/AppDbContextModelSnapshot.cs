@@ -247,12 +247,8 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-                    b.Property<string>("TeacherId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
-
-                    b.ToTable("ClassRooms");
+                    b.ToTable("ClassRooms", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Comment", b =>
@@ -283,7 +279,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasIndex("PostId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.HomeWork", b =>
@@ -292,12 +288,12 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("FileUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<Guid>("classRoomId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("fileName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<Guid>("lessonId")
                         .HasColumnType("uniqueidentifier");
@@ -308,14 +304,13 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("HomeWorks");
+                    b.ToTable("HomeWorks", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Lesson", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("ClassRoomId")
                         .HasColumnType("uniqueidentifier");
@@ -344,7 +339,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasIndex("ClassRoomId");
 
-                    b.ToTable("Lessons");
+                    b.ToTable("Lessons", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Parent", b =>
@@ -372,7 +367,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasKey("ParentId");
 
-                    b.ToTable("Parents");
+                    b.ToTable("Parents", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Post", b =>
@@ -403,7 +398,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasIndex("ClassRoomId");
 
-                    b.ToTable("Posts");
+                    b.ToTable("Posts", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.ResetCode", b =>
@@ -426,7 +421,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ResetCodes");
+                    b.ToTable("ResetCodes", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.StudentClassRoom", b =>
@@ -441,7 +436,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasIndex("ClassRoomId");
 
-                    b.ToTable("StudentClassRooms");
+                    b.ToTable("StudentClassRooms", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.UploadedFile", b =>
@@ -466,7 +461,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("UploadedFiles");
+                    b.ToTable("UploadedFiles", (string)null);
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
