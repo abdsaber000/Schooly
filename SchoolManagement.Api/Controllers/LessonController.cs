@@ -6,7 +6,6 @@ using SchoolManagement.Application.Features.Lesson.Command.DeleteLesson;
 using SchoolManagement.Application.Features.Lesson.Command.UpdateLeeson;
 using SchoolManagement.Application.Features.Lesson.Queries.GetAllLessons;
 using SchoolManagement.Application.Features.Lesson.Queries.GetLesson;
-using SchoolManagement.Application.Features.Lesson.Queries.GetUpcomingLessonByUserId;
 using SchoolManagement.Application.Features.Lesson.Queries.JoinLesson;
 using SchoolManagement.Application.Services.ResponseService;
 using SchoolManagement.Domain.Entities;
@@ -41,17 +40,11 @@ public class LessonController : ControllerBase
         return _responseService.CreateResponse(await _mediator.Send(new JoinLessonCommand(id)));
     }
     
-    [HttpGet("classroom-upcoming")]
-    public async Task<IActionResult> GetAllComingLessonsByClassroomId([FromQuery] GetLessonsPagedQuery query)
+    [HttpGet("upcoming")]
+    public async Task<IActionResult> GetAllComingLessons([FromQuery] GetLessonsPagedQuery query)
     {
         return _responseService.CreateResponse(await _mediator.Send(query));
     }
-    [HttpGet("user-upcoming")]
-    public async Task<IActionResult> GetAllComingLessonsByUserId([FromQuery] UpcomingLessonForUserQuery query)
-    {
-        return _responseService.CreateResponse(await _mediator.Send(query));
-    }
-    
     [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetLessonById(Guid id)
