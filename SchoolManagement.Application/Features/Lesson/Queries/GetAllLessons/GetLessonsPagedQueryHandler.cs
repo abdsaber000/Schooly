@@ -16,10 +16,10 @@ public class GetLessonsPagedQueryHandler :IRequestHandler<GetLessonsPagedQuery ,
 
     public async Task<PagedResult<LessonDto>> Handle(GetLessonsPagedQuery request, CancellationToken cancellationToken)
     {
-        var totalCount = await _lessonRepository.GetTotalCountAsync(request.classRoomId ,cancellationToken);
+        var totalCount = await _lessonRepository.GetTotalCountAsyncByClassRoomsId(request.classRoomId ,cancellationToken);
         
         var lessons = await _lessonRepository
-            .GetPagedAsync(request.Page, request.PageSize , request.classRoomId, cancellationToken);
+            .GetPagedAsyncByClassRoomsId(request.Page, request.PageSize , request.classRoomId, cancellationToken);
 
         var lessonsDtos = new List<LessonDto>();
         foreach (var lesson in lessons)
