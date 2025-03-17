@@ -8,10 +8,7 @@ namespace SchoolManagement.Application.Features.Lesson.Queries.GetAllLessons;
 
 public class GetLessonsPagedQuery : IRequest<PagedResult<LessonDto>>
 {
-    [Required]
     public int Page { get; set; } = 1;
-    [Required]
     public int PageSize { get; set; } = 10;
-    [Required]
     public Guid classRoomId { get; set; }
 }

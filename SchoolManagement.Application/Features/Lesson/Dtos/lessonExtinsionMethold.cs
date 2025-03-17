@@ -38,6 +38,7 @@ public static class lessonExtinsionMethold
         return new LessonDto()
         {
             Id = lesson.Id,
+            classRoomId = lesson.ClassRoomId,
             LessonType = lesson.LessonType,
             Title = lesson.Title,
             Subject = lesson.ClassRoom.Subject,

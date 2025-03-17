@@ -40,13 +40,11 @@ public class LessonController : ControllerBase
         return _responseService.CreateResponse(await _mediator.Send(new JoinLessonCommand(id)));
     }
     
-    [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpGet("upcoming")]
     public async Task<IActionResult> GetAllComingLessons([FromQuery] GetLessonsPagedQuery query)
     {
         return _responseService.CreateResponse(await _mediator.Send(query));
     }
-    
     [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetLessonById(Guid id)
