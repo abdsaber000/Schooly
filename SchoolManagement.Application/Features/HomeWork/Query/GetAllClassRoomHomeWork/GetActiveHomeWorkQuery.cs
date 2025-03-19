@@ -9,14 +9,14 @@ using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Features.HomeWork.Query.GetAllClassRoomHomeWork;
 
-public class GetAllClassRoomHomeWorkQuery : IRequest<PagedResult<HomeWorkDto>>
+public class GetActiveHomeWorkQuery : IRequest<PagedResult<HomeWorkDto>>
 {
     public int page { get; set; } = 1;
     public int pageSize { get; set; } = 10;
     public Guid ClassRoomId { get; set; }
 }
 
-public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetAllClassRoomHomeWorkQuery, PagedResult<HomeWorkDto>>
+public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetActiveHomeWorkQuery, PagedResult<HomeWorkDto>>
 {
     private readonly IHomeWorkRepository _homeWorkRepository;
     private readonly IClassRoomRepository _classRoomRepository;
@@ -32,7 +32,7 @@ public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetAllClassRo
         _studentClassRoomRepository = studentClassRoomRepository;
     }
 
-    public async Task<PagedResult<HomeWorkDto>> Handle(GetAllClassRoomHomeWorkQuery request, CancellationToken cancellationToken)
+    public async Task<PagedResult<HomeWorkDto>> Handle(GetActiveHomeWorkQuery request, CancellationToken cancellationToken)
     {
         var user = _httpContextAccessor.HttpContext?.User;
         var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;

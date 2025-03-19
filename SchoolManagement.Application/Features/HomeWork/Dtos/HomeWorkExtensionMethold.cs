@@ -12,12 +12,20 @@ public class HomeWorkDto
 }
 public static class HomeWorkExtensionMethold
 {
+    private static DateTime GetCurrentEgyptTime()
+    {
+        var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
+        var nowEgypt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, egyptTimeZone);
+        return nowEgypt;
+    }
     public static Domain.Entities.HomeWork? ToHomeWork(this AddHomeWorkCommands commands, ApplicationUser teacher)
     {
         return new Domain.Entities.HomeWork()
         {
             Id = new Guid(),
             FileUrl = commands.FileUrl,
+            ToDate = commands.ToDate,
+            FromDate = GetCurrentEgyptTime(),
             classRoomId = commands.classRoomId,
             lessonId = commands.lessonId,
             teacherId = teacher.Id

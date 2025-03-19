@@ -1,13 +1,14 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Localization;
+using SchoolManagement.Application.Features.HomeWork.Dtos;
 using SchoolManagement.Application.Services.FileService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Features.HomeWork.Query.GetHomeWork;
 
-public class GetHomeWorkQuery : IRequest<IActionResult>
+public class GetHomeWorkQuery : IRequest<Result<HomeWorkDto>>
 {
     public string fileName;
     public GetHomeWorkQuery(string fileName)
@@ -16,24 +17,25 @@ public class GetHomeWorkQuery : IRequest<IActionResult>
     }
 }
 
-public class GetHomeWorkQueryHandler : IRequestHandler<GetHomeWorkQuery, IActionResult>
+public class GetHomeWorkQueryHandler : IRequestHandler<GetHomeWorkQuery, Result<HomeWorkDto>>
 {
     private readonly IHomeWorkRepository _homeWorkRepository;
     private readonly IFileService _fileService;
-    public GetHomeWorkQueryHandler(IHomeWorkRepository homeWorkRepository, IFileService fileService)
+    private readonly IStringLocalizer<GetHomeWorkQueryHandler> _localizer;
+    public GetHomeWorkQueryHandler(IHomeWorkRepository homeWorkRepository, IFileService fileService, IStringLocalizer<GetHomeWorkQueryHandler> localizer)
     {
         _homeWorkRepository = homeWorkRepository;
         _fileService = fileService;
+        _localizer = localizer;
     }
-    public async Task<IActionResult> Handle(GetHomeWorkQuery request, CancellationToken cancellationToken)
+    public async Task<Result<HomeWorkDto>> Handle(GetHomeWorkQuery request, CancellationToken cancellationToken)
     {
         var homeWork = await _homeWorkRepository.GetHomeWorkByFileUrl(request.fileName);
         if (homeWork is null)
         {
-            return new NotFoundResult();
+            return Result<HomeWorkDto>.Failure(_localizer["HomeWork not found"]);
         }
 
-        var file = await _fileService.GetFileAsync(homeWork.FileUrl);
-        return file;
+        return Result<HomeWorkDto>.Success(homeWork.ToHomeWorkDto());
     }
 }
