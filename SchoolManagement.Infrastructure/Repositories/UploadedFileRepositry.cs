@@ -24,7 +24,6 @@ public class UploadedFileRepositry : GenericRepository<UploadedFile> , IUploaded
             .FirstOrDefaultAsync(u => u.StoredFileName == fileUrl);
           _appDbContext.UploadedFiles.Remove(uploadeFile);
           await _appDbContext.SaveChangesAsync();
-
     }
 
     public async Task<List<UploadedFile>> GetAllFiles()

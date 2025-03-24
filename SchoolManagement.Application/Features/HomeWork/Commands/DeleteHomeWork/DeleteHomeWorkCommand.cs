@@ -39,8 +39,12 @@ public class DeleteHomeWorkCommandHandler : IRequestHandler<DeleteHomeWorkComman
         {
             return Result<string>.Failure(_localizer["HomeWork not found"]);
         }
-        await _fileService.DeleteFileAsync(homeWork.FileUrl);
         await _homeWorkRepository.Delete(homeWork);
+        var moreHomeWorkWithSameName = await _homeWorkRepository.GetHomeWorkByFileUrl(request.fileUrl);
+        if (moreHomeWorkWithSameName is null)
+        {
+            await _fileService.DeleteFileAsync(homeWork.FileUrl);
+        }
         return Result<string>.SuccessMessage(_localizer["HomeWork deleted successfully"]);
     }
 }

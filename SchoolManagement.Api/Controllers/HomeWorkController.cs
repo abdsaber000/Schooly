@@ -29,10 +29,10 @@ public class HomeWorkController : ControllerBase
       return _responseService.CreateResponse(await _mediator.Send(commands));
    }
 
-   [HttpGet("all")]
-   public async Task<IActionResult> GetAllHomeWork([FromQuery] Guid classRoomId)
+   [HttpGet("active")]
+   public async Task<IActionResult> GetAllHomeWork([FromQuery] GetActiveHomeWorkQuery Query)
    {
-      return _responseService.CreateResponse(await _mediator.Send(new GetAllClassRoomHomeWorkQuery(classRoomId)));
+      return _responseService.CreateResponse(await _mediator.Send(Query));
    }
    
    [HttpDelete]
