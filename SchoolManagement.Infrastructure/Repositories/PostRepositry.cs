@@ -54,7 +54,12 @@ public class PostRepositry : IPostRepositry
 
     public async Task<Post> GetPostById(int id)
     {
-        return await _context.Posts.FirstOrDefaultAsync(p => p.Id == id);
+        return await _context.Posts
+            .Where(post => post.Id == id)
+            .Include(post => post.Comments)
+            .Include(post => post.Author)
+            .Include(post => post.ClassRoom)
+            .FirstOrDefaultAsync();
     }
 
     public async Task<List<Post>> GetPostsByAuthor(string authorId)
@@ -62,6 +67,8 @@ public class PostRepositry : IPostRepositry
         return await _context.Posts
             .Where(post => post.AuthorId == authorId)
             .Include(post => post.Comments)
+            .Include(post => post.Author)
+            .Include(post => post.ClassRoom)
             .ToListAsync();
     }
 
