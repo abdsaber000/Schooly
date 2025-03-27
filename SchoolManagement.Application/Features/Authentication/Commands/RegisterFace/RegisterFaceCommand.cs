@@ -9,7 +9,7 @@ namespace SchoolManagement.Application.Features.Authentication.Commands.Register
 public class RegisterFaceCommand : IRequest<Result<string>>
 {
     public string UserId { get; set; } = string.Empty;
-    required public IFormFile image { get; set; }
+    required public IFormFile Image { get; set; }
 }
 
 public class RegisterFaceCommandHandler : IRequestHandler<RegisterFaceCommand, Result<string>>
@@ -21,7 +21,7 @@ public class RegisterFaceCommandHandler : IRequestHandler<RegisterFaceCommand, R
     }
     public async Task<Result<string>> Handle(RegisterFaceCommand request, CancellationToken cancellationToken)
     {
-        var result = await _faceRecognitionService.RegisterFaceAsync(request.UserId , request.image);
+        var result = await _faceRecognitionService.RegisterFaceAsync(request.UserId , request.Image);
         return result ? Result<string>.SuccessMessage("Face is registered successfully.") : Result<string>.Failure("Face registration failed.");
     }
 }

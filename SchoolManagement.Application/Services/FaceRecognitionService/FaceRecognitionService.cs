@@ -4,6 +4,17 @@ using Newtonsoft.Json;
 
 namespace SchoolManagement.Application.Services.FaceRecognitionService;
 
+public class DataItem
+{
+    public string user_id { get; set; } = string.Empty;
+}
+
+public class RootObject
+{
+    public DataItem? data { get; set; } 
+    public string? message {get; set;}
+}
+
 public class FaceRecognitionService : IFaceRecognitionService
 {
     private readonly string _registerUrl;
@@ -37,16 +48,19 @@ public class FaceRecognitionService : IFaceRecognitionService
         form.Add(imageContent, "image", image.FileName);
         
         var response = await httpClient.PostAsync(_verifyUrl, form);
-        response.EnsureSuccessStatusCode();
+        // response.EnsureSuccessStatusCode();
         
         var responseContent = await response.Content.ReadAsStringAsync();
         
-        var userIdDict = JsonConvert.DeserializeObject<Dictionary<string, string>>(responseContent);
-        var userId = userIdDict != null && userIdDict.ContainsKey("user_id") ? userIdDict["user_id"] : "";
+        var userIdDict = JsonConvert.DeserializeObject<RootObject>(responseContent);
         
+        var userId = userIdDict != null && userIdDict.data != null ? userIdDict.data.user_id : "";
+        var errorMessage = userIdDict != null && userIdDict.message != null ? userIdDict.message : "";
+
         return new FaceRecognitionServiceDto (){
             StudentId = userId,
-            IsSuccess = response.IsSuccessStatusCode
+            IsSuccess = response.IsSuccessStatusCode,
+            ErrorMessage = errorMessage
         };
         
     }
