@@ -27,13 +27,12 @@ public class DeleteClassRoomCommandHnadler : IRequestHandler<DeleteClassRoomComm
 
     public async Task<Result<string>> Handle(DeleteClassRoomCommand request, CancellationToken cancellationToken)
     {
-        var classRoom = await _classRoomRepository.GetClassRoomById(request.id);
+        var classRoom = await _classRoomRepository.GetByIdAsync(request.id);
         if (classRoom is null)
         {
             return Result<string>.Failure(_localizer["There is no class with this id"]);
         }
-        await _classRoomRepository.DeleteClassRoom(request.id);
-        await _classRoomRepository.SaveChange();
+        await _classRoomRepository.Delete(classRoom);
         
         return Result<string>.SuccessMessage(_localizer["Class Room Deleted Successfully"]);
     }

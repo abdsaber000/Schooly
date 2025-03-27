@@ -16,5 +16,6 @@ namespace SchoolManagement.Domain.Entities
         public DateOnly DateOfJoining { get; set; }
         public Department Department { get; set; }
         public Grade Grade { get; set; }
+        public ICollection<StudentClassRoom> StudentClassRooms { get; set; }
     }
 }

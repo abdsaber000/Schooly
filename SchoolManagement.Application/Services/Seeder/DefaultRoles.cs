@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SchoolManagement.Domain.Entities;
 
-namespace SchoolManagement.Infrastructure.Seeder;
+namespace SchoolManagement.Application.Services.Seeder;
 
 public static class DefaultRoles
 {
@@ -9,9 +9,9 @@ public static class DefaultRoles
     {
         if (!roleManager.Roles.Any())
         {
-           await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
-           await roleManager.CreateAsync(new IdentityRole(Roles.Teacher));
-           await roleManager.CreateAsync(new IdentityRole(Roles.Student));
+            await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
+            await roleManager.CreateAsync(new IdentityRole(Roles.Teacher));
+            await roleManager.CreateAsync(new IdentityRole(Roles.Student));
         }
     }
 }

@@ -27,12 +27,10 @@ namespace SchoolManagement.Infrastructure.Repositories
         {
             return await _appDbContext.Set<T>().ToListAsync();
         }
-
-        public async Task<T?> GetByIdAsync(int id)
+        public async Task<T?> GetByIdAsync<TKey>(TKey id)
         {
             return await _appDbContext.Set<T>().FindAsync(id);
         }
-
         public async Task AddAsync(T entity)
         {
             await _appDbContext.Set<T>().AddAsync(entity);

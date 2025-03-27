@@ -1,3 +1,4 @@
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using SchoolManagement.Domain.Enums;
 
@@ -5,7 +6,8 @@ namespace SchoolManagement.Domain.Entities;
 
 public class Lesson
 {
-    public string Id { get; set; }
+    [Key]
+    public Guid Id { get; set; }
     public string TeacherId { get; set; } = string.Empty;
     
     [ForeignKey("ClassRooms")] 

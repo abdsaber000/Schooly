@@ -5,16 +5,19 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Application.Features.Post.Dtos;
 using Post = Domain.Entities.Post;
+using ClassRoom = Domain.Entities.ClassRoom;
 static public class PostExtensionMethod
 {
     public static Post ToPost(this CreatePostCommand command
-        , ApplicationUser author)
+        , ApplicationUser author
+        , ClassRoom classRoom)
     {
         return new Post()
         {
             Content = command.Content,
             AuthorId = author.Id,
-            Author = author
+            Author = author,
+            ClassRoom = classRoom
         };
     }
 
@@ -23,10 +26,15 @@ static public class PostExtensionMethod
             Id = post.Id,
             Content = post.Content,
             CreatedAt = post.CreatedAt,
+            ClassRoomId = post.ClassRoom.Id,
+            AuthorId = post.Author.Id,
+            AuthorName = post.Author.Name,
             Comments = post.Comments.Select(comment => new CommentsDto(){
                 Id = comment.Id,
                 Content = comment.Content,
-                CreatedAt = comment.CreatedAt
+                CreatedAt = comment.CreatedAt,
+                AuthorId = comment.AuthorId,
+                AuthorName = comment.Author.Name
             })
             .OrderBy(c => c.CreatedAt)
             .ToList()
