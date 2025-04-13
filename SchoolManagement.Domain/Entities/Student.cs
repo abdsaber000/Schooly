@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SchoolManagement.Domain.Enums;
+using SchoolManagement.Domain.Enums.User;
 
 namespace SchoolManagement.Domain.Entities
 {
@@ -17,5 +18,6 @@ namespace SchoolManagement.Domain.Entities
         public Department Department { get; set; }
         public Grade Grade { get; set; }
         public ICollection<StudentClassRoom> StudentClassRooms { get; set; }
+        public override Role Role { get; set; } = Role.Student;
     }
 }
