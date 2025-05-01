@@ -34,10 +34,10 @@ public class LessonController : ControllerBase
     }
     
     [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
-    [HttpPost("join/{id}")]
-    public async Task<IActionResult> Join(Guid id)
+    [HttpPost("join")]
+    public async Task<IActionResult> Join(JoinLessonCommand command)
     {
-        return _responseService.CreateResponse(await _mediator.Send(new JoinLessonCommand(id)));
+        return _responseService.CreateResponse(await _mediator.Send(command));
     }
     
     [HttpGet("upcoming")]

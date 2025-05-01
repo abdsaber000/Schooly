@@ -68,5 +68,6 @@
     "Invalid email format.": "البريد الإلكتروني غير صالح",
     "Verification code is required": "رمز التحقق مطلوب",
     "Verification code must contain only numbers": "يجب أن يحتوي رمز التحقق على أرقام فقط",
-    "Verification code must be exactly 6 digits": "يجب أن يكون رمز التحقق مكونًا من 6 أرقام"
+    "Verification code must be exactly 6 digits": "يجب أن يكون رمز التحقق مكونًا من 6 أرقام",
+    "Faild to join lesson": "فشل في دخول الحصة"
 }
