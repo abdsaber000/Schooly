@@ -1,5 +1,6 @@
 using SchoolManagement.Application.Features.Authentication.Commands.Login;
 using SchoolManagement.Application.Features.Authentication.Commands.Register;
+using SchoolManagement.Application.Features.Authentication.Commands.VerifyFace;
 using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Application.Features.Authentication.Dtos;
@@ -50,6 +51,18 @@ public static class StudentExtensionMetholdauth
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
+            Role = user.Role
+        };
+    }
+
+    public static VerifyFaceCommandDto ToVerifyFaceCommandDto(this ApplicationUser user)
+    {
+        return new VerifyFaceCommandDto()
+        {
+            UserId = user.Id,
+            Name = user.Name,
+            Email = user.Email,
+            Gender = user.Gender,
             Role = user.Role
         };
     }
