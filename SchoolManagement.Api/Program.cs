@@ -22,6 +22,12 @@ using SchoolManagement.Application.Services.FaceRecognitionService;
 using SchoolManagement.Application.Services.FileService;
 using SchoolManagement.Application.Services.Seeder;
 using Microsoft.AspNetCore.Mvc;
+using System.Text.Json.Serialization;
+using System.Reflection;
+using Microsoft.OpenApi.Any;
+using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.SwaggerGen;
+using SchoolManagement.Api.swagger;
 
 
 
@@ -72,6 +78,8 @@ builder.Services.AddCors(options =>
 
 #region Configure Swagger
 
+
+
 builder.Services.AddSwaggerGen(c =>
 {
     c.AddSecurityDefinition("Bearer", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
@@ -82,6 +90,9 @@ builder.Services.AddSwaggerGen(c =>
         Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
         Scheme = "Bearer"
     });
+
+
+    c.SchemaFilter<EnumSchemaFilter>();
 
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
     {
