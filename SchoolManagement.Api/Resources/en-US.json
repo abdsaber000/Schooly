@@ -68,5 +68,6 @@
     "Invalid email format.": "Invalid email format.",
     "Verification code is required": "Verification code is required",
     "Verification code must contain only numbers": "Verification code must contain only numbers",
-    "Verification code must be exactly 6 digits": "Verification code must be exactly 6 digits"
+    "Verification code must be exactly 6 digits": "Verification code must be exactly 6 digits",
+    "Faild to join lesson" : "Faild to join lesson"
 }
