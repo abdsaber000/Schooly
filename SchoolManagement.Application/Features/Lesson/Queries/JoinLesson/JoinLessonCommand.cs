@@ -47,7 +47,7 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
 
         if (result.StudentId != userId)
         {
-            return Result<JoinLessonDto>.Failure(_localizer["Faild to join lesson"]);
+            return Result<JoinLessonDto>.Failure("You are not authorized to join this lesson.");
         }
         var lesson = await _lessonRepository.GetByIdAsync(request.Id);
         if (lesson is null)
