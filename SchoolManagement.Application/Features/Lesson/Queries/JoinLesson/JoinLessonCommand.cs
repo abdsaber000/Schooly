@@ -40,8 +40,12 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
         var user = _httpContextAccessor.HttpContext?.User;
         var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-        var existUser = await _faceRecognitionService.VerifyFaceAsync(request.image);
-        if (existUser.StudentId != userId)
+        var result = await _faceRecognitionService.VerifyFaceAsync(request.image);
+        if(!result.IsSuccess){
+            return Result<JoinLessonDto>.Failure(result.ErrorMessage);
+        }
+
+        if (result.StudentId != userId)
         {
             return Result<JoinLessonDto>.Failure(_localizer["Faild to join lesson"]);
         }
