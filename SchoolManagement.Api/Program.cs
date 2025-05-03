@@ -29,6 +29,7 @@ using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using SchoolManagement.Api.swagger;
 using SchoolManagement.Application.Jobs;
+using SchoolManagement.Api.Middlewares;
 
 
 
@@ -252,6 +253,8 @@ app.UseCors("AllowAll");
 app.UseRequestLocalization(localizationOptions);
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<CustomAuthorizationMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
