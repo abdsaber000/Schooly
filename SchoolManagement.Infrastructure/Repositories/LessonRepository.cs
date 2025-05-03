@@ -125,4 +125,14 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
                               (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
             .CountAsync();
     }
+
+    public bool DeleteExpiredLessons()
+    {
+        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
+        var result =  _appDbContext.Lessons
+            .Where(lesson =>    lesson.Date < todayEgypt ||
+                                (lesson.Date == todayEgypt && lesson.From <= currentTimeEgypt));
+        _appDbContext.Lessons.RemoveRange(result);    
+        return true;
+    }
 }

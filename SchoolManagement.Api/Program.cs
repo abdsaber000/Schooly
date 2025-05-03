@@ -28,6 +28,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using SchoolManagement.Api.swagger;
+using SchoolManagement.Application.Jobs;
 
 
 
@@ -154,6 +155,12 @@ builder.Services.AddScoped<IHomeWorkRepository, HomeWorkRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddTransient<IResetCodeRepository, ResetCodeRepository>();
 builder.Services.AddScoped<IStudentClassRoomRepository, StudentClassRoomRepository>();
+
+#endregion
+
+#region Injecting background jobs
+
+builder.Services.AddHostedService<DeleteExpiredLessonsJob>();
 
 #endregion
 
