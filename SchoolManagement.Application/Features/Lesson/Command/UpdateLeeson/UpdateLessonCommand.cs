@@ -8,7 +8,7 @@ namespace SchoolManagement.Application.Features.Lesson.Command.UpdateLeeson;
 public class UpdateLessonCommand : IRequest<Result<string>>
 {
     [Required]
-    public string Id { get; set; } = string.Empty;
+    public Guid Id { get; set; }
     
     [Required]
     public Guid ClassRoomId { get; set; }

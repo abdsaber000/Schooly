@@ -7,11 +7,13 @@ using SchoolManagement.Domain.Interfaces.IRepositories;
 namespace SchoolManagement.Application.Features.Student.Queries.GetAllStudent;
 public class GetStudentsPagedQueryHandler : IRequestHandler<GetStudentsPagedQuery, PagedResult<StudentDto>> 
 {
-    private readonly IGenericRepository<Domain.Entities.Student> _studentRepository;
-    public GetStudentsPagedQueryHandler( IGenericRepository<Domain.Entities.Student> studentRepository)
+    private readonly IStudentRepository _studentRepository;
+
+    public GetStudentsPagedQueryHandler(IStudentRepository studentRepository)
     {
         _studentRepository = studentRepository;
     }
+
     public async Task<PagedResult<StudentDto>>Handle(GetStudentsPagedQuery request, CancellationToken cancellationToken)
     {
         var totalCount = await _studentRepository.GetTotalCountAsync(cancellationToken);

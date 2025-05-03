@@ -6,6 +6,7 @@ using SchoolManagement.Application.Features.Comment.Command.CreateComment;
 using SchoolManagement.Application.Features.Comment.Command.DeleteComment;
 using SchoolManagement.Application.Features.Comment.Command.UpdateComment;
 using SchoolManagement.Application.Features.Comment.Query.GetAllQuery;
+using SchoolManagement.Application.Features.Comment.Query.GetCommentsByPostQuery;
 using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers
@@ -24,8 +25,15 @@ namespace SchoolManagement.Api.Controllers
         }
 
         [HttpGet]
+        [Route("all")]
         public async Task<IActionResult> GetAllComments([FromQuery] GetAllCommentsPagedQuery query){
             return _responseService.CreateResponse(await _mediator.Send(query));
+        }
+
+        [HttpGet]
+        [Route("post/{postId:int}")]
+        public async Task<IActionResult> GetCommentsByPost([FromRoute] int postId, [FromQuery] int page = 1, [FromQuery] int pageSize = 10){
+            return _responseService.CreateResponse(await _mediator.Send(new GetCommentsByPostQuery(page, pageSize, postId)));   
         }
 
         [HttpPost]

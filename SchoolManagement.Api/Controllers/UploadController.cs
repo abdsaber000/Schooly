@@ -23,13 +23,11 @@ namespace SchoolManagement.Api.Controllers
 
         [HttpGet]
         [Route("all")]
-
         public async Task<IActionResult> GetAllFiles(){
             return _responseService.CreateResponse(await _mediator.Send(new GetAllFilesQuery()));
         }
 
         [HttpPost]
-        [Route("upload")]
         public async Task<IActionResult> UploadFile(UploadFileCommand command){
             return _responseService.CreateResponse(await _mediator.Send(command));
         } 

@@ -2,7 +2,9 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.ClassRoom.Command.AddClassRoom;
+using SchoolManagement.Application.Features.ClassRoom.Command.AssignStudentToClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Command.DeleteClassRoom;
+using SchoolManagement.Application.Features.ClassRoom.Command.RemoveStudentFromClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Command.UpdateClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Queries.GetAllClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Queries.GetClassRoomById;
@@ -63,5 +65,21 @@ public class ClassRoomController : ControllerBase
     {
         var respons = await _mediator.Send(new  DeleteClassRoomCommand(id));
         return _responseService.CreateResponse(respons);
+    }
+    
+    [Authorize(Roles = Roles.Teacher)]
+    [HttpPost]
+    [Route("assign")]
+    public async Task<IActionResult> AssignStudentToClassRoom([FromQuery] AssignStudentToClassRoomCommand command)
+    {
+        return _responseService.CreateResponse(await _mediator.Send(command));
+    }
+    
+    [Authorize(Roles = Roles.Teacher)]
+    [HttpDelete]
+    [Route("unassign")]
+    public async Task<IActionResult> RemoveStudentFromClassRoom([FromQuery] RemoveStudentFromClassRoomCommand command)
+    {
+        return _responseService.CreateResponse(await _mediator.Send(command));
     }
 }

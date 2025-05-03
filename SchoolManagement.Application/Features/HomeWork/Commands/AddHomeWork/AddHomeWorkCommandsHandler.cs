@@ -19,22 +19,38 @@ public class AddHomeWorkCommandsHandler : IRequestHandler<AddHomeWorkCommands , 
     private readonly IStringLocalizer<AddHomeWorkCommandsHandler> _localizer;
     private readonly IHttpContextAccessor _httpContextAccessor;
     private readonly UserManager<ApplicationUser> _userManager;
+    private readonly ILessonRepository _lessonRepository;
+    private readonly IClassRoomRepository _classRoomRepository;
+    private readonly IUploadedFileRepositry _uploadedFileRepositry;
 
-    public AddHomeWorkCommandsHandler(IFileService fileService, IHomeWorkRepository homeWorkRepository, IStringLocalizer<AddHomeWorkCommandsHandler> localizer, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager)
+    public AddHomeWorkCommandsHandler(IHomeWorkRepository homeWorkRepository, IStringLocalizer<AddHomeWorkCommandsHandler> localizer, IHttpContextAccessor httpContextAccessor, UserManager<ApplicationUser> userManager, IClassRoomRepository classRoomRepository, ILessonRepository lessonRepository, IUploadedFileRepositry uploadedFileRepositry)
     {
-        _fileService = fileService;
         _homeWorkRepository = homeWorkRepository;
         _localizer = localizer;
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
+        _classRoomRepository = classRoomRepository;
+        _lessonRepository = lessonRepository;
+        _uploadedFileRepositry = uploadedFileRepositry;
     }
     
     public async Task<Result<string>> Handle(AddHomeWorkCommands request, CancellationToken cancellationToken)
     {
-        var fileName = await _fileService.UploadFile(request.file);
+        var lesson = await _lessonRepository.GetByIdAsync(request.lessonId);
+        var classRoom = await _classRoomRepository.GetByIdAsync(request.classRoomId);
+        if (lesson is null)
+        {
+            return Result<string>.Failure(_localizer["Lesson not found."]);
+        }
+        if (classRoom is null)
+        {
+            return Result<string>.Failure(_localizer["Classroom not found"]);
+        }
         var teacher = _userManager.GetUserAsync(_httpContextAccessor?.HttpContext.User).Result;
-        var homeWork = request.ToHomeWork(teacher, fileName);
-        await _homeWorkRepository.AddHomeWork(homeWork);
+        var homeWork = request.ToHomeWork(teacher);
+        var file = await _uploadedFileRepositry.GetFileByName(request.FileUrl);
+        homeWork.fileName = file.FileName;
+        await _homeWorkRepository.AddAsync(homeWork);
         return Result<string>.SuccessMessage(_localizer["Homework added Successfully"]);
     }
 }

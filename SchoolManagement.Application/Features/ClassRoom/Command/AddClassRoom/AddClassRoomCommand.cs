@@ -1,5 +1,7 @@
 using System.ComponentModel.DataAnnotations;
+using System.Security.Claims;
 using MediatR;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using SchoolManagement.Application.Features.ClassRoom.Dtos;
 using SchoolManagement.Application.Shared;
@@ -20,18 +22,21 @@ public class AddClassRoomCommandHandler:IRequestHandler<AddClassRoomCommand , Re
 {
     private readonly IClassRoomRepository _classRoomRepository;
     private readonly IStringLocalizer<AddClassRoomCommandHandler> _localizer;
-    
-    public AddClassRoomCommandHandler(IClassRoomRepository classRoomRepository, IStringLocalizer<AddClassRoomCommandHandler> localizer)
+    private readonly IHttpContextAccessor _httpContextAccessor;
+    public AddClassRoomCommandHandler(IClassRoomRepository classRoomRepository, IStringLocalizer<AddClassRoomCommandHandler> localizer, IHttpContextAccessor httpContextAccessor)
     {
         _classRoomRepository = classRoomRepository;
         _localizer = localizer;
+        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Result<string>> Handle(AddClassRoomCommand request, CancellationToken cancellationToken)
     {
         var classRoom = request.ToClassRooms();
-        await _classRoomRepository.AddClassRoom(classRoom);
-        await _classRoomRepository.SaveChange();
+        var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
+        var teacherId = userIdClaim.Value;
+        classRoom.TeacherId = teacherId;
+        await _classRoomRepository.AddAsync(classRoom);
 
         return Result<string>.SuccessMessage(_localizer["Class Room Created successfully"]);
     }

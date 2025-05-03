@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SchoolManagement.Domain.Enums.User;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace SchoolManagement.Domain.Entities
 {
     public class Teacher : ApplicationUser
     {
-        
+        public override Role Role { get; set; } = Role.Teacher;
     }
 }

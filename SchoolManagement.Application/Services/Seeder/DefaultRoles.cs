@@ -9,9 +9,9 @@ public static class DefaultRoles
     {
         if (!roleManager.Roles.Any())
         {
-           await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
-           await roleManager.CreateAsync(new IdentityRole(Roles.Teacher));
-           await roleManager.CreateAsync(new IdentityRole(Roles.Student));
+            await roleManager.CreateAsync(new IdentityRole(Roles.Admin));
+            await roleManager.CreateAsync(new IdentityRole(Roles.Teacher));
+            await roleManager.CreateAsync(new IdentityRole(Roles.Student));
         }
     }
 }

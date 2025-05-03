@@ -5,39 +5,84 @@ using SchoolManagement.Infrastructure.DbContext;
 
 namespace SchoolManagement.Infrastructure.Repositories;
 
-public class HomeWorkRepository : IHomeWorkRepository
+public class HomeWorkRepository : GenericRepository<HomeWork> , IHomeWorkRepository
 {
-    public readonly AppDbContext _context;
-
-    public HomeWorkRepository(AppDbContext context)
+    public readonly AppDbContext _appDbContext;
+    public HomeWorkRepository(AppDbContext appDbContext) : base(appDbContext)
     {
-        _context = context;
+        _appDbContext = appDbContext;
     }
-    
-    public async Task AddHomeWork(HomeWork? homeWork)
+    private DateTime GetCurrentEgyptTime()
     {
-        await _context.HomeWorks.AddAsync(homeWork);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<List<HomeWork>> GetAllClassRoomHomeWork(Guid classRoomId)
-    {
-        return await _context.HomeWorks
-            .Where(c => c.classRoomId == classRoomId).ToListAsync();
+        var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
+        var nowEgypt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, egyptTimeZone);
+        return nowEgypt;
     }
 
-    public async Task<HomeWork?> GetHomeWork(Guid homeWorkId)
+    public async Task<int> GetTotalCountAsyncByClassRoomId(Guid classRoomId, CancellationToken cancellationToken = default)
     {
-        return await _context.HomeWorks.FindAsync(homeWorkId);
+        var currentDateTimeEgypt = GetCurrentEgyptTime();
+       return await _appDbContext.HomeWorks.Where(hw => hw.classRoomId == classRoomId && hw.ToDate > currentDateTimeEgypt)
+           .CountAsync(cancellationToken);
     }
 
-    public async Task DeleteHomeWork(Guid homeWorkId)
+    public async Task<List<HomeWork>> GetAllActiveHomeWorkByClassRoomId(int page, int pageSize, Guid classRoomId)
     {
-        var homeWork = await _context.HomeWorks.FindAsync(homeWorkId);
-        if (homeWorkId != null)
-        {
-             _context.HomeWorks.Remove(homeWork);
-            await _context.SaveChangesAsync();
-        }
+        var currentDateTimeEgypt = GetCurrentEgyptTime();
+        return await _appDbContext.HomeWorks
+            .Where(hw => hw.classRoomId == classRoomId && hw.ToDate > currentDateTimeEgypt)
+            .Include(hw => hw.Lesson)
+            .OrderBy(hw => hw.Lesson.Date)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+
+    public async Task<HomeWork> GetHomeWorkByFileUrl(string fileUrl)
+    {
+        return await _appDbContext.HomeWorks.FirstOrDefaultAsync(h => h.FileUrl == fileUrl);
+    }
+
+    public async Task<int> GetTotalCountAsyncByTeacherId(string teacherId, CancellationToken cancellationToken = default)
+    {
+        var currentDateTimeEgypt = GetCurrentEgyptTime();
+
+        return await _appDbContext.HomeWorks
+            .CountAsync(hw => hw.teacherId == teacherId && hw.ToDate > currentDateTimeEgypt, cancellationToken);
+    }
+
+    public async Task<List<HomeWork>> GetActiveHomeWorksByTeacherId(int page, int pageSize, string teacherId)
+    {
+        var currentDateTimeEgypt = GetCurrentEgyptTime();
+        return await _appDbContext.HomeWorks
+            .Where(hw => hw.teacherId == teacherId && hw.ToDate > currentDateTimeEgypt)
+            .Include(hw => hw.Lesson)
+            .OrderBy(hw => hw.Lesson.Date)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
+    }
+
+    public async Task<int> GetTotalCountAsyncByClassRoomsId(List<Guid> classRoomIds)
+    {
+        var currentDateTimeEgypt = GetCurrentEgyptTime();
+
+        return await _appDbContext.HomeWorks
+            .Where(hw => classRoomIds.Contains(hw.classRoomId) 
+                         && hw.ToDate > currentDateTimeEgypt)
+            .CountAsync();
+    }
+
+    public async Task<List<HomeWork>> GetActiveHomeWorksByClassRoomIds(List<Guid> classRoomIds, int page, int pageSize)
+    {
+        var currentDateTimeEgypt = GetCurrentEgyptTime();
+
+        return await _appDbContext.HomeWorks
+            .Where(hw => classRoomIds.Contains(hw.classRoomId) && hw.ToDate > currentDateTimeEgypt)
+            .Include(hw => hw.Lesson)
+            .OrderBy(hw => hw.Lesson.Date)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync();
     }
 }

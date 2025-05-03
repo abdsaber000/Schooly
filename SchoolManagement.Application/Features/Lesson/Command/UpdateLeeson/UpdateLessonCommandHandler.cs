@@ -19,14 +19,13 @@ public class UpdateLessonCommandHandler:IRequestHandler<UpdateLessonCommand , Re
 
     public async Task<Result<string>> Handle(UpdateLessonCommand request, CancellationToken cancellationToken)
     {
-        var lesson = await _lessonRepository.GetLessonById(request.Id);
+        var lesson = await _lessonRepository.GetByIdAsync(request.Id);
         if (lesson is null)
         {
             return Result<string>.Failure(_localizer["Lesson not found."]);
         }
         var updatedLesson = request.ToUpdatedLesson();
         await _lessonRepository.Update(updatedLesson);
-        await _lessonRepository.SaveChanges();
         
         return Result<string>.SuccessMessage(_localizer["Lesson updated successfully"]);
     }
