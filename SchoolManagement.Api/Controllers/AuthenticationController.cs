@@ -35,9 +35,28 @@ public class AuthenticationController : ControllerBase
 
     [HttpPost]
     [Route("login")]
-    public async Task<IActionResult> Login([FromBody] LoginUserCommand command)
+    public async Task<IActionResult> Login([FromBody] LoginUserCommand request)
     {
-        return _responseService.CreateResponse(await _mediator.Send(command));
+        var result = await _mediator.Send(request);
+
+        if (!result.IsSuccess)
+            return StatusCode((int)result.StatusCode, new { message = result.Message });
+        
+        var token = result.Data.Token;
+
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Secure = true, 
+            SameSite = SameSiteMode.Strict,
+            Expires = request.RememberMe
+                ? DateTimeOffset.UtcNow.AddDays(30)
+                : DateTimeOffset.UtcNow.AddHours(1)
+        };
+
+        Response.Cookies.Append("jwt_token", token, cookieOptions);
+        
+        return Ok(result.Data); 
     }
 
     [HttpPost]

@@ -54,6 +54,7 @@ public class Result<T>
     {
         return new Result<T>()
         {
+            IsSuccess = false,
             Message = message,
             StatusCode = statusCode
         };
