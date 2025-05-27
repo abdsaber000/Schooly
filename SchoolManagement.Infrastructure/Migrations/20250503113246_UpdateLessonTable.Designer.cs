@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagement.Infrastructure.DbContext;
 
@@ -11,9 +12,11 @@ using SchoolManagement.Infrastructure.DbContext;
 namespace SchoolManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250503113246_UpdateLessonTable")]
+    partial class UpdateLessonTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -207,9 +210,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -237,7 +237,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.ClassRoom", b =>
                 {
-                    b.Property<Guid>("Id")
+                    b.Property<Guid>("ClassRoomId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
@@ -249,11 +249,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("TeacherId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
+                    b.HasKey("ClassRoomId");
 
                     b.ToTable("ClassRooms");
                 });
@@ -295,16 +291,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("FileUrl")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FromDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("ToDate")
-                        .HasColumnType("datetime2");
-
                     b.Property<Guid>("classRoomId")
                         .HasColumnType("uniqueidentifier");
 
@@ -321,16 +307,13 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("lessonId");
-
                     b.ToTable("HomeWorks");
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Lesson", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<Guid>("ClassRoomId")
                         .HasColumnType("uniqueidentifier");
@@ -346,7 +329,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.Property<string>("TeacherId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -358,6 +341,8 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ClassRoomId");
+
+                    b.HasIndex("TeacherId");
 
                     b.ToTable("Lessons");
                 });
@@ -402,9 +387,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<Guid>("ClassRoomId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -416,46 +398,7 @@ namespace SchoolManagement.Infrastructure.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("ClassRoomId");
-
                     b.ToTable("Posts");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.ResetCode", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("ExpirationTime")
-                        .HasColumnType("datetime2");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("ResetCodes");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.StudentClassRoom", b =>
-                {
-                    b.Property<string>("StudentId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("ClassRoomId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("StudentId", "ClassRoomId");
-
-                    b.HasIndex("ClassRoomId");
-
-                    b.ToTable("StudentClassRooms");
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.UploadedFile", b =>
@@ -590,17 +533,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.HomeWork", b =>
-                {
-                    b.HasOne("SchoolManagement.Domain.Entities.Lesson", "Lesson")
-                        .WithMany()
-                        .HasForeignKey("lessonId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Lesson");
-                });
-
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Lesson", b =>
                 {
                     b.HasOne("SchoolManagement.Domain.Entities.ClassRoom", "ClassRoom")
@@ -609,7 +541,15 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("SchoolManagement.Domain.Entities.Teacher", "Teacher")
+                        .WithMany()
+                        .HasForeignKey("TeacherId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("ClassRoom");
+
+                    b.Navigation("Teacher");
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Post", b =>
@@ -620,34 +560,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.ClientCascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolManagement.Domain.Entities.ClassRoom", "ClassRoom")
-                        .WithMany("Posts")
-                        .HasForeignKey("ClassRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("Author");
-
-                    b.Navigation("ClassRoom");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.StudentClassRoom", b =>
-                {
-                    b.HasOne("SchoolManagement.Domain.Entities.ClassRoom", "ClassRoom")
-                        .WithMany("StudentClassRooms")
-                        .HasForeignKey("ClassRoomId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SchoolManagement.Domain.Entities.Student", "Student")
-                        .WithMany("StudentClassRooms")
-                        .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("ClassRoom");
-
-                    b.Navigation("Student");
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
@@ -683,21 +596,9 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Navigation("Posts");
                 });
 
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.ClassRoom", b =>
-                {
-                    b.Navigation("Posts");
-
-                    b.Navigation("StudentClassRooms");
-                });
-
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Post", b =>
                 {
                     b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
-                {
-                    b.Navigation("StudentClassRooms");
                 });
 #pragma warning restore 612, 618
         }

@@ -8,7 +8,10 @@ public class Lesson
 {
     [Key]
     public Guid Id { get; set; }
+    
+    [ForeignKey("Teacher")]
     public string TeacherId { get; set; } = string.Empty;
+    public Teacher Teacher { get; set; }
     
     [ForeignKey("ClassRooms")] 
     public Guid ClassRoomId { get; set; }

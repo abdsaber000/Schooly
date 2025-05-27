@@ -44,6 +44,7 @@ public static class lessonExtinsionMethold
             Subject = lesson.ClassRoom.Subject,
             Grade = lesson.ClassRoom.Grade,
             TeacherId = lesson.TeacherId,
+            TeacherName = lesson.Teacher.Name,
             Date = lesson.Date,
             From = lesson.From,
             To = lesson.To

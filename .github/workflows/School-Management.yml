@@ -1,5 +1,8 @@
 name: Build, publish and deploy to MonsterASP.NET
-on: [push]
+on:
+  push:
+    branches:
+    - main
 
 env:
   AZURE_WEBAPP_NAME: School-Management

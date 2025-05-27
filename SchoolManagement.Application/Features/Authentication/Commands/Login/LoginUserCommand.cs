@@ -36,11 +36,16 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
         var existUser = await _userManager.FindByEmailAsync(request.Email);
         var isCorrectPassword = existUser != null 
                                 && await _userManager.CheckPasswordAsync(existUser, request.Password);
+        
         if (existUser is null || !isCorrectPassword )
         {
             return Result<LoginDto>.Failure(_localizer["Invalid Credentials."] , HttpStatusCode.Unauthorized);
         }
         var token = await _tokenService.GenerateToken(existUser, request.RememberMe);
-        return Result<LoginDto>.Success(existUser.ToLoginDto(), token);
+        
+        var loginDto = existUser.ToLoginDto();
+        loginDto.Token = token;
+        
+        return Result<LoginDto>.Success(loginDto);
     }
 }
