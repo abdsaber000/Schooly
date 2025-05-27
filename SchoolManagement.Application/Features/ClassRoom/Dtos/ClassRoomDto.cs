@@ -8,6 +8,7 @@ namespace SchoolManagement.Application.Features.ClassRoom.Dtos;
 public  class ClassRoomDto
 {
     public Guid Id { get; set; }
+    public string TeacherId { get; set; }
     public string Subject { get; set; } = string.Empty;
     public string Grade { get; set; } = string.Empty;
 }
@@ -18,7 +19,7 @@ public static class classRoomExtensionMethold
     {
         return new Domain.Entities.ClassRoom()
         {
-            ClassRoomId = new Guid(),
+            Id = new Guid(),
             Grade = Command.Grade,
             Subject = Command.Subject
         };
@@ -27,7 +28,7 @@ public static class classRoomExtensionMethold
     {
         return new Domain.Entities.ClassRoom()
         {
-            ClassRoomId = Command.id,
+            Id = Command.id,
             Grade = Command.Grade,
             Subject = Command.Subject
         };
@@ -36,7 +37,8 @@ public static class classRoomExtensionMethold
     {
         return new ClassRoomDto()
         {
-            Id = classRooms.ClassRoomId,
+            Id = classRooms.Id,
+            TeacherId = classRooms.TeacherId,
             Grade = classRooms.Grade,
             Subject = classRooms.Subject
         };

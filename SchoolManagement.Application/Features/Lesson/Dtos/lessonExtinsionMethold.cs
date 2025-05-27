@@ -10,7 +10,7 @@ public static class lessonExtinsionMethold
     {
         return new Domain.Entities.Lesson()
         {
-            Id = Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid(),
             ClassRoomId = command.ClassRoomId,
             Title = command.Title,
             LessonType = command.LessonType,
@@ -30,6 +30,24 @@ public static class lessonExtinsionMethold
             Date = command.Date,
             From = command.From,
             To = command.To
+        };
+    }
+
+    public static LessonDto ToLessonDto(this Domain.Entities.Lesson lesson)
+    {
+        return new LessonDto()
+        {
+            Id = lesson.Id,
+            classRoomId = lesson.ClassRoomId,
+            LessonType = lesson.LessonType,
+            Title = lesson.Title,
+            Subject = lesson.ClassRoom.Subject,
+            Grade = lesson.ClassRoom.Grade,
+            TeacherId = lesson.TeacherId,
+            TeacherName = lesson.Teacher.Name,
+            Date = lesson.Date,
+            From = lesson.From,
+            To = lesson.To
         };
     }
 }

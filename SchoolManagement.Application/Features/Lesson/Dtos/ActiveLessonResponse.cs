@@ -1,6 +1,6 @@
 namespace SchoolManagement.Application.Features.Lesson.Dtos;
 
-public class ActiveLessonResponse
+public class ctiveLessonResponse
 {
     public string LessonId { get; set; } = string.Empty;
     public string Title { get; set; } = string.Empty;

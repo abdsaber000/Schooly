@@ -34,22 +34,20 @@ public class LessonController : ControllerBase
     }
     
     [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
-    [HttpPost("join/{id}")]
-    public async Task<IActionResult> Join(string id)
+    [HttpPost("join")]
+    public async Task<IActionResult> Join(JoinLessonCommand command)
     {
-        return _responseService.CreateResponse(await _mediator.Send(new JoinLessonCommand(id)));
+        return _responseService.CreateResponse(await _mediator.Send(command));
     }
     
-    [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpGet("upcoming")]
     public async Task<IActionResult> GetAllComingLessons([FromQuery] GetLessonsPagedQuery query)
     {
         return _responseService.CreateResponse(await _mediator.Send(query));
     }
-    
     [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetLessonById(string id)
+    public async Task<IActionResult> GetLessonById(Guid id)
     {
         return _responseService.CreateResponse(await _mediator.Send(new GetLessonQuery(id)));
     }
@@ -63,7 +61,7 @@ public class LessonController : ControllerBase
 
     [Authorize(Roles = Roles.Teacher)]
     [HttpDelete("{id}")]
-    public async Task<IActionResult> DeleteLesson(string id)
+    public async Task<IActionResult> DeleteLesson(Guid id)
     {
         return _responseService.CreateResponse(await _mediator.Send(new DeleteLessonCommand(id)));
     }

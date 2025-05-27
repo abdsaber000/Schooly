@@ -32,15 +32,14 @@ public class UpdateClassRoomCommandHandler:IRequestHandler<UpdateClassrRoomComma
 
     public async Task<Result<string>> Handle(UpdateClassrRoomCommand request, CancellationToken cancellationToken)
     {
-        var classRoom = await _classRoomRepository.GetClassRoomById(request.id);
+        var classRoom = await _classRoomRepository.GetByIdAsync(request.id);
         if (classRoom is null)
         {
             return Result<string>.Failure(_localizer["There is no class with this id"]);
         }
 
         var updatedClassRooms = request.ToUpdatedClassRooms(); 
-        await _classRoomRepository.UpdateClassRoom(updatedClassRooms);
-        await _classRoomRepository.SaveChange();
+        await _classRoomRepository.Update(updatedClassRooms);
         
         return Result<string>.SuccessMessage(_localizer["Class Updated Successfully"]);
     }

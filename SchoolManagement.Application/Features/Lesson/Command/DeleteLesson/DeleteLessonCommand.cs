@@ -7,9 +7,9 @@ namespace SchoolManagement.Application.Features.Lesson.Command.DeleteLesson;
 
 public class DeleteLessonCommand : IRequest<Result<string>>
 {
-    public string Id { get; set; }
+    public Guid Id { get; set; }
 
-    public DeleteLessonCommand(string id)
+    public DeleteLessonCommand(Guid id)
     {
         Id = id;
     }
@@ -27,13 +27,12 @@ public class DeleteLessonCommandHandeler : IRequestHandler<DeleteLessonCommand ,
 
     public async Task<Result<string>> Handle(DeleteLessonCommand request, CancellationToken cancellationToken)
     {
-        var lesson = await _lessonRepository.GetLessonById(request.Id);
+        var lesson = await _lessonRepository.GetByIdAsync(request.Id);
         if (lesson is null)
         {
             return Result<string>.Failure(_localizer["Lesson not found."]);
         }
-        await _lessonRepository.Delete(request.Id);
-        await _lessonRepository.SaveChanges();
+        await _lessonRepository.Delete(lesson);
         
         return Result<string>.SuccessMessage(_localizer["Lesson deleted successfully"]);
     }
