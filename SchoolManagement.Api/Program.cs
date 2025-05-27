@@ -28,6 +28,8 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
 using SchoolManagement.Api.swagger;
+using SchoolManagement.Application.Jobs;
+using SchoolManagement.Api.Middlewares;
 
 
 
@@ -157,6 +159,12 @@ builder.Services.AddScoped<IStudentClassRoomRepository, StudentClassRoomReposito
 
 #endregion
 
+#region Injecting background jobs
+
+builder.Services.AddHostedService<DeleteExpiredLessonsJob>();
+
+#endregion
+
 #region Add Identity password seeting
 builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
@@ -245,6 +253,8 @@ app.UseCors("AllowAll");
 app.UseRequestLocalization(localizationOptions);
 
 app.UseHttpsRedirection();
+
+app.UseMiddleware<CustomAuthorizationMiddleware>();
 
 app.UseAuthentication();
 app.UseAuthorization();
