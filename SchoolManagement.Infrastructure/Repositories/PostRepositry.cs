@@ -43,13 +43,14 @@ public class PostRepositry : IPostRepositry
     public async Task<List<Post>> GetPagedAsync(int page, int pageSize)
     {
         return await _context.Posts
-                            .OrderByDescending(post => post.CreatedAt)
-                            .Skip((page - 1) * pageSize)
-                            .Take(pageSize)
-                            .Include(post => post.Comments)
-                            .Include(post => post.Author)
-                            .Include(post => post.ClassRoom)
-                            .ToListAsync();
+                    .OrderByDescending(post => post.CreatedAt)
+                    .Skip((page - 1) * pageSize)
+                    .Take(pageSize)
+                    .Include(post => post.Comments)
+                    .ThenInclude(comment => comment.Author)
+                    .Include(post => post.Author)
+                    .Include(post => post.ClassRoom)
+                    .ToListAsync();
     }
 
     public async Task<Post> GetPostById(int id)
@@ -57,6 +58,7 @@ public class PostRepositry : IPostRepositry
         return await _context.Posts
             .Where(post => post.Id == id)
             .Include(post => post.Comments)
+            .ThenInclude(comment => comment.Author)
             .Include(post => post.Author)
             .Include(post => post.ClassRoom)
             .FirstOrDefaultAsync();
@@ -67,6 +69,7 @@ public class PostRepositry : IPostRepositry
         return await _context.Posts
             .Where(post => post.AuthorId == authorId)
             .Include(post => post.Comments)
+            .ThenInclude(comment => comment.Author)
             .Include(post => post.Author)
             .Include(post => post.ClassRoom)
             .ToListAsync();
@@ -80,6 +83,7 @@ public class PostRepositry : IPostRepositry
                         .Skip((page - 1) * pageSize)
                         .Take(pageSize)
                         .Include(post => post.Comments)
+                        .ThenInclude(comment => comment.Author)
                         .Include(post => post.Author)
                         .Include(post => post.ClassRoom)
                         .ToListAsync();
