@@ -1,4 +1,6 @@
 using System;
+using SchoolManagement.Application.Features.Comment.Command.CreateComment;
+using SchoolManagement.Application.Features.Comment.Command.UpdateComment;
 
 namespace SchoolManagement.Application.Features.Comment.Dtos;
 using Comment = Domain.Entities.Comment;
@@ -14,6 +16,29 @@ static public class CommentExtensionMethod
             AuthorId = comment.AuthorId,
             AuthorName = comment.Author.Name,
             AuthorEmail = comment.Author.Email ?? ""
+        };
+    }
+
+    static public UpdateCommentCommandDto ToUpdateCommentDto(this Comment comment)
+    {
+
+        return new UpdateCommentCommandDto()
+        {
+            Id = comment.Id,
+            Content = comment.Content,
+            AuthorId = comment.AuthorId
+        };
+    }
+    
+    static public CreateCommentCommandDto ToCreateCommentDto(this Comment comment)
+    {
+        return new CreateCommentCommandDto()
+        {
+            Id = comment.Id,
+            Content = comment.Content,
+            AuthorId = comment.AuthorId,
+            AuthorName = comment.Author.Name,
+            CreatedAt = comment.CreatedAt
         };
     }
 }

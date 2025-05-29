@@ -46,7 +46,7 @@ namespace SchoolManagement.Api.Controllers
             return _responseService.CreateResponse(await _mediator.Send(command));
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("{Id}")]
         public async Task<IActionResult> DeleteComment([FromRoute] DeleteCommentCommand command){
             return _responseService.CreateResponse(await _mediator.Send(command));
         }
