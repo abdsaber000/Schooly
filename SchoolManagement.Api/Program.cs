@@ -30,6 +30,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 using SchoolManagement.Api.swagger;
 using SchoolManagement.Application.Jobs;
 using SchoolManagement.Api.Middlewares;
+using SchoolManagement.Application.Services.AuthenticationService;
 
 
 
@@ -156,7 +157,7 @@ builder.Services.AddScoped<IHomeWorkRepository, HomeWorkRepository>();
 builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddTransient<IResetCodeRepository, ResetCodeRepository>();
 builder.Services.AddScoped<IStudentClassRoomRepository, StudentClassRoomRepository>();
-
+builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
 #endregion
 
 #region Injecting background jobs
