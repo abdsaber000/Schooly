@@ -6,6 +6,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using SchoolManagement.Application.Features.Post.Dtos;
+using SchoolManagement.Application.Services.AuthenticationService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces.IRepositories;
@@ -24,19 +25,23 @@ public class CreatePostCommand : IRequest<Result<string>>
 public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Result<string>>
 {
     private readonly IHttpContextAccessor _httpContextAccessor;
+    private readonly IUserAuthenticationService _authenticationService;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IPostRepositry _postRepositry;
     private readonly IClassRoomRepository _classRoomRepository;
 
-    public CreatePostCommandHandler(IHttpContextAccessor httpContextAccessor
+    public CreatePostCommandHandler(
+        IHttpContextAccessor httpContextAccessor
         , UserManager<ApplicationUser> userManager
         , IPostRepositry postRepositry
-        , IClassRoomRepository classRoomRepository)
+        , IClassRoomRepository classRoomRepository
+        , IUserAuthenticationService authenticationService)
     {
         _httpContextAccessor = httpContextAccessor;
         _userManager = userManager;
         _postRepositry = postRepositry;
         _classRoomRepository = classRoomRepository;
+        _authenticationService = authenticationService;
     }
 
    
@@ -47,7 +52,7 @@ public class CreatePostCommandHandler : IRequestHandler<CreatePostCommand, Resul
             return Result<string>.Failure("Class Room id is not found.", HttpStatusCode.NotFound);
         }
 
-        var user = _userManager.GetUserAsync(_httpContextAccessor.HttpContext.User).Result;
+        var user = await _authenticationService.GetCurrentUserAsync(_httpContextAccessor);
         var post = request.ToPost(user, classRoom);
         await _postRepositry.CreatePost(post);
         classRoom.Posts.Add(post);

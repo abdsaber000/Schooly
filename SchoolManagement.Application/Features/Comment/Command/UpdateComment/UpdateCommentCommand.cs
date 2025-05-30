@@ -40,7 +40,7 @@ public class UpdateCommentCommandHandler : IRequestHandler<UpdateCommentCommand,
         var user = await _authenticationService.GetCurrentUserAsync(_contextAccessor);
         if (user.Id != comment.AuthorId)
         {
-            return Result<UpdateCommentCommandDto>.Failure("You are not authorized to update this comment.", HttpStatusCode.Unauthorized);
+            return Result<UpdateCommentCommandDto>.Failure("You are not authorized to update this comment.", HttpStatusCode.Forbidden);
         }
         comment.Content = request.Content;
         await _commentRepository.Update(comment);
