@@ -26,35 +26,42 @@ public class GetLessonsPagedQueryHandler :IRequestHandler<GetLessonsPagedQuery ,
         var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
         var upcomingLessons = new List<Domain.Entities.Lesson>();
         var totalCount = 0;
+        
         if (request.classRoomId != null && request.classRoomId != Guid.Empty)
         {
             totalCount = await _lessonRepository
-                .GetTotalCountAsyncByClassRoomsId(request.classRoomId, cancellationToken);
+                .GetTotalCountAsyncByClassRoomId(request.classRoomId, request.Status , cancellationToken);
 
             upcomingLessons = await _lessonRepository
-                .GetPagedAsyncByClassRoomsId(request.Page, request.PageSize, request.classRoomId, cancellationToken);
+                .GetPagedAsyncByClassRoomId(request.Page, request.PageSize, request.classRoomId, request.Status, cancellationToken);
         }
+        
         else if (user.IsInRole(Roles.Student))
         {
             var studentClassrooms = await _studentClassRoomRepository
                 .GetAllClassRoomsByStudentId(userId);
             
-            var classroomIds = studentClassrooms.Select(c => c.Id).ToList();
+            var classroomsIds = studentClassrooms.Select(c => c.Id).ToList();
+            
             upcomingLessons = await _lessonRepository
-                .GetUpcomingLessonsByClassRoomIds(classroomIds, request.Page, request.PageSize);
+                .GetLessonsByClassRoomsIds(classroomsIds, request.Page, request.PageSize , request.Status);
+            
             totalCount = await _lessonRepository
-                .GetTotalCountUpcomingLessonsByClassRoomIds(classroomIds);
+                .GetTotalCountLessonsByClassRoomsIds(classroomsIds , request.Status);
         }
+        
         else if (user.IsInRole(Roles.Teacher))
         {
             upcomingLessons = await _lessonRepository
-                .GetUpcommingLessonsByTeacherId(request.Page, request.PageSize, userId);
-            totalCount = await _lessonRepository.GetTotalCountAsyncByTeacherId(userId);
+                .GetLessonsByTeacherId(request.Page, request.PageSize, userId , request.Status);
+            
+            totalCount = await _lessonRepository.GetTotalCountAsyncByTeacherId(userId , request.Status , cancellationToken);
         }
 
         var upcomingLessonsDtos = upcomingLessons
             .Select(lesson => lesson.ToLessonDto())
             .ToList();
+        
         return new PagedResult<LessonDto>
         {
             TotalItems = totalCount,

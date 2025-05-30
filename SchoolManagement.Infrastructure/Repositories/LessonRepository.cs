@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Domain.Entities;
+using SchoolManagement.Domain.Enums;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Infrastructure.DbContext;
 
@@ -36,27 +37,27 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
         
         await _appDbContext.SaveChangesAsync();
     }
-    public async Task<int> GetTotalCountAsyncByClassRoomsId(Guid classRoomId , CancellationToken cancellationToken = default)
+    public async Task<int> GetTotalCountAsyncByClassRoomId(Guid classRoomId , LessonStatus? status = null , CancellationToken cancellationToken = default)
     {
-        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
+        var query = _appDbContext.Lessons
+            .Where(l => l.ClassRoom.Id == classRoomId);
 
-        return await _appDbContext.Lessons
-            .Where(lesson => lesson.ClassRoom.Id == classRoomId && 
-                             (lesson.Date > todayEgypt || 
-                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
-            .CountAsync(cancellationToken);
+        if (status.HasValue)
+            query = query.Where(l => l.LessonStatus == status);
+
+        return await query.CountAsync(cancellationToken);
     }
-    public async Task<List<Lesson>> GetPagedAsyncByClassRoomsId(int page, int pageSize , Guid classRoomId, CancellationToken cancellationToken = default)
+    public async Task<List<Lesson>> GetPagedAsyncByClassRoomId(int page, int pageSize , Guid classRoomId, LessonStatus? status = null , CancellationToken cancellationToken = default)
     {
-        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
+        var query = _appDbContext.Lessons
+            .Include(l => l.ClassRoom)
+            .Where(l => l.ClassRoom.Id == classRoomId);
 
-        return await _appDbContext.Lessons
-            .Include(lesson => lesson.ClassRoom)
-            .Where(lesson => lesson.ClassRoom.Id == classRoomId && 
-                             (lesson.Date > todayEgypt || 
-                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
-            .OrderBy(lesson => lesson.Date)
-            .ThenBy(lesson => lesson.From)
+        if (status.HasValue)
+            query = query.Where(l => l.LessonStatus == status);
+
+        return await query
+            .OrderBy(l => l.Date).ThenBy(l => l.From)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
             .ToListAsync(cancellationToken);
@@ -72,15 +73,17 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
         return !overlappingLessons;
     }
 
-    public async Task<List<Lesson>> GetUpcommingLessonsByTeacherId(int page, int pageSize, string teacherId)
+    public async Task<List<Lesson>> GetLessonsByTeacherId(int page, int pageSize, string teacherId, LessonStatus? status)
     {
-        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
-
-        return await _appDbContext.Lessons
+        var query = _appDbContext.Lessons
             .Include(lesson => lesson.ClassRoom)
-            .Where(lesson => lesson.TeacherId == teacherId && 
-                             (lesson.Date > todayEgypt || 
-                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
+            .Where(lesson => lesson.TeacherId == teacherId);
+
+        if (status.HasValue) {
+            query = query.Where(lesson => lesson.LessonStatus == status);
+        }
+
+        return await query
             .OrderBy(lesson => lesson.Date)
             .ThenBy(lesson => lesson.From)
             .Skip((page - 1) * pageSize)
@@ -88,26 +91,31 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
             .ToListAsync();
     }
 
-    public async Task<int> GetTotalCountAsyncByTeacherId(string teacherId, CancellationToken cancellationToken = default)
+    public async Task<int> GetTotalCountAsyncByTeacherId(string teacherId, LessonStatus? status,
+        CancellationToken cancellationToken = default)
     {
-        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
+        var query = _appDbContext.Lessons
+            .Where(lesson => lesson.TeacherId == teacherId);
 
-        return await _appDbContext.Lessons
-            .Where(lesson => lesson.TeacherId == teacherId && 
-                             (lesson.Date > todayEgypt || 
-                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
-            .CountAsync(cancellationToken);
+        if (status.HasValue){
+            query = query.Where(lesson => lesson.LessonStatus == status);
+        }
+
+        return await query.CountAsync(cancellationToken);
     }
 
-    public async Task<List<Lesson>> GetUpcomingLessonsByClassRoomIds(List<Guid> classRoomIds, int page, int pageSize)
-    {
-        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
 
-        return await _appDbContext.Lessons
+    public async Task<List<Lesson>> GetLessonsByClassRoomsIds(List<Guid> classRoomIds, int page, int pageSize ,LessonStatus? status = null )
+    {
+        var query = _appDbContext.Lessons
             .Include(lesson => lesson.ClassRoom)
-            .Where(lesson => classRoomIds.Contains(lesson.ClassRoomId) &&
-                             (lesson.Date > todayEgypt ||
-                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
+            .Where(lesson => classRoomIds.Contains(lesson.ClassRoomId));
+
+        if (status.HasValue) {
+            query = query.Where(lesson => lesson.LessonStatus == status);
+        }
+
+        return await query
             .OrderBy(lesson => lesson.Date)
             .ThenBy(lesson => lesson.From)
             .Skip((page - 1) * pageSize)
@@ -115,25 +123,37 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
             .ToListAsync();
     }
 
-    public async Task<int> GetTotalCountUpcomingLessonsByClassRoomIds(List<Guid> classRoomIds)
+    public async Task<int> GetTotalCountLessonsByClassRoomsIds(List<Guid> classRoomIds , LessonStatus? status = null )
     {
-        var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
+        var query = _appDbContext.Lessons
+            .Where(lesson => classRoomIds.Contains(lesson.ClassRoomId));
+        
+        if (status.HasValue) {
+            query = query.Where(lesson => lesson.LessonStatus == status);
+        }
 
-        return await _appDbContext.Lessons
-            .Where(lesson => classRoomIds.Contains(lesson.ClassRoomId) &&
-                             (lesson.Date > todayEgypt ||
-                              (lesson.Date == todayEgypt && lesson.To > currentTimeEgypt)))
-            .CountAsync();
+        return await query.CountAsync();
     }
 
-    public async Task<bool> DeleteExpiredLessons()
+    public async Task<bool> MarkExpiredLessonsAsCompleted()
     {
         var (todayEgypt, currentTimeEgypt) = GetCurrentEgyptTime();
-        var result =  _appDbContext.Lessons
-            .Where(lesson =>    lesson.Date < todayEgypt ||
-                                (lesson.Date == todayEgypt && lesson.From <= currentTimeEgypt));
-        _appDbContext.Lessons.RemoveRange(result);
+
+        var expiredLessons = await _appDbContext.Lessons
+            .Where(lesson =>
+                lesson.Date < todayEgypt ||
+                (lesson.Date == todayEgypt && lesson.From <= currentTimeEgypt))
+            .ToListAsync();
+
+        if (!expiredLessons.Any())
+            return false;
+
+        foreach (var lesson in expiredLessons)
+        {
+            lesson.LessonStatus = LessonStatus.Completed;
+        }
+
         await _appDbContext.SaveChangesAsync();
-        return true;    
+        return true;
     }
 }

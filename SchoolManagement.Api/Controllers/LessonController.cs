@@ -40,11 +40,12 @@ public class LessonController : ControllerBase
         return _responseService.CreateResponse(await _mediator.Send(command));
     }
     
-    [HttpGet("upcoming")]
-    public async Task<IActionResult> GetAllComingLessons([FromQuery] GetLessonsPagedQuery query)
+    [HttpGet]
+    public async Task<IActionResult> GetAllLessons([FromQuery] GetLessonsPagedQuery query)
     {
         return _responseService.CreateResponse(await _mediator.Send(query));
     }
+    
     [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
     [HttpGet("{id}")]
     public async Task<IActionResult> GetLessonById(Guid id)

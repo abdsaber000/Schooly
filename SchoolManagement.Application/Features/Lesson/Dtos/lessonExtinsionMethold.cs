@@ -4,7 +4,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Application.Features.Lesson.Dtos;
 
-public static class lessonExtinsionMethold
+public static class LessonExtinsionMethold
 {
     public static Domain.Entities.Lesson ToLesson(this CreateLessonCommand command)
     {
@@ -47,7 +47,8 @@ public static class lessonExtinsionMethold
             TeacherName = lesson.Teacher.Name,
             Date = lesson.Date,
             From = lesson.From,
-            To = lesson.To
+            To = lesson.To,
+            Status = lesson.LessonStatus
         };
     }
 }
