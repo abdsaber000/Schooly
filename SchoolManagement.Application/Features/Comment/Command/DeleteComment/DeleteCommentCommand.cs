@@ -36,7 +36,7 @@ public class DeleteCommentCommandHandler : IRequestHandler<DeleteCommentCommand,
         var user = await _authenticationService.GetCurrentUserAsync(_contextAccessor);
         if (user.Id != comment.AuthorId)
         {
-            return Result<string>.Failure("You are not authorized to delete this comment.", HttpStatusCode.Unauthorized);
+            return Result<string>.Failure("You are not authorized to delete this comment.", HttpStatusCode.Forbidden);
         }
         await _commentRepository.Delete(comment);
         return Result<string>.SuccessMessage("Comment deleted successfully.");

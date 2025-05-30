@@ -1,5 +1,8 @@
 using System;
+using System.Net;
 using MediatR;
+using Microsoft.AspNetCore.Http;
+using SchoolManagement.Application.Services.AuthenticationService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 
@@ -16,10 +19,17 @@ public class DeletePostCommand : IRequest<Result<string>>
 public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, Result<string>>
 {
     private readonly IPostRepositry _postRepository;
+    private readonly IHttpContextAccessor _contextAccessor;
+    private readonly IUserAuthenticationService _authenticationService;
 
-    public DeletePostCommandHandler(IPostRepositry postRepository)
+    public DeletePostCommandHandler(
+        IPostRepositry postRepository,
+        IHttpContextAccessor contextAccessor,
+        IUserAuthenticationService authenticationService)
     {
         _postRepository = postRepository;
+        _contextAccessor = contextAccessor;
+        _authenticationService = authenticationService;
     }
 
     public async Task<Result<string>> Handle(DeletePostCommand request, CancellationToken cancellationToken)
@@ -29,6 +39,13 @@ public class DeletePostCommandHandler : IRequestHandler<DeletePostCommand, Resul
         {
             return Result<string>.Failure("Post not found.");
         }
+
+        var user = await _authenticationService.GetCurrentUserAsync(_contextAccessor);
+        if (user.Id != post.AuthorId)
+        {
+            return Result<string>.Failure("User not authorized to delete post.", HttpStatusCode.Forbidden);    
+        }
+
         await _postRepository.DeletePost(post);
 
         return Result<string>.Success("Post deleted.");

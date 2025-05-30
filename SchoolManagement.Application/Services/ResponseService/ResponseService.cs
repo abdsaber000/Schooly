@@ -1,4 +1,6 @@
 using System.Net;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SchoolManagement.Application.Features.Pagination;
 using SchoolManagement.Application.Shared;
@@ -29,6 +31,8 @@ public class ResponseService : IResponseService
                 return new BadRequestObjectResult(error);
             case HttpStatusCode.Unauthorized:
                 return new UnauthorizedObjectResult(error);
+            case HttpStatusCode.Forbidden:
+                return new ObjectResult(error) { StatusCode = StatusCodes.Status403Forbidden };
             default:
                 return new BadRequestObjectResult(error);
         }
