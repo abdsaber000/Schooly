@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using SchoolManagement.Application.Features.Lesson.Command.CancelLesson;
 using SchoolManagement.Application.Features.Lesson.Command.CreateLesson;
 using SchoolManagement.Application.Features.Lesson.Command.DeleteLesson;
 using SchoolManagement.Application.Features.Lesson.Command.UpdateLeeson;
@@ -65,5 +66,12 @@ public class LessonController : ControllerBase
     public async Task<IActionResult> DeleteLesson(Guid id)
     {
         return _responseService.CreateResponse(await _mediator.Send(new DeleteLessonCommand(id)));
+    }
+    
+    [HttpPost("cancel/{lessonId}")]
+    [Authorize(Roles = Roles.Teacher)]
+    public async Task<IActionResult> CancelLesson([FromQuery] Guid lessonId)
+    {
+        return _responseService.CreateResponse(await _mediator.Send(new CancelLessonCommand(lessonId)));
     }
 }

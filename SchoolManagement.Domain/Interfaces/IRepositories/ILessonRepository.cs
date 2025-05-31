@@ -19,4 +19,5 @@ public interface ILessonRepository : IGenericRepository<Lesson>
     Task<int> GetTotalCountLessonsByClassRoomsIds(List<Guid> classRoomIds , LessonStatus? status = LessonStatus.Upcoming );
     
     Task<bool> MarkExpiredLessonsAsCompleted();
+    Task<bool> CancelLessonByIdAsync(Guid lessonId, CancellationToken cancellationToken = default);
 }

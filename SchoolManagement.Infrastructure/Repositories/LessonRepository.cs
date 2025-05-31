@@ -156,4 +156,15 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
         await _appDbContext.SaveChangesAsync();
         return true;
     }
+
+    public async Task<bool> CancelLessonByIdAsync(Guid lessonId, CancellationToken cancellationToken = default)
+    {
+       var lesson = await _appDbContext.Lessons.FindAsync( lessonId, cancellationToken);
+           if (lesson == null)
+               return false;
+       
+           lesson.LessonStatus = LessonStatus.Canceled;
+           await _appDbContext.SaveChangesAsync(cancellationToken);
+           return true; 
+    }
 }

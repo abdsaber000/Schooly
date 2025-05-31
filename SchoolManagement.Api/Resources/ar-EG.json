@@ -69,5 +69,8 @@
     "Verification code is required": "رمز التحقق مطلوب",
     "Verification code must contain only numbers": "يجب أن يحتوي رمز التحقق على أرقام فقط",
     "Verification code must be exactly 6 digits": "يجب أن يكون رمز التحقق مكونًا من 6 أرقام",
-    "Faild to join lesson": "فشل في دخول الحصة"
+    "Faild to join lesson": "فشل في دخول الحصة",
+    "Lesson is already cancelled." : "الحصة ملغاة بالفعل.",
+    "You are not authorized to cancel this lesson." : "ليس لديك الصلاحية لإلغاء هذه الحصة.",
+    "Lesson cancelled successfully." : "تم إلغاء الحصة بنجاح."
 }
