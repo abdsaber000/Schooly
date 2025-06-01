@@ -51,6 +51,7 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
     {
         var query = _appDbContext.Lessons
             .Include(l => l.ClassRoom)
+            .Include(lesson => lesson.Teacher)
             .Where(l => l.ClassRoom.Id == classRoomId);
 
         if (status.HasValue)
@@ -77,6 +78,7 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
     {
         var query = _appDbContext.Lessons
             .Include(lesson => lesson.ClassRoom)
+            .Include(lesson => lesson.Teacher)
             .Where(lesson => lesson.TeacherId == teacherId);
 
         if (status.HasValue) {
@@ -109,6 +111,7 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
     {
         var query = _appDbContext.Lessons
             .Include(lesson => lesson.ClassRoom)
+            .Include(lesson => lesson.Teacher)
             .Where(lesson => classRoomIds.Contains(lesson.ClassRoomId));
 
         if (status.HasValue) {

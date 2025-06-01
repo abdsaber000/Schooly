@@ -68,7 +68,7 @@ public class LessonController : ControllerBase
         return _responseService.CreateResponse(await _mediator.Send(new DeleteLessonCommand(id)));
     }
     
-    [HttpPost("cancel/{lessonId}")]
+    [HttpPost("cancel")]
     [Authorize(Roles = Roles.Teacher)]
     public async Task<IActionResult> CancelLesson([FromQuery] Guid lessonId)
     {

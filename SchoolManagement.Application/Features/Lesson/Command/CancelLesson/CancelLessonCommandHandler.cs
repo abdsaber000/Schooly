@@ -12,10 +12,10 @@ namespace SchoolManagement.Application.Features.Lesson.Command.CancelLesson;
 public class CancelLessonCommandHandler: IRequestHandler<CancelLessonCommand , Result<string>>
 {
     private readonly ILessonRepository _lessonRepository;
-    private readonly StringLocalizer<CancelLessonCommandHandler> _localizer;
+    private readonly IStringLocalizer<CancelLessonCommandHandler> _localizer;
     private readonly IUserAuthenticationService _authenticationService;
     private IHttpContextAccessor _contextAccessor;
-    public CancelLessonCommandHandler(ILessonRepository lessonRepository, StringLocalizer<CancelLessonCommandHandler> localizer, IUserAuthenticationService authenticationService, IHttpContextAccessor contextAccessor)
+    public CancelLessonCommandHandler(ILessonRepository lessonRepository, IStringLocalizer<CancelLessonCommandHandler> localizer, IUserAuthenticationService authenticationService, IHttpContextAccessor contextAccessor)
     {
         _lessonRepository = lessonRepository;
         _localizer = localizer;
