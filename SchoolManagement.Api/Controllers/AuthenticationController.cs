@@ -56,7 +56,7 @@ public class AuthenticationController : ControllerBase
 
         Response.Cookies.Append("jwt_token", token, cookieOptions);
         
-        return Ok(result.Data); 
+        return _responseService.CreateResponse(result);
     }
 
     [HttpPost]

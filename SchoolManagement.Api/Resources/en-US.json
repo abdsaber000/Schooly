@@ -69,5 +69,9 @@
     "Verification code is required": "Verification code is required",
     "Verification code must contain only numbers": "Verification code must contain only numbers",
     "Verification code must be exactly 6 digits": "Verification code must be exactly 6 digits",
-    "Faild to join lesson": "Faild to join lesson"
+    "Faild to join lesson" : "Faild to join lesson",
+    "Lesson is already cancelled." : "Lesson is already cancelled.",
+    "You are not authorized to cancel this lesson." : "You are not authorized to cancel this lesson.",
+    "Lesson cancelled successfully." : "Lesson cancelled successfully."
+
 }
