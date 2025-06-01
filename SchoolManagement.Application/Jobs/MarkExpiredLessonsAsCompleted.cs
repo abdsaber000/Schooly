@@ -22,14 +22,14 @@ public class DeleteExpiredLessonsJob : BackgroundService
             using (var scope = _serviceProvider.CreateScope())
             {
                 var lessonRepository = scope.ServiceProvider.GetRequiredService<ILessonRepository>();
-                var result = await lessonRepository.DeleteExpiredLessons();
+                var result = await lessonRepository.MarkExpiredLessonsAsCompleted();
                 if (result)
                 {
-                    _logger.LogInformation("Expired lessons deleted successfully.");
+                    _logger.LogInformation("Expired lessons marked successfully.");
                 }
                 else
                 {
-                    _logger.LogWarning("No expired lessons found to delete.");
+                    _logger.LogWarning("No expired lessons found to mark.");
                 }
             }
 

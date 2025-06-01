@@ -15,4 +15,5 @@ public class LessonDto
     public DateOnly Date { get; set; }
     public TimeOnly From { get; set; }
     public TimeOnly To { get; set; }
+    public LessonStatus Status { get; set; }
 }
