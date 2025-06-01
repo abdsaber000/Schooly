@@ -32,12 +32,13 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.VerifyCode
 
                 if (resetCode.Code != request.Code)
                 {
-                    return Result<string>.Failure(_localizer["IncorrectVerificationCode"], HttpStatusCode.Unauthorized);
+
+                    return Result<string>.Failure(_localizer["IncorrectVerificationCode"]);
                 }
 
                 if (resetCode.ExpirationTime < DateTime.UtcNow)
                 {
-                    return Result<string>.Failure(_localizer["VerificationCodeExpired"], HttpStatusCode.Gone);
+                    return Result<string>.Failure(_localizer["VerificationCodeExpired"]);
                 }
 
                 return Result<string>.SuccessMessage(_localizer["VerificationSuccessful"]);

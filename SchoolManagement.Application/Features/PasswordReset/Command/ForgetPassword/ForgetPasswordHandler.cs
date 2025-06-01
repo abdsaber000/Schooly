@@ -15,17 +15,20 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ForgetPass
     public class ForgetPasswordCommandHandler : IRequestHandler<ForgetPasswordCommand, Result<string>>
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly ITeacherRepository _teacherRepository;
         private readonly IResetCodeRepository _resetCodeRepository;
         private readonly IEmailService _emailService;
         private readonly IStringLocalizer<ForgetPasswordCommandHandler> _localizer;
 
         public ForgetPasswordCommandHandler(
             IStudentRepository studentRepository,
+            ITeacherRepository teacherRepository,
             IResetCodeRepository resetCodeRepository,
             IEmailService emailService,
             IStringLocalizer<ForgetPasswordCommandHandler> localizer)
         {
             _studentRepository = studentRepository;
+            _teacherRepository = teacherRepository;
             _resetCodeRepository = resetCodeRepository;
             _emailService = emailService;
             _localizer = localizer;
@@ -35,10 +38,12 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ForgetPass
         {
             try
             {
-                var user = await _studentRepository.GetStudentByEmail(request.Email);
-                if (user == null)
+
+                var user_student = await _studentRepository.GetStudentByEmail(request.Email);
+                var user_teacher = await _teacherRepository.GetTeacherByEmail(request.Email);
+                if (user_student == null && user_teacher == null)
                 {
-                    return Result<string>.Failure(_localizer["This email isn't linked to a student account."], HttpStatusCode.NotFound);
+                    return Result<string>.Failure(_localizer["This email isn't linked to any student or teacher account."], HttpStatusCode.NotFound);
                 }
 
                 var verificationCode = GenerateVerificationCode();
@@ -62,8 +67,16 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ForgetPass
                 await _resetCodeRepository.AddResetCodeAsync(resetCode, cancellationToken);
 
                 string subject = "Password Reset Request";
-                string body = GenerateEmailBody(user.Name, request.Email, verificationCode);
-
+                string name;
+                if (user_student != null)
+                {
+                    name = user_student.Name;
+                }
+                else
+                {
+                    name = user_teacher.Name;
+                }
+                string body = GenerateEmailBody(name, request.Email, verificationCode);
                 await _emailService.SendEmailAsync(request.Email, subject, body);
 
                 return Result<string>.SuccessMessage(_localizer["Password reset email sent successfully"]);

@@ -48,7 +48,7 @@
     "HomeWork deleted successfully": "تم حذف الواجب بنجاح",
     "HomeWork not found": "لا يوجد واجب",
     "Password reset email sent successfully": "تم إرسال بريد إعادة تعيين كلمة المرور بنجاح",
-    "This email isn't linked to a student account.": "هذا البريد الإلكتروني غير مرتبط بأي حساب طالب.",
+    "This email isn't linked to any student or teacher account.": "هذا البريد الإلكتروني غير مرتبط بأي حساب طالب أو معلم",
     "EmailRequired": "البريد الإلكتروني مطلوب.",
     "InvalidCodeFormat": "تنسيق رمز التحقق غير صالح.",
     "NoResetCodeFound": "لم يتم العثور على رمز إعادة تعيين لهذا البريد الإلكتروني.",

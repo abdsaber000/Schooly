@@ -13,17 +13,20 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ResetPassw
     public class ResetPasswordHandler : IRequestHandler<ResetPasswordCommand, Result<string>>
     {
         private readonly IStudentRepository _studentRepository;
+        private readonly ITeacherRepository _teacherRepository;
         private readonly IResetCodeRepository _resetCodeRepository;
         private readonly IStringLocalizer<ResetPasswordHandler> _localizer;
         private readonly UserManager<ApplicationUser> _userManager;
 
         public ResetPasswordHandler(
             IStudentRepository studentRepository,
+            ITeacherRepository teacherRepository,
             IResetCodeRepository resetCodeRepository,
             IStringLocalizer<ResetPasswordHandler> localizer,
             UserManager<ApplicationUser> userManager)
         {
             _studentRepository = studentRepository;
+            _teacherRepository = teacherRepository;
             _resetCodeRepository = resetCodeRepository;
             _localizer = localizer;
             _userManager = userManager;
@@ -34,25 +37,42 @@ namespace SchoolManagement.Application.Features.PasswordReset.Command.ResetPassw
             try
             {
                 var student = await _studentRepository.GetStudentByEmail(request.Email);
-                if (student == null)
+                var teacher = await _teacherRepository.GetTeacherByEmail(request.Email);
+                if (student == null && teacher == null)
                 {
                     return Result<string>.Failure(_localizer["NoStudentFoundForEmail"], HttpStatusCode.NotFound);
                 }
 
-                var token = await _userManager.GeneratePasswordResetTokenAsync(student);
-                var result = await _userManager.ResetPasswordAsync(student, token, request.NewPassword);
-
-                if (!result.Succeeded)
+                if (student != null)
                 {
-                    return Result<string>.Failure(_localizer["PasswordResetFailed"], HttpStatusCode.InternalServerError);
-                }
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(student);
+                    var result = await _userManager.ResetPasswordAsync(student, token, request.NewPassword);
 
-                var resetCode = await _resetCodeRepository.GetResetCodeByEmailAsync(request.Email, cancellationToken);
-                if (resetCode != null)
+                    if (!result.Succeeded)
+                    {
+                        return Result<string>.Failure(_localizer["PasswordResetFailed"], HttpStatusCode.InternalServerError);
+                    }
+
+                    var resetCode = await _resetCodeRepository.GetResetCodeByEmailAsync(request.Email, cancellationToken);
+                    if (resetCode != null)
+                    {
+                        await _resetCodeRepository.RemoveResetCodeAsync(resetCode, cancellationToken);
+                    }
+                }
+                else
                 {
-                    await _resetCodeRepository.RemoveResetCodeAsync(resetCode, cancellationToken);
+                    var token = await _userManager.GeneratePasswordResetTokenAsync(teacher);
+                    var result = await _userManager.ResetPasswordAsync(teacher, token, request.NewPassword);
+                    if (!result.Succeeded)
+                    {
+                        return Result<string>.Failure(_localizer["PasswordResetFailed"], HttpStatusCode.InternalServerError);
+                    }
+                    var resetCode = await _resetCodeRepository.GetResetCodeByEmailAsync(request.Email, cancellationToken);
+                    if (resetCode != null)
+                    {
+                        await _resetCodeRepository.RemoveResetCodeAsync(resetCode, cancellationToken);
+                    }
                 }
-
                 return Result<string>.SuccessMessage(_localizer["PasswordResetSuccessful"]);
             }
             catch (Exception)

@@ -48,7 +48,7 @@
     "HomeWork deleted successfully": "HomeWork deleted successfully",
     "HomeWork not found": "HomeWork not found",
     "Password reset email sent successfully": "Password reset email sent successfully",
-    "This email isn't linked to a student account.": "This email isn't linked to a student account.",
+    "This email isn't linked to any student or teacher account.": "This email isn't linked to any student or teacher account.",
     "EmailRequired": "Email is required.",
     "InvalidCodeFormat": "Invalid verification code format.",
     "NoResetCodeFound": "No reset code found for this email.",
@@ -73,4 +73,5 @@
     "Lesson is already cancelled." : "Lesson is already cancelled.",
     "You are not authorized to cancel this lesson." : "You are not authorized to cancel this lesson.",
     "Lesson cancelled successfully." : "Lesson cancelled successfully."
+
 }
