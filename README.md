@@ -29,7 +29,6 @@ A full-featured **School Management Platform** developed as a graduation project
 ### 👨‍🎓 Student Account
 ```json
 "email": "maher@example.com",
-
 "password": "string",
 ```
 ---
@@ -87,9 +86,9 @@ A full-featured **School Management Platform** developed as a graduation project
 | Backend          | ASP.NET Core Web API, CQRS, MediatR     |
 | Database         | SQL Server, Entity Framework Core, LINQ |
 | Authentication   | JWT, Facial Recognition (AI)            |
-| File Management  | Local File System / Cloud (optional)    |
+| File Management  | Local File System                       |
 | Video Streaming  | Agora SDK                               |
-| Background Tasks | Hosted Services  
+| Background Tasks | Hosted Services                         |
 | Notifications    | SMTP Email Service                      |
 
 ---
