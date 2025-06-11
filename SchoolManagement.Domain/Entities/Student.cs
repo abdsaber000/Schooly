@@ -10,7 +10,6 @@ namespace SchoolManagement.Domain.Entities
 {
     public class Student : ApplicationUser
     {
-        public string StudentId { get; set; } // it is 16 digit for each student but there is Id it is for identity
         public string ParentId { get; set; }
         public Parent Parent { get; set; }
         public string Address { get; set; }

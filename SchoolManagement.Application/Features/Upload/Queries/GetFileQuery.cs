@@ -1,12 +1,7 @@
-using System;
 using MediatR;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Localization;
 using SchoolManagement.Application.Services.FileService;
-using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Features.Upload.Queries;
 
@@ -16,14 +11,11 @@ public class GetFileQuery : IRequest<IActionResult>
     {
         FileUrl = fileUrl;
     }
-
     public string FileUrl { get; set; }
-   
 }
 
 public class GetFileQueryHandler : IRequestHandler<GetFileQuery, IActionResult>
 {
-
     private readonly IFileService _fileService;
     private readonly IStringLocalizer<GetFileQueryHandler> _localizer;
 

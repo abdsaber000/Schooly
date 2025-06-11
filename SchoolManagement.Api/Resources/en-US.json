@@ -72,6 +72,8 @@
     "Faild to join lesson" : "Faild to join lesson",
     "Lesson is already cancelled." : "Lesson is already cancelled.",
     "You are not authorized to cancel this lesson." : "You are not authorized to cancel this lesson.",
-    "Lesson cancelled successfully." : "Lesson cancelled successfully."
+    "Lesson cancelled successfully." : "Lesson cancelled successfully.",
 
+    "HomeWorkSubmittedSuccessfully": "HomeWork Submitted Successfully",
+    "HomeWorkSubmissionClosed" : "HomeWork Submission Closed"
 }

@@ -160,6 +160,7 @@ builder.Services.AddScoped<IFileService, FileService>();
 builder.Services.AddTransient<IResetCodeRepository, ResetCodeRepository>();
 builder.Services.AddScoped<IStudentClassRoomRepository, StudentClassRoomRepository>();
 builder.Services.AddScoped<IUserAuthenticationService, UserAuthenticationService>();
+builder.Services.AddScoped<IHomeWorkSubmissionRepositry, HomeWorkSubmissionRepositry>();
 #endregion
 
 #region Injecting background jobs

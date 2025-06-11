@@ -13,7 +13,6 @@ namespace SchoolManagement.Application.Features.HomeWork.Commands.AddHomeWork;
 
 public class AddHomeWorkCommandsHandler : IRequestHandler<AddHomeWorkCommands , Result<string>>
 {
-    private readonly IFileService _fileService;
     private readonly IHomeWorkRepository _homeWorkRepository;
     private readonly IStringLocalizer<AddHomeWorkCommandsHandler> _localizer;
     private readonly IHttpContextAccessor _httpContextAccessor;

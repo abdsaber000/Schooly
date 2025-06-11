@@ -3,7 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using MediatR;
 using SchoolManagement.Application.Features.HomeWork.Commands.AddHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Commands.DeleteHomeWork;
+using SchoolManagement.Application.Features.HomeWork.Commands.SubmitHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Query.GetAllClassRoomHomeWork;
+using SchoolManagement.Application.Features.HomeWork.Query.GetAllStudentSubmitedHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Query.GetHomeWork;
 using SchoolManagement.Application.Services.ResponseService;
 using SchoolManagement.Domain.Entities;
@@ -41,4 +43,19 @@ public class HomeWorkController : ControllerBase
    {
       return _responseService.CreateResponse(await _mediator.Send(new DeleteHomeWorkCommand(fileName)));
    }
+   
+   [HttpPost("{homeWorkId}/submit")]
+   public async Task<IActionResult> SubmitHomework(Guid homeWorkId, [FromBody] SubmitHomeWorkCommand command)
+   {
+      var result = await _mediator.Send(command);
+      return _responseService.CreateResponse(result);
+   }
+   
+   [HttpGet("{homeWorkId}/students")]
+   public async Task<IActionResult> GetStudentsWhoSubmittedHomework(Guid homeWorkId)
+   {
+      var result = await _mediator.Send(new GetStudentsByHomeworkSubmissionQuery { HomeWorkId = homeWorkId });
+      return _responseService.CreateResponse(result);
+   }
+
 }
