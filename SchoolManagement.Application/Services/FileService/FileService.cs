@@ -34,20 +34,28 @@ public class FileService : IFileService
         await _uploadedFileRepositry.AddFile(uploadedFile);
         return uploadedFile;
     }
-    public async Task<IActionResult> GetFileAsync(string fileUrl)
+    public async Task<(Stream? Stream, string ContentType, string FileName, string? ErrorKey)> GetFileAsync(string fileName)
     {
-        var file = await _uploadedFileRepositry.GetFileByName(fileUrl);
+        if (fileName.Contains("..") || Path.GetFileName(fileName) != fileName)
+        {
+            return (null, "", "", "InvalidFileName");
+        }
+
+        var file = await _uploadedFileRepositry.GetFileByName(fileName);
         if (file == null)
         {
-            return new NotFoundResult();
+            return (null, "", "", "FileMetadataNotFound");
         }
+
         var path = Path.Combine(_webHostEnvironment.ContentRootPath, "Uploads", file.StoredFileName);
 
-        using FileStream fileStream = new(path, FileMode.Open);
-        
-        return new PhysicalFileResult(path , file.ContentType){
-            FileDownloadName = file.FileName
-        };
+        if (!System.IO.File.Exists(path))
+        {
+            return (null, "", "", "FileNotFoundOnDisk");
+        }
+
+        var stream = System.IO.File.OpenRead(path);
+        return (stream, file.ContentType, file.FileName, null);
     }
 
     public async Task<IActionResult> DeleteFileAsync(string fileUrl)

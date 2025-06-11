@@ -1,4 +1,4 @@
-using SchoolManagement.Application.Features.HomeWorke.Commands.AddHomeworke;
+using SchoolManagement.Application.Features.HomeWork.Commands.AddHomeWork;
 using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Application.Features.HomeWork.Dtos;
@@ -26,7 +26,6 @@ public static class HomeWorkExtensionMethold
             FileUrl = commands.FileUrl,
             ToDate = commands.ToDate,
             FromDate = GetCurrentEgyptTime(),
-            classRoomId = commands.classRoomId,
             lessonId = commands.lessonId,
             teacherId = teacher.Id
         };

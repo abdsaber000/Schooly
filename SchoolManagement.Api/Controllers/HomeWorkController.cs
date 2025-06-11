@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using SchoolManagement.Application.Features.HomeWorke.Commands.AddHomeworke;
 using MediatR;
+using SchoolManagement.Application.Features.HomeWork.Commands.AddHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Commands.DeleteHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Query.GetAllClassRoomHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Query.GetHomeWork;

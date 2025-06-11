@@ -20,12 +20,10 @@ public class GetHomeWorkQuery : IRequest<Result<HomeWorkDto>>
 public class GetHomeWorkQueryHandler : IRequestHandler<GetHomeWorkQuery, Result<HomeWorkDto>>
 {
     private readonly IHomeWorkRepository _homeWorkRepository;
-    private readonly IFileService _fileService;
     private readonly IStringLocalizer<GetHomeWorkQueryHandler> _localizer;
-    public GetHomeWorkQueryHandler(IHomeWorkRepository homeWorkRepository, IFileService fileService, IStringLocalizer<GetHomeWorkQueryHandler> localizer)
+    public GetHomeWorkQueryHandler(IHomeWorkRepository homeWorkRepository, IStringLocalizer<GetHomeWorkQueryHandler> localizer)
     {
         _homeWorkRepository = homeWorkRepository;
-        _fileService = fileService;
         _localizer = localizer;
     }
     public async Task<Result<HomeWorkDto>> Handle(GetHomeWorkQuery request, CancellationToken cancellationToken)
