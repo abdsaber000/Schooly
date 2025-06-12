@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Antiforgery;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Authentication.Commands.Login;
 using SchoolManagement.Application.Features.Authentication.Commands.Register;
 using SchoolManagement.Application.Features.Authentication.Commands.RegisterFace;
@@ -12,6 +13,7 @@ using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
 
+[EnableRateLimiting("ApiPolicy")]
 [ApiController]
 [Route("api/auth")]
 public class AuthenticationController : ControllerBase

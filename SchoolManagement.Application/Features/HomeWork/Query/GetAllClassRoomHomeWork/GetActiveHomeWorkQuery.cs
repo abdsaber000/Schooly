@@ -76,6 +76,7 @@ public class GetAllClassRoomHomeWorkQueryHandler : IRequestHandler<GetActiveHome
         var ActiveHomeWorkDto = ActiveHomeWork
             .Select(homeWork => homeWork.ToHomeWorkDto())
             .ToList();
+        
         return new PagedResult<HomeWorkDto>
         {
             TotalItems = totalCount,

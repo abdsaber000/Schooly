@@ -1,11 +1,13 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Teacher.Command.AddTeacherCommand;
 using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
 
+[EnableRateLimiting("ApiPolicy")]
 [ApiController]
 [Route("api/teacher")]
 public class TeacherController : ControllerBase

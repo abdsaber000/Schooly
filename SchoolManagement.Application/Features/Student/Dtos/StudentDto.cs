@@ -1,3 +1,4 @@
+using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Enums;
 
 namespace SchoolManagement.Application.Features.Student.Dtos;
@@ -6,7 +7,6 @@ public class StudentDto
 {
     public string Id { get; set; } = string.Empty;
     public string StudentName { get; set; } = string.Empty;
-    public string StudentId { get; set; } = string.Empty;
     public Department Department { get; set; }
     public Grade Grade { get; set; }
     public string ParentName { get; set; } = string.Empty;
@@ -22,12 +22,19 @@ public static class StudentDtoExtensionMethold
         {
             Id = student.Id,
             StudentName = student.Name,
-            StudentId = student.StudentId,
             Department = student.Department,
             Grade = student.Grade,
             ParentName = student.Parent is null ? "" : student.Parent.ParentName,
             ParentPhone1 = student.Parent is null ? "" : student.Parent.Phone1,
             DateOfJoining = student.DateOfJoining
+        };
+    }
+    public static StudentDto ToStudentDto(this ApplicationUser student)
+    {
+        return new StudentDto()
+        {
+            Id = student.Id,
+            StudentName = student.Name
         };
     }
 }

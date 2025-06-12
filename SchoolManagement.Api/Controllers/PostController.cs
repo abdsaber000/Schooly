@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Post.Commands.CreatePost;
 using SchoolManagement.Application.Features.Post.Commands.DeletePost;
 using SchoolManagement.Application.Features.Post.Commands.UpdatePost;
@@ -12,6 +13,7 @@ using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers
 {
+    [EnableRateLimiting("ApiPolicy")]
     [Route("api/post")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]

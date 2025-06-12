@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Upload.Commands;
 using SchoolManagement.Application.Features.Upload.Queries;
 using SchoolManagement.Application.Services.ResponseService;
@@ -9,6 +10,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers
 {
+    [EnableRateLimiting("ApiPolicy")]
     // [Authorize]
     [Route("api/upload")]
     [ApiController]

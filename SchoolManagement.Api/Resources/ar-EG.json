@@ -72,5 +72,9 @@
     "Faild to join lesson": "فشل في دخول الحصة",
     "Lesson is already cancelled." : "الحصة ملغاة بالفعل.",
     "You are not authorized to cancel this lesson." : "ليس لديك الصلاحية لإلغاء هذه الحصة.",
-    "Lesson cancelled successfully." : "تم إلغاء الحصة بنجاح."
+    "Lesson cancelled successfully." : "تم إلغاء الحصة بنجاح.",
+    
+    "HomeWorkSubmittedSuccessfully": "تم تقديم الواجب بنجاح.",
+    "HomeWorkSubmissionClosed" : "تم إغلاق تقديم الواجب.",
+    
 }

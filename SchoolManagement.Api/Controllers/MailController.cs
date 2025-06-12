@@ -5,9 +5,11 @@ using SchoolManagement.Application.Features.Email.Command.SendEmail;
 using SchoolManagement.Application.Services.ResponseService;
 using System;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.RateLimiting;
 
 namespace SchoolManagement.Api.Controllers
 {
+    [EnableRateLimiting("ApiPolicy")]
     [ApiController]
     [Route("api/email")]
     public class EmailController : ControllerBase
