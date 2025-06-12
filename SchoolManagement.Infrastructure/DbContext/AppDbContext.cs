@@ -76,4 +76,5 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     public DbSet<HomeWork> HomeWorks { get; set; }
     public DbSet<ResetCode> ResetCodes { get; set; }
     public DbSet<StudentClassRoom> StudentClassRooms { get; set; }
+    public DbSet<HomeWorkSubmission> HomeWorkSubmissions { get; set; }
 }

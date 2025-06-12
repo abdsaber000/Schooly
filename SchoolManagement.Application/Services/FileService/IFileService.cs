@@ -7,6 +7,6 @@ namespace SchoolManagement.Application.Services.FileService;
 public interface IFileService
 {
     Task<UploadedFile> UploadFile(IFormFile file);
-    Task<IActionResult> GetFileAsync(string fileUrl);
+    Task<(Stream? Stream, string ContentType, string FileName, string? ErrorKey)> GetFileAsync(string fileName);
     Task<IActionResult> DeleteFileAsync(string fileUrl);
 }

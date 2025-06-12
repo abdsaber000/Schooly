@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
 using SchoolManagement.Application.Features.HomeWork.Dtos;
-using SchoolManagement.Application.Features.HomeWorke.Commands.AddHomeworke;
 using SchoolManagement.Application.Services.FileService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
@@ -14,7 +13,6 @@ namespace SchoolManagement.Application.Features.HomeWork.Commands.AddHomeWork;
 
 public class AddHomeWorkCommandsHandler : IRequestHandler<AddHomeWorkCommands , Result<string>>
 {
-    private readonly IFileService _fileService;
     private readonly IHomeWorkRepository _homeWorkRepository;
     private readonly IStringLocalizer<AddHomeWorkCommandsHandler> _localizer;
     private readonly IHttpContextAccessor _httpContextAccessor;
@@ -37,19 +35,24 @@ public class AddHomeWorkCommandsHandler : IRequestHandler<AddHomeWorkCommands , 
     public async Task<Result<string>> Handle(AddHomeWorkCommands request, CancellationToken cancellationToken)
     {
         var lesson = await _lessonRepository.GetByIdAsync(request.lessonId);
-        var classRoom = await _classRoomRepository.GetByIdAsync(request.classRoomId);
         if (lesson is null)
         {
             return Result<string>.Failure(_localizer["Lesson not found."]);
         }
+        
+        var classRoom = await _classRoomRepository.GetByIdAsync(lesson.ClassRoomId);
         if (classRoom is null)
         {
             return Result<string>.Failure(_localizer["Classroom not found"]);
         }
+        
         var teacher = _userManager.GetUserAsync(_httpContextAccessor?.HttpContext.User).Result;
         var homeWork = request.ToHomeWork(teacher);
         var file = await _uploadedFileRepositry.GetFileByName(request.FileUrl);
+        
         homeWork.fileName = file.FileName;
+        homeWork.classRoomId = lesson.ClassRoomId;
+        
         await _homeWorkRepository.AddAsync(homeWork);
         return Result<string>.SuccessMessage(_localizer["Homework added Successfully"]);
     }

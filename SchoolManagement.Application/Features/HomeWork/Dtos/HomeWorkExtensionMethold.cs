@@ -1,4 +1,4 @@
-using SchoolManagement.Application.Features.HomeWorke.Commands.AddHomeworke;
+using SchoolManagement.Application.Features.HomeWork.Commands.AddHomeWork;
 using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Application.Features.HomeWork.Dtos;
@@ -12,12 +12,6 @@ public class HomeWorkDto
 }
 public static class HomeWorkExtensionMethold
 {
-    private static DateTime GetCurrentEgyptTime()
-    {
-        var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
-        var nowEgypt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, egyptTimeZone);
-        return nowEgypt;
-    }
     public static Domain.Entities.HomeWork? ToHomeWork(this AddHomeWorkCommands commands, ApplicationUser teacher)
     {
         return new Domain.Entities.HomeWork()
@@ -25,8 +19,7 @@ public static class HomeWorkExtensionMethold
             Id = new Guid(),
             FileUrl = commands.FileUrl,
             ToDate = commands.ToDate,
-            FromDate = GetCurrentEgyptTime(),
-            classRoomId = commands.classRoomId,
+            FromDate = DateTime.UtcNow,
             lessonId = commands.lessonId,
             teacherId = teacher.Id
         };
