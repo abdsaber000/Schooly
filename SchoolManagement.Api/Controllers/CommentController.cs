@@ -2,6 +2,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Comment.Command.CreateComment;
 using SchoolManagement.Application.Features.Comment.Command.DeleteComment;
 using SchoolManagement.Application.Features.Comment.Command.UpdateComment;
@@ -11,6 +12,7 @@ using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers
 {
+    [EnableRateLimiting("ApiPolicy")]
     [Route("api/comment")]
     [ApiController]
     [Authorize(AuthenticationSchemes = "Bearer")]

@@ -24,6 +24,8 @@ using SchoolManagement.Application.Services.Seeder;
 using Microsoft.AspNetCore.Mvc;
 using System.Text.Json.Serialization;
 using System.Reflection;
+using System.Threading.RateLimiting;
+using Microsoft.AspNetCore.RateLimiting;
 using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.SwaggerGen;
@@ -31,8 +33,7 @@ using SchoolManagement.Api.swagger;
 using SchoolManagement.Application.Jobs;
 using SchoolManagement.Api.Middlewares;
 using SchoolManagement.Application.Services.AuthenticationService;
-
-
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -61,11 +62,54 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var Configuration = builder.Configuration;
+
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .WriteTo.File("Logs/requests.txt", rollingInterval: RollingInterval.Day)
+    .CreateLogger();
+
+builder.Host.UseSerilog();
+
 // injecting the MediatR
 // builder.Services.AddMediatR(config => 
 //     config.RegisterServicesFromAssemblies(typeof(Program).Assembly));
 
 builder.Services.AddApplicationServices();
+
+#region RateLimite
+
+builder.Services.AddRateLimiter(options =>
+{
+    // Global limiter that applies to all endpoints
+    options.GlobalLimiter = PartitionedRateLimiter.Create<HttpContext, string>(httpContext =>
+        RateLimitPartition.GetFixedWindowLimiter(
+            partitionKey: httpContext.User.Identity?.Name ?? httpContext.Request.Headers.Host.ToString(),
+            factory: partition => new FixedWindowRateLimiterOptions
+            {
+                AutoReplenishment = true,
+                PermitLimit = 100,  // 30 requests
+                Window = TimeSpan.FromMinutes(1)  // per minute
+            }));
+    
+    // You can add multiple named policies
+    options.AddFixedWindowLimiter("ApiPolicy", opt =>
+    {
+        opt.PermitLimit = 100;
+        opt.Window = TimeSpan.FromSeconds(30);
+        opt.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
+        opt.QueueLimit = 10;
+    });
+    
+    // Configure rejection response
+    options.OnRejected = async (context, token) =>
+    {
+        context.HttpContext.Response.StatusCode = StatusCodes.Status429TooManyRequests;
+        await context.HttpContext.Response.WriteAsync(
+            "Too many requests. Please try again later.", cancellationToken: token);
+    };
+});
+
+#endregion
 
 // Add CORS services
 builder.Services.AddCors(options =>
@@ -220,6 +264,8 @@ builder.Services.Configure<RequestLocalizationOptions>(options =>
 #endregion
 
 var app = builder.Build();
+app.UseMiddleware<RequestLoggingMiddleware>();
+app.UseRateLimiter();
 
 #region RolesSeeder
 

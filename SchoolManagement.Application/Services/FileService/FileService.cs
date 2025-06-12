@@ -36,11 +36,6 @@ public class FileService : IFileService
     }
     public async Task<(Stream? Stream, string ContentType, string FileName, string? ErrorKey)> GetFileAsync(string fileName)
     {
-        if (fileName.Contains("..") || Path.GetFileName(fileName) != fileName)
-        {
-            return (null, "", "", "InvalidFileName");
-        }
-
         var file = await _uploadedFileRepositry.GetFileByName(fileName);
         if (file == null)
         {

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using MediatR;
+using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.HomeWork.Commands.AddHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Commands.DeleteHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Commands.SubmitHomeWork;
@@ -12,6 +13,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
+[EnableRateLimiting("ApiPolicy")]
 [Authorize(AuthenticationSchemes = "Bearer")]
 [ApiController]
 [Route("api/homework")]

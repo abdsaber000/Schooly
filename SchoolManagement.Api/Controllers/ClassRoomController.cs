@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.ClassRoom.Command.AddClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Command.AssignStudentToClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Command.DeleteClassRoom;
@@ -13,6 +14,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
+[EnableRateLimiting("ApiPolicy")]
 [Authorize(AuthenticationSchemes = "Bearer")]
 [ApiController]
 [Route("api/classroom")]

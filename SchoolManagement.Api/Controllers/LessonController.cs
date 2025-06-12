@@ -1,6 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Lesson.Command.CancelLesson;
 using SchoolManagement.Application.Features.Lesson.Command.CreateLesson;
 using SchoolManagement.Application.Features.Lesson.Command.DeleteLesson;
@@ -13,6 +14,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
+[EnableRateLimiting("ApiPolicy")]
 [Authorize(AuthenticationSchemes = "Bearer")]
 [ApiController]
 [Route("api/lesson")]
