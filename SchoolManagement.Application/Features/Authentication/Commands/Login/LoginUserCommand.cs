@@ -44,8 +44,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
         var token = await _tokenService.GenerateToken(existUser, request.RememberMe);
         
         var loginDto = existUser.ToLoginDto();
-        loginDto.Token = token;
         
-        return Result<LoginDto>.Success(loginDto);
+        return Result<LoginDto>.Success(loginDto, token);
     }
 }
