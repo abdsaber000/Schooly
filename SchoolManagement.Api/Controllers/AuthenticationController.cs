@@ -43,8 +43,8 @@ public class AuthenticationController : ControllerBase
 
         if (!result.IsSuccess)
             return StatusCode((int)result.StatusCode, new { message = result.Message });
-        
-        var token = result.Data.Token;
+
+        var token = result.Token;
 
         var cookieOptions = new CookieOptions
         {
