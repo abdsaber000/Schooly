@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using SchoolManagement.Application.Features.Authentication.Dtos;
 using SchoolManagement.Application.Services.FaceRecognitionService;
+using SchoolManagement.Application.Services.TokenService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
 
@@ -17,10 +18,15 @@ public class VerifyFaceCommandHandler : IRequestHandler<VerifyFaceCommand, Resul
 {
     private readonly IFaceRecognitionService _faceRecognitionService;
     private readonly UserManager<ApplicationUser> _userManager;
-    public VerifyFaceCommandHandler(IFaceRecognitionService faceRecognitionService
-                                    , UserManager<ApplicationUser> userManager) {
+    private readonly ITokenService _tokenService;
+    public VerifyFaceCommandHandler(
+        IFaceRecognitionService faceRecognitionService,
+        UserManager<ApplicationUser> userManager,
+        ITokenService tokenService)
+    {
         _faceRecognitionService = faceRecognitionService;
         _userManager = userManager;
+        _tokenService = tokenService;
     }
     public async Task<Result<VerifyFaceCommandDto>> Handle(VerifyFaceCommand request, CancellationToken cancellationToken)
     {
@@ -32,6 +38,7 @@ public class VerifyFaceCommandHandler : IRequestHandler<VerifyFaceCommand, Resul
         if(user is null){
             return Result<VerifyFaceCommandDto>.Failure("User id is not valid.");
         }
-        return Result<VerifyFaceCommandDto>.Success(user.ToVerifyFaceCommandDto());
+        var token = await _tokenService.GenerateToken(user, true);
+        return Result<VerifyFaceCommandDto>.Success(user.ToVerifyFaceCommandDto(), token);
     }
 }

@@ -34,6 +34,19 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommandR
         {
             user.ProfilePictureUrl = request.ProfilePictureUrl;
         }
+        if (request.Name != null)
+        {
+            user.Name = request.Name;
+        }
+        if (request.Email != null)
+        {
+            user.Email = request.Email;
+            var emailResult = await _userManager.SetEmailAsync(user, request.Email);
+            if (!emailResult.Succeeded)
+            {
+                return Result<UpdateProfileCommandDto>.Failure("Failed to update email.");
+            }
+        }
         var result = await _userManager.UpdateAsync(user);
         if (!result.Succeeded)
         {
