@@ -50,10 +50,9 @@ public static class StudentExtensionMetholdauth
     {
         return new VerifyFaceCommandDto()
         {
-            UserId = user.Id,
+            Id = user.Id,
             Name = user.Name,
             Email = user.Email,
-            Gender = user.Gender,
             Role = user.Role
         };
     }
