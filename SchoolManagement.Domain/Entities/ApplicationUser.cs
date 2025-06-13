@@ -12,5 +12,6 @@ public class ApplicationUser : IdentityUser
     public DateOnly? DateOfBarith { get; set; }
     public ICollection<Post> Posts { get; set; } = new List<Post>();
     public ICollection<Comment> Comments { get; set; } = new List<Comment>();
-    public virtual Role Role {get; set;} 
+    public virtual Role Role { get; set; } 
+    public string? ProfilePictureUrl { get; set; }
 }
