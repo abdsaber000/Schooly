@@ -139,7 +139,7 @@ builder.Services.AddSwaggerGen(c =>
     });
 
 
-    c.SchemaFilter<EnumSchemaFilter>();
+    // c.SchemaFilter<EnumSchemaFilter>();
     c.OperationFilter<AddLanguageHeaderParameter>();
     
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement()
