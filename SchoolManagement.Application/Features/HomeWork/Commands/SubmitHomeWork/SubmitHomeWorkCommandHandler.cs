@@ -35,7 +35,7 @@ public class SubmitHomeWorkCommandHandler : IRequestHandler<SubmitHomeWorkComman
         {
             return Result<string>.Failure(_localizer["HomeWork not found"]);
         }
-        if (DateTime.UtcNow > homeWork.ToDate)
+        if (DateTime.UtcNow > homeWork.Deadline)
         {
             return Result<string>.Failure(_localizer["HomeWorkSubmissionClosed"]);
         }

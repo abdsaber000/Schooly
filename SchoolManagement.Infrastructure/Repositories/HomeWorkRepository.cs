@@ -12,25 +12,17 @@ public class HomeWorkRepository : GenericRepository<HomeWork> , IHomeWorkReposit
     {
         _appDbContext = appDbContext;
     }
-    private DateTime GetCurrentEgyptTime()
-    {
-        var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
-        var nowEgypt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, egyptTimeZone);
-        return nowEgypt;
-    }
-
+    
     public async Task<int> GetTotalCountAsyncByClassRoomId(Guid classRoomId, CancellationToken cancellationToken = default)
     {
-        var currentDateTimeEgypt = GetCurrentEgyptTime();
-       return await _appDbContext.HomeWorks.Where(hw => hw.classRoomId == classRoomId && hw.ToDate > currentDateTimeEgypt)
+       return await _appDbContext.HomeWorks.Where(hw => hw.classRoomId == classRoomId)
            .CountAsync(cancellationToken);
     }
 
-    public async Task<List<HomeWork>> GetAllActiveHomeWorkByClassRoomId(int page, int pageSize, Guid classRoomId)
+    public async Task<List<HomeWork>> GetAllHomeWorkByClassRoomId(int page, int pageSize, Guid classRoomId)
     {
-        var currentDateTimeEgypt = GetCurrentEgyptTime();
         return await _appDbContext.HomeWorks
-            .Where(hw => hw.classRoomId == classRoomId && hw.ToDate > currentDateTimeEgypt)
+            .Where(hw => hw.classRoomId == classRoomId)
             .Include(hw => hw.Lesson)
             .OrderBy(hw => hw.Lesson.Date)
             .Skip((page - 1) * pageSize)
@@ -45,17 +37,14 @@ public class HomeWorkRepository : GenericRepository<HomeWork> , IHomeWorkReposit
 
     public async Task<int> GetTotalCountAsyncByTeacherId(string teacherId, CancellationToken cancellationToken = default)
     {
-        var currentDateTimeEgypt = GetCurrentEgyptTime();
-
         return await _appDbContext.HomeWorks
-            .CountAsync(hw => hw.teacherId == teacherId && hw.ToDate > currentDateTimeEgypt, cancellationToken);
+            .CountAsync(hw => hw.teacherId == teacherId , cancellationToken);
     }
 
-    public async Task<List<HomeWork>> GetActiveHomeWorksByTeacherId(int page, int pageSize, string teacherId)
+    public async Task<List<HomeWork>> GetHomeWorksByTeacherId(int page, int pageSize, string teacherId)
     {
-        var currentDateTimeEgypt = GetCurrentEgyptTime();
         return await _appDbContext.HomeWorks
-            .Where(hw => hw.teacherId == teacherId && hw.ToDate > currentDateTimeEgypt)
+            .Where(hw => hw.teacherId == teacherId)
             .Include(hw => hw.Lesson)
             .OrderBy(hw => hw.Lesson.Date)
             .Skip((page - 1) * pageSize)
@@ -65,20 +54,15 @@ public class HomeWorkRepository : GenericRepository<HomeWork> , IHomeWorkReposit
 
     public async Task<int> GetTotalCountAsyncByClassRoomsId(List<Guid> classRoomIds)
     {
-        var currentDateTimeEgypt = GetCurrentEgyptTime();
-
         return await _appDbContext.HomeWorks
-            .Where(hw => classRoomIds.Contains(hw.classRoomId) 
-                         && hw.ToDate > currentDateTimeEgypt)
+            .Where(hw => classRoomIds.Contains(hw.classRoomId))
             .CountAsync();
     }
 
-    public async Task<List<HomeWork>> GetActiveHomeWorksByClassRoomIds(List<Guid> classRoomIds, int page, int pageSize)
+    public async Task<List<HomeWork>> GetHomeWorksByClassRoomIds(List<Guid> classRoomIds, int page, int pageSize)
     {
-        var currentDateTimeEgypt = GetCurrentEgyptTime();
-
         return await _appDbContext.HomeWorks
-            .Where(hw => classRoomIds.Contains(hw.classRoomId) && hw.ToDate > currentDateTimeEgypt)
+            .Where(hw => classRoomIds.Contains(hw.classRoomId))
             .Include(hw => hw.Lesson)
             .OrderBy(hw => hw.Lesson.Date)
             .Skip((page - 1) * pageSize)

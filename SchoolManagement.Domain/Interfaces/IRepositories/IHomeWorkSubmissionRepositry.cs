@@ -1,9 +1,12 @@
 using SchoolManagement.Domain.Entities;
+using SchoolManagement.Domain.HelperClass;
 
 namespace SchoolManagement.Domain.Interfaces.IRepositories;
 
 public interface IHomeWorkSubmissionRepositry : IGenericRepository<HomeWorkSubmission>
 {
     public Task<int> GetTotalCountSubmittedStudentsByHomeWorkIdAsync(Guid homeWorkId);
-    public Task<List<ApplicationUser>> GetSubmittedStudentsByHomeWorkIdAsync(Guid homeWorkId, int page, int pageSize);
+    public Task<IEnumerable<StudentHomeWorkDto>> GetSubmittedStudentsByHomeWorkIdAsync(Guid homeWorkId, int page, int pageSize);
+   Task<bool> isSubmittedByStudent(string studentId, Guid homeWorkId);
+   
 }

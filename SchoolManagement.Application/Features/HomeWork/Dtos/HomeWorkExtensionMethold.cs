@@ -9,6 +9,9 @@ public class HomeWorkDto
     public string fileUrl { get; set;}
     public string fileName { get; set; }
     public string lessonTitle { get; set; }
+    public bool isSubmitted { get; set; }     // for student to see if he submitted this home work or not
+    public int totalSubmissions { get; set; } // see how many students submitted this home work
+    public DateTime Deadline { get; set; } 
 }
 public static class HomeWorkExtensionMethold
 {
@@ -18,20 +21,21 @@ public static class HomeWorkExtensionMethold
         {
             Id = new Guid(),
             FileUrl = commands.FileUrl,
-            ToDate = commands.ToDate,
+            Deadline = commands.Deadline,
             FromDate = DateTime.UtcNow,
             lessonId = commands.lessonId,
             teacherId = teacher.Id
         };
     }
+    
     public static HomeWorkDto ToHomeWorkDto(this Domain.Entities.HomeWork homeWork)
     {
         return new HomeWorkDto()
         {
-           homeWorkId = homeWork.Id,
-           fileName = homeWork.fileName,
-           fileUrl = homeWork.FileUrl,
-           lessonTitle = homeWork.Lesson.Title
+            homeWorkId = homeWork.Id,
+            fileName = homeWork.fileName,
+            fileUrl = homeWork.FileUrl,
+            lessonTitle = homeWork.Lesson.Title
         };
     }
 }

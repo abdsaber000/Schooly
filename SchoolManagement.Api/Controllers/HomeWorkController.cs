@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.HomeWork.Commands.AddHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Commands.DeleteHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Commands.SubmitHomeWork;
-using SchoolManagement.Application.Features.HomeWork.Query.GetAllClassRoomHomeWork;
+using SchoolManagement.Application.Features.HomeWork.Query.GetAllHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Query.GetAllStudentSubmitedHomeWork;
 using SchoolManagement.Application.Features.HomeWork.Query.GetHomeWork;
 using SchoolManagement.Application.Services.ResponseService;
@@ -33,8 +33,8 @@ public class HomeWorkController : ControllerBase
       return _responseService.CreateResponse(await _mediator.Send(commands));
    }
 
-   [HttpGet("active")]
-   public async Task<IActionResult> GetAllHomeWork([FromQuery] GetActiveHomeWorkQuery Query)
+   [HttpGet("all")]
+   public async Task<IActionResult> GetAllHomeWork([FromQuery] GetِِِِAllHomeWorkQuery Query)
    {
       return _responseService.CreateResponse(await _mediator.Send(Query));
    }
