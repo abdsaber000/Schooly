@@ -33,7 +33,7 @@ public class DeleteExpiredLessonsJob : BackgroundService
                 }
             }
 
-            await Task.Delay(TimeSpan.FromHours(1), stoppingToken); // Run every hour
+            await Task.Delay(TimeSpan.FromMinutes(1) , stoppingToken); // Run every hour
         }
     }
     

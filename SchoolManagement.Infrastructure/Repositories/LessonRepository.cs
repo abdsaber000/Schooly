@@ -144,8 +144,9 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
 
         var expiredLessons = await _appDbContext.Lessons
             .Where(lesson =>
-                lesson.Date < todayEgypt ||
-                (lesson.Date == todayEgypt && lesson.To <= currentTimeEgypt))
+                (lesson.Date < todayEgypt ||
+                (lesson.Date == todayEgypt && lesson.To <= currentTimeEgypt)) 
+                && lesson.LessonStatus != LessonStatus.Completed && lesson.LessonStatus != LessonStatus.Canceled)
             .ToListAsync();
 
         if (!expiredLessons.Any())
