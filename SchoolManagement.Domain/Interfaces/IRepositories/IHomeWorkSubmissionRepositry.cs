@@ -8,5 +8,5 @@ public interface IHomeWorkSubmissionRepositry : IGenericRepository<HomeWorkSubmi
     public Task<int> GetTotalCountSubmittedStudentsByHomeWorkIdAsync(Guid homeWorkId);
     public Task<IEnumerable<StudentHomeWorkDto>> GetSubmittedStudentsByHomeWorkIdAsync(Guid homeWorkId, int page, int pageSize);
    Task<bool> isSubmittedByStudent(string studentId, Guid homeWorkId);
-   
+   Task<HomeWorkSubmission?> GetSubmissionByStudentIdAndHomeWorkId(string userId, Guid homeWorkId);
 }

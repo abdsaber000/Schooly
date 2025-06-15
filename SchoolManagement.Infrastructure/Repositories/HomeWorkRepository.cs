@@ -23,7 +23,8 @@ public class HomeWorkRepository : GenericRepository<HomeWork> , IHomeWorkReposit
     {
         return await _appDbContext.HomeWorks
             .Where(hw => hw.classRoomId == classRoomId)
-            .Include(hw => hw.Lesson)
+            .Include(hw => hw.Lesson.ClassRoom)
+            .Include(hw => hw.Lesson.Teacher)
             .OrderBy(hw => hw.Lesson.Date)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -45,7 +46,8 @@ public class HomeWorkRepository : GenericRepository<HomeWork> , IHomeWorkReposit
     {
         return await _appDbContext.HomeWorks
             .Where(hw => hw.teacherId == teacherId)
-            .Include(hw => hw.Lesson)
+            .Include(hw => hw.Lesson.ClassRoom)
+            .Include(hw => hw.Lesson.Teacher)
             .OrderBy(hw => hw.Lesson.Date)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
@@ -63,7 +65,8 @@ public class HomeWorkRepository : GenericRepository<HomeWork> , IHomeWorkReposit
     {
         return await _appDbContext.HomeWorks
             .Where(hw => classRoomIds.Contains(hw.classRoomId))
-            .Include(hw => hw.Lesson)
+            .Include(hw => hw.Lesson.ClassRoom)
+            .Include(hw => hw.Lesson.Teacher)
             .OrderBy(hw => hw.Lesson.Date)
             .Skip((page - 1) * pageSize)
             .Take(pageSize)
