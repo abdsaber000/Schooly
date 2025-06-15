@@ -47,7 +47,9 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 
         var errorMessages = context.ModelState.Values
             .SelectMany(v => v.Errors)
-            .Select(e => localizer[e.ErrorMessage])
+            .Select(e => string.IsNullOrEmpty(localizer[e.ErrorMessage]) 
+                ? e.ErrorMessage 
+                : localizer[e.ErrorMessage])
             .ToList();
 
         string errorMessage = errorMessages.Any() ? string.Join(" ", errorMessages) : localizer["InvalidInput"];
