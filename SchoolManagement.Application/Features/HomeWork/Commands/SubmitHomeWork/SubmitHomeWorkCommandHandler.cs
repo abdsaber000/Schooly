@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Localization;
+using SchoolManagement.Application.Services.FileService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Interfaces.IRepositories;
@@ -17,7 +18,8 @@ public class SubmitHomeWorkCommandHandler : IRequestHandler<SubmitHomeWorkComman
     private readonly IUploadedFileRepositry _uploadedFileRepositry;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly IHttpContextAccessor _httpContextAccessor;
-    public SubmitHomeWorkCommandHandler(IHomeWorkRepository homeWorkRepository, IStringLocalizer<SubmitHomeWorkCommandHandler> localizer, IUploadedFileRepositry uploadedFileRepositry, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, IHomeWorkSubmissionRepositry homeWorkSubmissionRepositry)
+    private readonly IFileService _fileService;
+    public SubmitHomeWorkCommandHandler(IHomeWorkRepository homeWorkRepository, IStringLocalizer<SubmitHomeWorkCommandHandler> localizer, IUploadedFileRepositry uploadedFileRepositry, UserManager<ApplicationUser> userManager, IHttpContextAccessor httpContextAccessor, IHomeWorkSubmissionRepositry homeWorkSubmissionRepositry, IFileService fileService)
     {
         _homeWorkRepository = homeWorkRepository;
         _localizer = localizer;
@@ -25,6 +27,7 @@ public class SubmitHomeWorkCommandHandler : IRequestHandler<SubmitHomeWorkComman
         _userManager = userManager;
         _httpContextAccessor = httpContextAccessor;
         _homeWorkSubmissionRepositry = homeWorkSubmissionRepositry;
+        _fileService = fileService;
     }
 
     public async Task<Result<string>> Handle(SubmitHomeWorkCommand request, CancellationToken cancellationToken)
@@ -35,6 +38,14 @@ public class SubmitHomeWorkCommandHandler : IRequestHandler<SubmitHomeWorkComman
         {
             return Result<string>.Failure(_localizer["HomeWork not found"]);
         }
+        
+        var homeWorkSubmission = await _homeWorkSubmissionRepositry.GetSubmissionByStudentIdAndHomeWorkId(user.Id, request.HomeWorkId);
+        if (homeWorkSubmission != null)
+        {
+            await _fileService.DeleteFileAsync(homeWorkSubmission.FileUrl);
+            await _homeWorkSubmissionRepositry.Delete(homeWorkSubmission);
+        }
+        
         if (DateTime.UtcNow > homeWork.Deadline)
         {
             return Result<string>.Failure(_localizer["HomeWorkSubmissionClosed"]);

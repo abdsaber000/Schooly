@@ -46,6 +46,7 @@ public class HomeWorkController : ControllerBase
       return _responseService.CreateResponse(await _mediator.Send(new DeleteHomeWorkCommand(fileName)));
    }
    
+   [Authorize(Roles = Roles.Student)]
    [HttpPost("{homeWorkId}/submit")]
    public async Task<IActionResult> SubmitHomework(Guid homeWorkId, [FromBody] SubmitHomeWorkCommand command)
    {
