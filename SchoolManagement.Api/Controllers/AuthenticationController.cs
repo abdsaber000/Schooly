@@ -4,8 +4,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Authentication.Commands.Login;
 using SchoolManagement.Application.Features.Authentication.Commands.Register;
-using SchoolManagement.Application.Features.Authentication.Commands.RegisterFace;
-using SchoolManagement.Application.Features.Authentication.Commands.VerifyFace;
 using SchoolManagement.Application.Features.PasswordReset.Command.ForgetPassword;
 using SchoolManagement.Application.Features.PasswordReset.Command.ResetPassword;
 using SchoolManagement.Application.Features.PasswordReset.Command.VerifyCode;
@@ -61,17 +59,7 @@ public class AuthenticationController : ControllerBase
         return _responseService.CreateResponse(result);
     }
 
-    [HttpPost]
-    [Route("register-face")]
-    public async Task<IActionResult> RegisterFace([FromForm] RegisterFaceCommand command){
-        return _responseService.CreateResponse(await _mediator.Send(command));
-    }
-
-    [HttpPost]
-    [Route("verify-face")]
-    public async Task<IActionResult> VerifyFace([FromForm] VerifyFaceCommand command){
-        return _responseService.CreateResponse(await _mediator.Send(command));
-    }
+    
     
     [HttpPost("forgot-password")]
     public async Task<IActionResult> ForgotPassword([FromBody] ForgetPasswordCommand command)

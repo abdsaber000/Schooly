@@ -39,7 +39,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
         
         if (existUser is null || !isCorrectPassword )
         {
-            return Result<LoginDto>.Failure(_localizer["Invalid Credentials."] , HttpStatusCode.Unauthorized);
+            return Result<LoginDto>.Failure(_localizer["Invalid Credentials."] , HttpStatusCode.Forbidden);
         }
         var token = await _tokenService.GenerateToken(existUser, request.RememberMe);
         
