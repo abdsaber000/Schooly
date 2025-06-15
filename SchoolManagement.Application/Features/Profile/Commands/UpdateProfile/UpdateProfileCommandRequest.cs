@@ -9,6 +9,6 @@ public class UpdateProfileCommandRequest : IRequest<Result<UpdateProfileCommandD
 {
     public string? ProfilePictureUrl { get; set; }
     public string Name { get; set; } = string.Empty;
-    [EmailAddress(ErrorMessage = "Invalid Email Address")]
+    [EmailAddress(ErrorMessage = "Invalid email format")]
     public string? Email { get; set; }  
 }

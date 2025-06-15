@@ -75,5 +75,6 @@
     "Lesson cancelled successfully." : "Lesson cancelled successfully.",
 
     "HomeWorkSubmittedSuccessfully": "HomeWork Submitted Successfully",
-    "HomeWorkSubmissionClosed" : "HomeWork Submission Closed"
+    "HomeWorkSubmissionClosed" : "HomeWork Submission Closed",
+    "InvalidInput" : "InvalidInput"
 }
