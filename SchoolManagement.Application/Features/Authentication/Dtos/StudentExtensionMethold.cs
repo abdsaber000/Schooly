@@ -1,6 +1,6 @@
 using SchoolManagement.Application.Features.Authentication.Commands.Login;
 using SchoolManagement.Application.Features.Authentication.Commands.Register;
-using SchoolManagement.Application.Features.Authentication.Commands.VerifyFace;
+using SchoolManagement.Application.Features.FaceRecognition.VerifyFace;
 using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Application.Features.Authentication.Dtos;
