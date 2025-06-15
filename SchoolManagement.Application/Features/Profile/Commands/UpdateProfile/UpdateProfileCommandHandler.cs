@@ -46,9 +46,14 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommandR
                 return Result<UpdateProfileCommandDto>.Failure("Email already exists.");
             }
             user.Email = request.Email;
-            user.UserName = request.Email; 
+            user.UserName = request.Email;
             var emailResult = await _userManager.SetEmailAsync(user, request.Email);
             if (!emailResult.Succeeded)
+            {
+                return Result<UpdateProfileCommandDto>.Failure("Failed to update email.");
+            }
+            var userNameResult = await _userManager.SetUserNameAsync(user, request.Email);
+            if (!userNameResult.Succeeded)
             {
                 return Result<UpdateProfileCommandDto>.Failure("Failed to update email.");
             }
