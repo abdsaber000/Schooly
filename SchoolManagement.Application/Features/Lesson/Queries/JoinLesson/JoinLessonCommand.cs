@@ -72,8 +72,7 @@ public class JoinLessonCommandHandler : IRequestHandler<JoinLessonCommand, Resul
             return Result<JoinLessonDto>.Failure(_localizer["You cannot join , the lesson has ended."]);
         }
 
-        var token =  _agoraService.GenerateToken(lesson.Title, "0", 7200); 
+        var token =  _agoraService.GenerateToken(lesson.Id.ToString(), "0", 7200); 
         return Result<JoinLessonDto>.Success(new JoinLessonDto { Token = token });
-
     }
 }

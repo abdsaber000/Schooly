@@ -10,7 +10,7 @@ public class AddHomeWorkCommands : IRequest<Result<string>>
     public Guid lessonId { get; set; }
 
     [Required]
-    public DateTime ToDate { get; set; }
+    public DateTime Deadline { get; set; }
     [Required]    
     public string FileUrl { get; set; }
 }
