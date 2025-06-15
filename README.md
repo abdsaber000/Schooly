@@ -12,7 +12,7 @@ A full-featured **School Management Platform** developed as a graduation project
 
 ## 🚀 Live Demos
 
-- 🔗 **Backend API Docs**: [https://schooly.runasp.net/swagger/index.html](https://schooly.runasp.net/swagger/index.html)
+- 🔗 **Backend API Docs**: [[https://schooly.runasp.net/swagger/index.html](https://schoolly.runasp.net/swagger/index.html)
 - 🔗 **Frontend Demo**: [https://schooly.vercel.app/](https://schooly.vercel.app/)
 - 🧠 **Face Recognition Repo**: [https://github.com/abdsaber000/Face-Recognition](https://github.com/abdsaber000/Face-Recognition)
 
