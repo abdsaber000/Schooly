@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using MediatR;
 using SchoolManagement.Application.Shared;
+using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Application.Features.HomeWork.Commands.SubmitHomeWork;
 

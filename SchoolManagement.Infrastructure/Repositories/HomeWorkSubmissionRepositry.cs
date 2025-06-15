@@ -46,5 +46,10 @@ public class HomeWorkSubmissionRepositry : GenericRepository<HomeWorkSubmission>
         return await _appDbContext.HomeWorkSubmissions
             .AnyAsync(hs => hs.StudentId == studentId && hs.HomeWorkId == homeWorkId);
     }
-    
+
+    public async Task<HomeWorkSubmission?> GetSubmissionByStudentIdAndHomeWorkId(string userId, Guid homeWorkId)
+    {
+        return await _appDbContext.HomeWorkSubmissions
+            .FirstOrDefaultAsync(hs => hs.StudentId == userId && hs.HomeWorkId == homeWorkId);
+    }
 }
