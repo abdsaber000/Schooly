@@ -9,6 +9,7 @@ public class HomeWorkDto
     public string fileUrl { get; set;}
     public string fileName { get; set; }
     public string lessonTitle { get; set; }
+    public string grade { get; set; }
     public string teacherName { get; set; } = string.Empty; // for student to see who is the teacher
     public string subjectName { get; set; } = string.Empty; // for student to see which subject this home work is for
     public bool isSubmitted { get; set; }     // for student to see if he submitted this home work or not
@@ -40,7 +41,8 @@ public static class HomeWorkExtensionMethold
             lessonTitle = homeWork.Lesson.Title,
             Deadline = homeWork.Deadline,
             subjectName = homeWork.Lesson.ClassRoom.Subject,
-            teacherName = homeWork.Lesson.Teacher.Name
+            teacherName = homeWork.Lesson.Teacher.Name,
+            grade = homeWork.Lesson.ClassRoom.Grade
         };
     }
 }
