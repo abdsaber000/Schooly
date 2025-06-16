@@ -41,9 +41,9 @@ public class HomeWorkController : ControllerBase
    
    [HttpDelete]
    [Authorize(Roles = Roles.Teacher)]
-   public async Task<IActionResult> DeleteHomeWork(string fileName)
+   public async Task<IActionResult> DeleteHomeWork(Guid homeWorkId)
    {
-      return _responseService.CreateResponse(await _mediator.Send(new DeleteHomeWorkCommand(fileName)));
+      return _responseService.CreateResponse(await _mediator.Send(new DeleteHomeWorkCommand(homeWorkId)));
    }
    
    [Authorize(Roles = Roles.Student)]
