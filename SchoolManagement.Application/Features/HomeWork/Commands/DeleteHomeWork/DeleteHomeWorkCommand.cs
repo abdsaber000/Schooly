@@ -11,11 +11,11 @@ namespace SchoolManagement.Application.Features.HomeWork.Commands.DeleteHomeWork
 public class DeleteHomeWorkCommand : IRequest<Result<string>>
 {
     [Required]
-    public string fileUrl;
+    public Guid homeWorkId;
 
-    public DeleteHomeWorkCommand(string fileUrl)
+    public DeleteHomeWorkCommand(Guid homeWorkId)
     {
-        this.fileUrl = fileUrl;
+        this.homeWorkId = homeWorkId;
     }
 }
 
@@ -34,13 +34,13 @@ public class DeleteHomeWorkCommandHandler : IRequestHandler<DeleteHomeWorkComman
     }
     public async Task<Result<string>> Handle(DeleteHomeWorkCommand request, CancellationToken cancellationToken)
     {
-        var homeWork = await _homeWorkRepository.GetHomeWorkByFileUrl(request.fileUrl);
+        var homeWork = await _homeWorkRepository.GetByIdAsync(request.homeWorkId);
         if (homeWork is null)
         {
             return Result<string>.Failure(_localizer["HomeWork not found"]);
         }
         await _homeWorkRepository.Delete(homeWork);
-        var moreHomeWorkWithSameName = await _homeWorkRepository.GetHomeWorkByFileUrl(request.fileUrl);
+        var moreHomeWorkWithSameName = await _homeWorkRepository.GetHomeWorkByFileUrl(homeWork.FileUrl);
         if (moreHomeWorkWithSameName is null)
         {
             await _fileService.DeleteFileAsync(homeWork.FileUrl);
