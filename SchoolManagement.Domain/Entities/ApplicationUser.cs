@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using SchoolManagement.Domain.Enums;
-using SchoolManagement.Domain.Enums.User;
 
 namespace SchoolManagement.Domain.Entities;
 

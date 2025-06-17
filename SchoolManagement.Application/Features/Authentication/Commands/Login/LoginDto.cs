@@ -1,5 +1,5 @@
-using SchoolManagement.Domain.Enums.User;
 using System;
+using SchoolManagement.Domain.Enums;
 
 namespace SchoolManagement.Application.Features.Authentication.Commands.Login;
 

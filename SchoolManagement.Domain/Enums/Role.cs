@@ -1,7 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-
-namespace SchoolManagement.Domain.Enums.User
+﻿namespace SchoolManagement.Domain.Enums
 {
     public enum Role
     {

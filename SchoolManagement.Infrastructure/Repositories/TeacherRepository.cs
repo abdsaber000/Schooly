@@ -6,12 +6,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace SchoolManagement.Infrastructure.Repositories;
 
-public class TeacherRepository : ITeacherRepository
+public class TeacherRepository : GenericRepository<Teacher>,ITeacherRepository
 {
     private readonly AppDbContext _appDbContext;
     private readonly UserManager<ApplicationUser> _userManager;
 
-    public TeacherRepository(AppDbContext appDbContext, UserManager<ApplicationUser> userManager)
+    public TeacherRepository(AppDbContext appDbContext, UserManager<ApplicationUser> userManager) : base(appDbContext)
     {
         _appDbContext = appDbContext;
         _userManager = userManager;

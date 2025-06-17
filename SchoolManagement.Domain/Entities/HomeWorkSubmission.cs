@@ -11,7 +11,7 @@ public class HomeWorkSubmission
     public HomeWork HomeWork { get; set; }
 
     public string StudentId { get; set; }
-    public ApplicationUser Student { get; set; }
+    public Student Student { get; set; }
     
     public string FileUrl { get; set; }
     public string FileName { get; set; }

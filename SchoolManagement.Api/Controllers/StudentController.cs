@@ -24,6 +24,7 @@ public class StudentController : ControllerBase
         _mediator = mediator  ?? throw new ArgumentNullException(nameof(mediator));;
         _responseService = responseService;
     }
+    
     [HttpGet]
     [Route("all")]
     public async Task<IActionResult> GetPagedData([FromQuery] GetStudentsPagedQuery query)

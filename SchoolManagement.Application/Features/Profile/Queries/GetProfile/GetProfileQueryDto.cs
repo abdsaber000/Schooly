@@ -1,7 +1,6 @@
 using System;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Domain.Enums;
-using SchoolManagement.Domain.Enums.User;
 
 namespace SchoolManagement.Application.Features.Profile.Queries.GetProfile;
 

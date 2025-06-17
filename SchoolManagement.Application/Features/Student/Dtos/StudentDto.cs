@@ -29,12 +29,4 @@ public static class StudentDtoExtensionMethold
             DateOfJoining = student.DateOfJoining
         };
     }
-    public static StudentDto ToStudentDto(this ApplicationUser student)
-    {
-        return new StudentDto()
-        {
-            Id = student.Id,
-            StudentName = student.Name
-        };
-    }
 }

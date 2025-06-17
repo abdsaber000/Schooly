@@ -6,7 +6,7 @@ using SchoolManagement.Application.Services.AuthenticationService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Features.Profile.Dtos;
-using SchoolManagement.Domain.Enums.User;
+using SchoolManagement.Domain.Enums;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 
 namespace SchoolManagement.Application.Features.Profile.Queries.GetProfile;

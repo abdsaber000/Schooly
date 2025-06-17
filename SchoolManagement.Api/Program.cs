@@ -275,7 +275,10 @@ using var scope = app.Services.CreateScope();
 try
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    await DefaultRoles.SeedAsync(roleManager);
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+
+    // Seed roles and admin
+    await DefaultRolesAndAdmin.SeedAsync(roleManager, userManager);
 }
 catch (Exception exception)
 {

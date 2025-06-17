@@ -76,5 +76,8 @@
 
     "HomeWorkSubmittedSuccessfully": "HomeWork Submitted Successfully",
     "HomeWorkSubmissionClosed" : "HomeWork Submission Closed",
-    "InvalidInput" : "InvalidInput"
+    "InvalidInput" : "InvalidInput",
+
+    "Teacher not found": "Teacher not found",
+    "Teacher assigned to classroom successfully" : "Teacher assigned to classroom successfully"
 }

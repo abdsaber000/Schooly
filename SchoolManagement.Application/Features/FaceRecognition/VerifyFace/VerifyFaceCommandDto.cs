@@ -1,5 +1,5 @@
 using System;
-using SchoolManagement.Domain.Enums.User;
+using SchoolManagement.Domain.Enums;
 
 namespace SchoolManagement.Application.Features.FaceRecognition.VerifyFace;
 

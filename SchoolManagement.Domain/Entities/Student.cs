@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using SchoolManagement.Domain.Enums;
-using SchoolManagement.Domain.Enums.User;
 
 namespace SchoolManagement.Domain.Entities
 {
