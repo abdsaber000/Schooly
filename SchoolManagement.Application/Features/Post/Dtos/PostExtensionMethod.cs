@@ -29,12 +29,15 @@ static public class PostExtensionMethod
             ClassRoomId = post.ClassRoom.Id,
             AuthorId = post.Author.Id,
             AuthorName = post.Author.Name,
-            Comments = post.Comments.Select(comment => new CommentsDto(){
+            ProfilePictureUrl = post.Author.ProfilePictureUrl,
+            Comments = post.Comments.Select(comment => new CommentsDto()
+            {
                 Id = comment.Id,
                 Content = comment.Content,
                 CreatedAt = comment.CreatedAt,
                 AuthorId = comment.AuthorId,
-                AuthorName = comment.Author.Name
+                AuthorName = comment.Author.Name,
+                ProfilePictureUrl = comment.Author.ProfilePictureUrl
             })
             .OrderBy(c => c.CreatedAt)
             .ToList()
