@@ -32,6 +32,9 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
         modelBuilder.Entity<Teacher>()
             .ToTable("Teacher");
+        
+        modelBuilder.Entity<Admin>()
+            .ToTable("Admin");
 
         modelBuilder.Entity<Post>()
             .HasOne(p => p.Author)

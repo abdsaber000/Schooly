@@ -22,20 +22,15 @@ public class AddClassRoomCommandHandler:IRequestHandler<AddClassRoomCommand , Re
 {
     private readonly IClassRoomRepository _classRoomRepository;
     private readonly IStringLocalizer<AddClassRoomCommandHandler> _localizer;
-    private readonly IHttpContextAccessor _httpContextAccessor;
-    public AddClassRoomCommandHandler(IClassRoomRepository classRoomRepository, IStringLocalizer<AddClassRoomCommandHandler> localizer, IHttpContextAccessor httpContextAccessor)
+    public AddClassRoomCommandHandler(IClassRoomRepository classRoomRepository, IStringLocalizer<AddClassRoomCommandHandler> localizer)
     {
         _classRoomRepository = classRoomRepository;
         _localizer = localizer;
-        _httpContextAccessor = httpContextAccessor;
     }
 
     public async Task<Result<string>> Handle(AddClassRoomCommand request, CancellationToken cancellationToken)
     {
         var classRoom = request.ToClassRooms();
-        var userIdClaim = _httpContextAccessor.HttpContext?.User?.FindFirst(ClaimTypes.NameIdentifier);
-        var teacherId = userIdClaim.Value;
-        classRoom.TeacherId = teacherId;
         await _classRoomRepository.AddAsync(classRoom);
 
         return Result<string>.SuccessMessage(_localizer["Class Room Created successfully"]);

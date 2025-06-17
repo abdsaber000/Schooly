@@ -75,8 +75,11 @@
     "Lesson cancelled successfully." : "تم إلغاء الحصة بنجاح.",
     
     "HomeWorkSubmittedSuccessfully": "تم تقديم الواجب بنجاح.",
-    "HomeWorkSubmissionClosed" : "تم إغلاق تقديم الواجب."
+    "HomeWorkSubmissionClosed" : "تم إغلاق تقديم الواجب.",
 
-    "InvalidInput" : "إدخال غير صالح."
+    "InvalidInput" : "إدخال غير صالح.",
 
+    "Teacher not found" : "لا يوجد معلم",
+    "Teacher assigned to classroom successfully" : "تم اضافة المعلم للمادة بنجاح"
+    
 }

@@ -5,9 +5,10 @@ using Microsoft.AspNetCore.Identity;
 using SchoolManagement.Application.Services.AuthenticationService;
 using SchoolManagement.Application.Shared;
 using SchoolManagement.Domain.Entities;
-using SchoolManagement.Domain.Enums.User;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Application.Features.Profile.Dtos;
+using SchoolManagement.Domain.Enums;
+
 namespace SchoolManagement.Application.Features.Profile.Commands.UpdateProfile;
 
 public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommandRequest, Result<UpdateProfileCommandDto>>

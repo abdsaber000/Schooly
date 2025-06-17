@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.ClassRoom.Command.AddClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Command.AssignStudentToClassRoom;
+using SchoolManagement.Application.Features.ClassRoom.Command.AssignTeacerToClassroom;
 using SchoolManagement.Application.Features.ClassRoom.Command.DeleteClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Command.RemoveStudentFromClassRoom;
 using SchoolManagement.Application.Features.ClassRoom.Command.UpdateClassRoom;
@@ -71,7 +72,7 @@ public class ClassRoomController : ControllerBase
     
     [Authorize(Roles = Roles.Teacher)]
     [HttpPost]
-    [Route("assign")]
+    [Route("assign-studnet")]
     public async Task<IActionResult> AssignStudentToClassRoom([FromQuery] AssignStudentToClassRoomCommand command)
     {
         return _responseService.CreateResponse(await _mediator.Send(command));
@@ -79,9 +80,18 @@ public class ClassRoomController : ControllerBase
     
     [Authorize(Roles = Roles.Teacher)]
     [HttpDelete]
-    [Route("unassign")]
+    [Route("unassign-student")]
     public async Task<IActionResult> RemoveStudentFromClassRoom([FromQuery] RemoveStudentFromClassRoomCommand command)
     {
         return _responseService.CreateResponse(await _mediator.Send(command));
     }
+    
+    [Authorize(Roles = Roles.Teacher)]
+    [HttpPut]
+    [Route("assign-teacher")]
+    public async Task<IActionResult> AssignTeacherToClassRoom([FromQuery] AssignTeacherToClassroomCommand command)
+    {
+        return _responseService.CreateResponse(await _mediator.Send(command));
+    }
+    
 }

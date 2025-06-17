@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SchoolManagement.Infrastructure.DbContext;
 
@@ -11,9 +12,11 @@ using SchoolManagement.Infrastructure.DbContext;
 namespace SchoolManagement.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250617115408_addNullableToTeacherInClassroom")]
+    partial class addNullableToTeacherInClassroom
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -525,13 +528,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.ToTable("UploadedFiles");
                 });
 
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Admin", b =>
-                {
-                    b.HasBaseType("SchoolManagement.Domain.Entities.ApplicationUser");
-
-                    b.ToTable("Admin", (string)null);
-                });
-
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
                 {
                     b.HasBaseType("SchoolManagement.Domain.Entities.ApplicationUser");
@@ -663,7 +659,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SchoolManagement.Domain.Entities.Student", "Student")
+                    b.HasOne("SchoolManagement.Domain.Entities.ApplicationUser", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -729,15 +725,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.Navigation("ClassRoom");
 
                     b.Navigation("Student");
-                });
-
-            modelBuilder.Entity("SchoolManagement.Domain.Entities.Admin", b =>
-                {
-                    b.HasOne("SchoolManagement.Domain.Entities.ApplicationUser", null)
-                        .WithOne()
-                        .HasForeignKey("SchoolManagement.Domain.Entities.Admin", "Id")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
                 });
 
             modelBuilder.Entity("SchoolManagement.Domain.Entities.Student", b =>
