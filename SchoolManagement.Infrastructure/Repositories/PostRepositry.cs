@@ -38,6 +38,7 @@ public class PostRepositry : IPostRepositry
     public async Task<List<Post>> GetAllPosts()
     {
         return await _context.Posts
+                .OrderByDescending(post => post.CreatedAt)
                 .Include(post => post.Comments)
                 .ThenInclude(comment => comment.Author)
                 .Include(post => post.Author)
