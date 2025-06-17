@@ -37,7 +37,12 @@ public class PostRepositry : IPostRepositry
 
     public async Task<List<Post>> GetAllPosts()
     {
-        return await _context.Posts.ToListAsync();
+        return await _context.Posts
+                .Include(post => post.Comments)
+                .ThenInclude(comment => comment.Author)
+                .Include(post => post.Author)
+                .Include(post => post.ClassRoom)
+                .ToListAsync();
     }
 
     public async Task<List<Post>> GetPagedAsync(int page, int pageSize)
