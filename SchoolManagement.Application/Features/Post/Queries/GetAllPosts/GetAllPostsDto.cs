@@ -9,7 +9,8 @@ public class CommentsDto
     public string Content {get; set;} = string.Empty;
     public string AuthorId {get; set;} = string.Empty;
     public string AuthorName {get; set;} = string.Empty;
-    public DateTime CreatedAt {get; set;}
+    public string? ProfilePictureUrl {get; set;} = string.Empty;
+    public DateTime CreatedAt { get; set; }
 }
 
 public class GetAllPostsDto
@@ -19,6 +20,7 @@ public class GetAllPostsDto
     public Guid ClassRoomId {get; set;}
     public string AuthorId {get; set;} = string.Empty;
     public string AuthorName {get; set;} = string.Empty;
-    public ICollection<CommentsDto> Comments {get; set;} = new List<CommentsDto>();
+    public string? ProfilePictureUrl {get; set;} = string.Empty;
+    public ICollection<CommentsDto> Comments { get; set; } = new List<CommentsDto>();
     public DateTime CreatedAt {get; set;}
 }
