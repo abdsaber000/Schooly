@@ -30,7 +30,8 @@ public class ClassRoomRepository : GenericRepository<ClassRoom>, IClassRoomRepos
     
     public async Task<List<ClassRoom>> GetAllClassRoomsByTeacherId(string teacherId)
     {
-        return await _appDbContext.ClassRooms.Where(c => c.TeacherId == teacherId)
+        return await _appDbContext.ClassRooms
+            .Where(c => c.TeacherId == teacherId)
             .ToListAsync();
     }
 }

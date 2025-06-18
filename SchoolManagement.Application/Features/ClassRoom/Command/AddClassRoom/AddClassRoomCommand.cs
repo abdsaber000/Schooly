@@ -11,10 +11,10 @@ namespace SchoolManagement.Application.Features.ClassRoom.Command.AddClassRoom;
 
 public class AddClassRoomCommand  : IRequest<Result<string>>
 {
-    [Required] 
+    [Required(ErrorMessage = "Grade is required.")]
     public string Grade { get; set; } = string.Empty;
 
-    [Required] 
+    [Required(ErrorMessage = "Subject is required.")]
     public string Subject { get; set; } = string.Empty;
 }
 

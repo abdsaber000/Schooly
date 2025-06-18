@@ -84,5 +84,8 @@
 
     "Phone number is required" : "رقم الهاتف مطلوب",
     "PhoneNumberInvalid": "رقم الهاتف غير صالح",
+
+    "Grade is required.": "الصف مطلوب.",
+    "Subject is required.": "المادة مطلوبة."
     
 }
