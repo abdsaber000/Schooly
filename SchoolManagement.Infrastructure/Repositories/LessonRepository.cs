@@ -76,10 +76,15 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
 
     public async Task<List<Lesson>> GetLessonsByTeacherId(int page, int pageSize, string teacherId, LessonStatus? status)
     {
+        var teacherClassRoomIds = await _appDbContext.ClassRooms
+            .Where(c => c.TeacherId == teacherId)
+            .Select(c => c.Id)
+            .ToListAsync();
+        
         var query = _appDbContext.Lessons
             .Include(lesson => lesson.ClassRoom)
             .Include(lesson => lesson.Teacher)
-            .Where(lesson => lesson.TeacherId == teacherId);
+            .Where(lesson => teacherClassRoomIds.Contains(lesson.ClassRoomId));
 
         if (status.HasValue) {
             query = query.Where(lesson => lesson.LessonStatus == status);
@@ -96,8 +101,15 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
     public async Task<int> GetTotalCountAsyncByTeacherId(string teacherId, LessonStatus? status,
         CancellationToken cancellationToken = default)
     {
+        var teacherClassRoomIds = await _appDbContext.ClassRooms
+            .Where(c => c.TeacherId == teacherId)
+            .Select(c => c.Id)
+            .ToListAsync();
+        
         var query = _appDbContext.Lessons
-            .Where(lesson => lesson.TeacherId == teacherId);
+            .Include(lesson => lesson.ClassRoom)
+            .Include(lesson => lesson.Teacher)
+            .Where(lesson => teacherClassRoomIds.Contains(lesson.ClassRoomId));
 
         if (status.HasValue){
             query = query.Where(lesson => lesson.LessonStatus == status);
