@@ -5,9 +5,11 @@ using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Teacher.Command.AddTeacherCommand;
 using SchoolManagement.Application.Features.Teacher.Queries.GetAllTeachers;
 using SchoolManagement.Application.Services.ResponseService;
+using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
+[Authorize(AuthenticationSchemes = "Bearer")]
 [EnableRateLimiting("ApiPolicy")]
 [ApiController]
 [Route("api/teacher")]
@@ -21,6 +23,7 @@ public class TeacherController : ControllerBase
         _responseService = responseService;
     }
 
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     public async Task<IActionResult> AddTeacher([FromBody] AddTeacherCommand command)
     {
@@ -28,6 +31,7 @@ public class TeacherController : ControllerBase
         return _responseService.CreateResponse(result);
     }
     
+    [Authorize(Roles = Roles.Admin)]
     [HttpGet]
     [Route("all")]
     public async Task<IActionResult> GettAllTeachers()

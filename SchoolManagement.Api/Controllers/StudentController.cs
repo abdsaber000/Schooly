@@ -9,7 +9,7 @@ using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Api.Controllers;
 
-// [Authorize]
+[Authorize(AuthenticationSchemes = "Bearer")]
 [EnableRateLimiting("ApiPolicy")]
 [ApiController]
 [Route("api/student")]
@@ -25,6 +25,7 @@ public class StudentController : ControllerBase
         _responseService = responseService;
     }
     
+    [Authorize(Roles = Roles.Teacher + "," + Roles.Admin)]
     [HttpGet]
     [Route("all")]
     public async Task<IActionResult> GetPagedData([FromQuery] GetStudentsPagedQuery query)
