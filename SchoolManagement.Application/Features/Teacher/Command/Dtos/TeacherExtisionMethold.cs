@@ -10,6 +10,7 @@ public static class TeacherExtisionMethold
         {
             Email = command.Email,
             UserName = command.Email,
+            PhoneNumber = command.PhoneNumber,
             Name = command.name,
             Gender = command.Gender,
             DateOfBarith = command.DateOfBirth

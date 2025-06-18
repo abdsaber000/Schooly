@@ -8,7 +8,9 @@ namespace SchoolManagement.Application.Features.ClassRoom.Dtos;
 public  class ClassRoomDto
 {
     public Guid Id { get; set; }
-    public string TeacherId { get; set; }
+    public string TeacherId { get; set; } 
+    public string TeacherName { get; set; } = string.Empty;
+    public int NumberOfStudents { get; set; } = 0;
     public string Subject { get; set; } = string.Empty;
     public string Grade { get; set; } = string.Empty;
 }
@@ -39,6 +41,8 @@ public static class classRoomExtensionMethold
         {
             Id = classRooms.Id,
             TeacherId = classRooms.TeacherId,
+            TeacherName = classRooms.Teacher?.Name ?? "Unknown",
+            NumberOfStudents = classRooms.StudentClassRooms.Count,
             Grade = classRooms.Grade,
             Subject = classRooms.Subject
         };

@@ -19,14 +19,12 @@ public class GetStudentsPagedQueryHandler : IRequestHandler<GetStudentsPagedQuer
         var totalCount = await _studentRepository.GetTotalCountAsync(cancellationToken);
         
         var students = await _studentRepository
-            .GetPagedAsync(request.Page, request.PageSize, cancellationToken);
+            .GetPagedStudentsAsync(request.Page, request.PageSize, cancellationToken);
 
-        var studentsDto = new List<StudentDto>();
-        foreach (var student in students)
-        {
-            var studentDto = student.ToStudentDto();
-            studentsDto.Add(studentDto);
-        }
+        var studentsDto = students
+            .Select(s => s.ToStudentDto())
+            .ToList();
+       
         return new PagedResult<StudentDto>
         {
             TotalItems = totalCount,

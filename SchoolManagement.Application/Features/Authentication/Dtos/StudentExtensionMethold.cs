@@ -25,6 +25,7 @@ public static class StudentExtensionMetholdauth
             Name = command.StudentName,
             Email = command.StudentEmail,
             UserName = command.StudentEmail,
+            PhoneNumber = command.PhoneNumber,
             Address = command.Address,
             Department = command.Department,
             Gender = command.Gender,

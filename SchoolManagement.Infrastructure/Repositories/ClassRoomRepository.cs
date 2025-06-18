@@ -13,9 +13,14 @@ public class ClassRoomRepository : GenericRepository<ClassRoom>, IClassRoomRepos
     {
         _appDbContext = appDbContext;
     }
-    public async Task<List<ClassRoom>> GetAllClassRoom()
+    public async Task<List<ClassRoom>> GetAllClassroomsPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
     {
-        return await _appDbContext.ClassRooms.ToListAsync();
+        return await _appDbContext.ClassRooms
+            .Include(c => c.Teacher)
+            .Include(c => c.StudentClassRooms)
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<bool> IsExistAsync(Guid id)

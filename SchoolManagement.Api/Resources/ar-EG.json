@@ -80,6 +80,9 @@
     "InvalidInput" : "إدخال غير صالح.",
 
     "Teacher not found" : "لا يوجد معلم",
-    "Teacher assigned to classroom successfully" : "تم اضافة المعلم للمادة بنجاح"
+    "Teacher assigned to classroom successfully" : "تم اضافة المعلم للمادة بنجاح",
+
+    "Phone number is required" : "رقم الهاتف مطلوب",
+    "PhoneNumberInvalid": "رقم الهاتف غير صالح",
     
 }

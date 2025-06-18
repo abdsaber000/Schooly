@@ -22,7 +22,7 @@ namespace SchoolManagement.Infrastructure.Repositories
 
         public async Task AddStudent(Student student , string password)
         {
-            var createdUser = await _userManager.CreateAsync(student , password);
+            await _userManager.CreateAsync(student , password);
             await _userManager.AddToRoleAsync(student, Roles.Student);
         }
         public async Task<Student?> GetStudentByEmail(string email)
@@ -32,10 +32,7 @@ namespace SchoolManagement.Infrastructure.Repositories
                 .FirstOrDefaultAsync(s => s.Email == email);
             return student;
         }
-        public async Task<int> GetTotalCountAsync(CancellationToken cancellationToken = default)
-        {
-            return await _appDbContext.Users.OfType<Student>().CountAsync(cancellationToken);
-        }
+        
         public async Task<List<Student>> GetPagedStudentsAsync(int page, int pageSize, CancellationToken cancellationToken = default)
         {
             return await _appDbContext.Users

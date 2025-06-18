@@ -17,6 +17,10 @@ public class RegisterStudentCommand : IRequest<Result<string>>
     [MinLength(6 , ErrorMessage = "Password must be at least 6 characters")]
     public string Password { get; set; } = string.Empty;
     
+    [Required(ErrorMessage = "Phone number is required")]
+    [RegularExpression(@"^(010|011|012|015)\d{8}$", ErrorMessage = "PhoneNumberInvalid")]
+    public string PhoneNumber { get; set; } = string.Empty;
+    
     [Required(ErrorMessage = "DateOfBirth is required")]
     public DateOnly DateOfBirth { get; set; }
     
