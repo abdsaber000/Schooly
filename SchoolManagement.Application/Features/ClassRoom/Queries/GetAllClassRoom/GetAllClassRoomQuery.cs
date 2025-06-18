@@ -24,7 +24,9 @@ public class GetAllClassRoomQueryHandler : IRequestHandler<GetAllClassRoomQuery 
 
     public async Task<PagedResult<ClassRoomDto>> Handle(GetAllClassRoomQuery request, CancellationToken cancellationToken)
     {
-        var classRooms = await _classRoomRepository.GetPagedAsync(request.page, request.pageSize, cancellationToken);
+        var classRooms = await _classRoomRepository
+            .GetAllClassroomsPagedAsync(request.page, request.pageSize, cancellationToken);
+        
         var totalCount = await _classRoomRepository.GetTotalCountAsync(cancellationToken);
         
         var classRoomsDtos = classRooms

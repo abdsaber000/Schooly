@@ -9,7 +9,8 @@ public static class TeacherExtensionMethold
             Id = command.Id,
             Name = command.Name,
             Email = command.Email,
-            PhoneNumber = command.PhoneNumber
+            PhoneNumber = command.PhoneNumber,
+            PhotoUrl = command.ProfilePictureUrl
         };
     }
 }

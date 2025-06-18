@@ -7,6 +7,12 @@ public class StudentDto
 {
     public string Id { get; set; } = string.Empty;
     public string StudentName { get; set; } = string.Empty;
+    public string? Email { get; set; }
+    public string? PhoneNumber { get; set; }
+    public DateOnly? DateOfBirth { get; set; }
+    public Gender? Gender { get; set; }
+    public string? ProfilePictureUrl { get; set; }
+    public Role Role { get; set; }
     public Department Department { get; set; }
     public Grade Grade { get; set; }
     public string ParentName { get; set; } = string.Empty;
@@ -22,6 +28,12 @@ public static class StudentDtoExtensionMethold
         {
             Id = student.Id,
             StudentName = student.Name,
+            ProfilePictureUrl = student.ProfilePictureUrl,
+            Email = student.Email,
+            DateOfBirth = student.DateOfBarith,
+            Gender = student.Gender,
+            PhoneNumber = student.PhoneNumber,
+            Role = student.Role,
             Department = student.Department,
             Grade = student.Grade,
             ParentName = student.Parent is null ? "" : student.Parent.ParentName,

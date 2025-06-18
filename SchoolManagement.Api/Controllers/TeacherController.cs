@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Teacher.Command.AddTeacherCommand;
 using SchoolManagement.Application.Features.Teacher.Queries.GetAllTeachers;
+using SchoolManagement.Application.Features.Teacher.Queries.GetteacherById;
 using SchoolManagement.Application.Services.ResponseService;
 using SchoolManagement.Domain.Entities;
 
@@ -37,6 +38,13 @@ public class TeacherController : ControllerBase
     public async Task<IActionResult> GettAllTeachers()
     {
         var result = await _mediator.Send(new GetAllTeachersQuery());
+        return _responseService.CreateResponse(result);
+    }
+    
+    [HttpGet]
+    public async Task<IActionResult> GetTeacherById([FromQuery] string id)
+    {
+        var result = await _mediator.Send(new GetTeacherByIdQuery(id));
         return _responseService.CreateResponse(result);
     }
 }

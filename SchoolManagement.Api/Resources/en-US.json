@@ -79,5 +79,8 @@
     "InvalidInput" : "InvalidInput",
 
     "Teacher not found": "Teacher not found",
-    "Teacher assigned to classroom successfully" : "Teacher assigned to classroom successfully"
+    "Teacher assigned to classroom successfully" : "Teacher assigned to classroom successfully",
+
+    "Phone number is required": "Phone number is required",
+    "PhoneNumberInvalid": "Phone number is invalid",
 }

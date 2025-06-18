@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Pagination;
 using SchoolManagement.Application.Features.Student.Queries.GetAllStudent;
+using SchoolManagement.Application.Features.Student.Queries.GetStudentDetail;
 using SchoolManagement.Application.Services.ResponseService;
 using SchoolManagement.Domain.Entities;
 
@@ -31,6 +32,13 @@ public class StudentController : ControllerBase
     public async Task<IActionResult> GetPagedData([FromQuery] GetStudentsPagedQuery query)
     {
         var result = await _mediator.Send(query);
+        return _responseService.CreateResponse(result);
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetStudentById([FromQuery] string id)
+    {
+        var result = await _mediator.Send(new GetStudentQuery(id));
         return _responseService.CreateResponse(result);
     }
 }

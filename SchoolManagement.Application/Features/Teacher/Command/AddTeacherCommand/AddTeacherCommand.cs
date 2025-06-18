@@ -10,6 +10,10 @@ public class AddTeacherCommand : IRequest<Result<string>>
     [Required]
     public string name { get; set; } = string.Empty;
     
+    [Required(ErrorMessage = "Phone number is required")]
+    [RegularExpression(@"^(010|011|012|015)\d{8}$", ErrorMessage = "PhoneNumberInvalid")]
+    public string PhoneNumber { get; set; } = string.Empty;
+    
     [Required(ErrorMessage = "DateOfBirth is required")]
     public DateOnly DateOfBirth { get; set; }
     
