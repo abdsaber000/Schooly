@@ -30,7 +30,7 @@ public class ClassRoomController : ControllerBase
         _responseService = responseService;
     }
     
-    [Authorize(Roles = Roles.Teacher)]
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     public async Task<IActionResult> AddClassRoom([FromBody] AddClassRoomCommand command)
     {
@@ -38,7 +38,7 @@ public class ClassRoomController : ControllerBase
         return _responseService.CreateResponse(respons);
     }
 
-    [Authorize(Roles = Roles.Teacher)]
+    [Authorize(Roles = Roles.Admin)]
     [HttpPut]
     public async Task<IActionResult> UpdateClassRoom([FromBody] UpdateClassrRoomCommand command)
     {
@@ -46,7 +46,7 @@ public class ClassRoomController : ControllerBase
         return _responseService.CreateResponse(respons);
     }
     
-    [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
+    
     [HttpGet]
     public async Task<IActionResult> GetClassRoomById([FromQuery] Guid id)
     {
@@ -54,7 +54,7 @@ public class ClassRoomController : ControllerBase
         return _responseService.CreateResponse(respons);
     }
     
-    [Authorize(Roles = $"{Roles.Teacher} , {Roles.Student}")]
+   
     [HttpGet("all")]
     public async Task<IActionResult> GetAllClassRoom()
     {
@@ -62,7 +62,7 @@ public class ClassRoomController : ControllerBase
         return _responseService.CreateResponse(respons);
     }
     
-    [Authorize(Roles = Roles.Teacher)]
+    [Authorize(Roles = Roles.Admin)]
     [HttpDelete]
     public async Task<IActionResult> DeleteClassRoom([FromQuery] Guid id)
     {
@@ -70,7 +70,7 @@ public class ClassRoomController : ControllerBase
         return _responseService.CreateResponse(respons);
     }
     
-    [Authorize(Roles = Roles.Teacher)]
+    [Authorize(Roles = Roles.Admin)]
     [HttpPost]
     [Route("assign-studnet")]
     public async Task<IActionResult> AssignStudentToClassRoom([FromQuery] AssignStudentToClassRoomCommand command)
@@ -78,7 +78,7 @@ public class ClassRoomController : ControllerBase
         return _responseService.CreateResponse(await _mediator.Send(command));
     }
     
-    [Authorize(Roles = Roles.Teacher)]
+    [Authorize(Roles = Roles.Admin)]
     [HttpDelete]
     [Route("unassign-student")]
     public async Task<IActionResult> RemoveStudentFromClassRoom([FromQuery] RemoveStudentFromClassRoomCommand command)
@@ -86,7 +86,7 @@ public class ClassRoomController : ControllerBase
         return _responseService.CreateResponse(await _mediator.Send(command));
     }
     
-    [Authorize(Roles = Roles.Teacher)]
+    [Authorize(Roles = Roles.Admin)]
     [HttpPut]
     [Route("assign-teacher")]
     public async Task<IActionResult> AssignTeacherToClassRoom([FromQuery] AssignTeacherToClassroomCommand command)

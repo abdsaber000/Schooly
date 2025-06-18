@@ -26,6 +26,7 @@ public class HomeWorkController : ControllerBase
       _mediator = mediator;
       _responseService = responseService;
    }
+   
    [HttpPost]
    [Authorize(Roles = Roles.Teacher)]
    public async Task<IActionResult> AddHomeWork(AddHomeWorkCommands commands)
@@ -54,6 +55,7 @@ public class HomeWorkController : ControllerBase
       return _responseService.CreateResponse(result);
    }
    
+   [Authorize(Roles = Roles.Teacher)]
    [HttpGet("{homeWorkId}/students")]
    public async Task<IActionResult> GetStudentsWhoSubmittedHomework(Guid homeWorkId)
    {

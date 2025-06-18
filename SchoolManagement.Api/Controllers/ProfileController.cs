@@ -29,7 +29,6 @@ namespace SchoolManagement.Api.Controllers
         public async Task<IActionResult> GetProfile()
         {
             return _responseService.CreateResponse(await _mediator.Send(new GetProfileQueryRequest()));
-
         }
 
         [HttpPut]

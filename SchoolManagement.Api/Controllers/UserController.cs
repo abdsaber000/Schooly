@@ -8,6 +8,7 @@ using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
 
+[Authorize(AuthenticationSchemes = "Bearer")]
 [EnableRateLimiting("ApiPolicy")]
 [ApiController]
 [Authorize(AuthenticationSchemes = "Bearer")]
