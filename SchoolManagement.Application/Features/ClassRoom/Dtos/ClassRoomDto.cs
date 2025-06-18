@@ -42,7 +42,7 @@ public static class classRoomExtensionMethold
             Id = classRooms.Id,
             TeacherId = classRooms.TeacherId,
             TeacherName = classRooms.Teacher?.Name ?? "Unknown",
-            NumberOfStudents = classRooms.StudentClassRooms.Count,
+            NumberOfStudents = classRooms.StudentClassRooms?.Count ?? 0,
             Grade = classRooms.Grade,
             Subject = classRooms.Subject
         };

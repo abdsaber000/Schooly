@@ -22,9 +22,10 @@ public class StudentClassRoomRepository : GenericRepository<StudentClassRoom>, I
     public async Task<List<ClassRoom>> GetAllClassRoomsByStudentId(string studentId)
     {
         return await _appDbContext.StudentClassRooms
-            .Include(sc => sc.ClassRoom)  
+            .Include(sc => sc.ClassRoom)
+            .Include(sc => sc.ClassRoom.Teacher)
             .Where(sc => sc.StudentId == studentId)  
-            .Select(sc => sc.ClassRoom)  
+            .Select(sc => sc.ClassRoom)
             .ToListAsync();  
     }
 }

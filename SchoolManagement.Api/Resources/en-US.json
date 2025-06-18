@@ -83,4 +83,8 @@
 
     "Phone number is required": "Phone number is required",
     "PhoneNumberInvalid": "Phone number is invalid",
+    
+    "Grade is required.": "Grade is required.",
+    "Subject is required.": "Subject is required."
+    
 }
