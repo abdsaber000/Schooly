@@ -56,9 +56,9 @@ public class ClassRoomController : ControllerBase
     
    
     [HttpGet("all")]
-    public async Task<IActionResult> GetAllClassRoom()
+    public async Task<IActionResult> GetAllClassRoom([FromQuery] GetAllClassRoomQuery query)
     {
-        var respons = await _mediator.Send(new GetAllClassRoomQuery());
+        var respons = await _mediator.Send(query);
         return _responseService.CreateResponse(respons);
     }
     
