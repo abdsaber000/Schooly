@@ -38,18 +38,18 @@ public class SubmitHomeWorkCommandHandler : IRequestHandler<SubmitHomeWorkComman
         {
             return Result<string>.Failure(_localizer["HomeWork not found"]);
         }
-        
-        var homeWorkSubmission = await _homeWorkSubmissionRepositry.GetSubmissionByStudentIdAndHomeWorkId(user.Id, request.HomeWorkId);
-        if (homeWorkSubmission != null)
-        {
-            await _fileService.DeleteFileAsync(homeWorkSubmission.FileUrl);
-            await _homeWorkSubmissionRepositry.Delete(homeWorkSubmission);
-        }
-        
         if (DateTime.UtcNow > homeWork.Deadline)
         {
             return Result<string>.Failure(_localizer["HomeWorkSubmissionClosed"]);
         }
+        
+        var oldHomeWorkSubmission = await _homeWorkSubmissionRepositry.GetSubmissionByStudentIdAndHomeWorkId(user.Id, request.HomeWorkId);
+        if (oldHomeWorkSubmission != null)
+        {
+            await _fileService.DeleteFileAsync(oldHomeWorkSubmission.FileUrl);
+            await _homeWorkSubmissionRepositry.Delete(oldHomeWorkSubmission);
+        }
+        
         var file = await _uploadedFileRepositry.GetFileByName(request.FileUrl);
         var submission = new HomeWorkSubmission
         {

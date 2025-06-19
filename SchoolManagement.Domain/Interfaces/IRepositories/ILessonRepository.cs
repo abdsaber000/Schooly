@@ -5,7 +5,8 @@ namespace SchoolManagement.Domain.Interfaces.IRepositories;
 
 public interface ILessonRepository : IGenericRepository<Lesson>
 {
-    public Task Update(Lesson updatedLesson);
+    Task<Lesson?> GetLessonByIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task Update(Lesson updatedLesson);
     
     Task<int> GetTotalCountAsyncByClassRoomId(Guid classRoomId , LessonStatus? status = LessonStatus.Upcoming , CancellationToken cancellationToken = default);
     Task<List<Lesson>> GetPagedAsyncByClassRoomId(int page, int pageSize , Guid classRoomId , LessonStatus? status = LessonStatus.Upcoming , CancellationToken cancellationToken = default);
