@@ -25,7 +25,7 @@ public class GetLessonQueryHandler : IRequestHandler<GetLessonQuery , Result<Les
 
     public async Task<Result<LessonDto>> Handle(GetLessonQuery request, CancellationToken cancellationToken)
     {
-        var lesson = await _lessonRepository.GetByIdAsync(request.Id);
+        var lesson = await _lessonRepository.GetLessonByIdAsync(request.Id , cancellationToken);
     
         if (lesson == null)
         {

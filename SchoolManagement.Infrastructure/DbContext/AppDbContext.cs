@@ -72,7 +72,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
     }
     public DbSet<Parent> Parents { get; set; }
     public DbSet<UploadedFile> UploadedFiles { get; set; }
-    public DbSet<Lesson> Lessons { get; set; }
+    public DbSet<Lesson?> Lessons { get; set; }
     public DbSet<Comment> Comments { get; set; }
     public DbSet<Post> Posts { get; set; }
     public DbSet<ClassRoom> ClassRooms { get; set; }

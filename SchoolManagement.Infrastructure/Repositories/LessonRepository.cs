@@ -23,6 +23,15 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
 
         return (todayEgypt, currentTimeEgypt);
     }
+
+    public async Task<Lesson?> GetLessonByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    {
+        return await _appDbContext.Lessons
+            .Include(l => l.ClassRoom)
+            .Include(l => l.Teacher)
+            .FirstOrDefaultAsync(l => l.Id == id, cancellationToken);
+    }
+
     public async Task Update(Lesson updatedLesson)
     {
         var lesson = await _appDbContext.Lessons.FirstOrDefaultAsync(l => l.Id == updatedLesson.Id);
@@ -117,8 +126,7 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
 
         return await query.CountAsync(cancellationToken);
     }
-
-
+    
     public async Task<List<Lesson>> GetLessonsByClassRoomsIds(List<Guid> classRoomIds, int page, int pageSize ,LessonStatus? status = null )
     {
         var query = _appDbContext.Lessons

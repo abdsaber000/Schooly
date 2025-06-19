@@ -1,4 +1,6 @@
-﻿namespace SchoolManagement.Domain.Interfaces.IRepositories
+﻿using System.Linq.Expressions;
+
+namespace SchoolManagement.Domain.Interfaces.IRepositories
 {
     public interface IGenericRepository<T> where T : class
     {

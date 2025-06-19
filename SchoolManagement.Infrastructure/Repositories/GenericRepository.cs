@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 using SchoolManagement.Domain.Interfaces.IRepositories;
 using SchoolManagement.Infrastructure.DbContext;
 
@@ -27,10 +28,12 @@ namespace SchoolManagement.Infrastructure.Repositories
         {
             return await _appDbContext.Set<T>().ToListAsync();
         }
+        
         public async Task<T?> GetByIdAsync<TKey>(TKey id)
         {
             return await _appDbContext.Set<T>().FindAsync(id);
         }
+        
         public async Task AddAsync(T entity)
         {
             await _appDbContext.Set<T>().AddAsync(entity);
