@@ -1,6 +1,7 @@
 using System;
 using SchoolManagement.Application.Features.Profile.Commands.UpdateProfile;
 using SchoolManagement.Application.Features.Profile.Queries.GetProfile;
+using SchoolManagement.Application.Features.Profile.Queries.GetUserInfo;
 using SchoolManagement.Domain.Entities;
 
 namespace SchoolManagement.Application.Features.Profile.Dtos;
@@ -90,6 +91,18 @@ static public class ProfileExtensionMethod
             DateOfJoining = student.DateOfJoining,
             Department = student.Department,
             Grade = student.Grade
+        };
+    }
+
+    public static GetUserInfoQueryDto ToUserInfoQueryDto(this ApplicationUser user)
+    {
+        return new GetUserInfoQueryDto()
+        {
+            Id = user.Id,
+            Name = user.Name,
+            Role = user.Role,
+            ProfilePictureUrl = user.ProfilePictureUrl,
+            Gender = user.Gender
         };
     }
 }

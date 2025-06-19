@@ -4,14 +4,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.ClassRoom.Queries.GetClassRoomsByUsertId;
+using SchoolManagement.Application.Features.Profile.Queries.GetUserInfo;
 using SchoolManagement.Application.Services.ResponseService;
 
 namespace SchoolManagement.Api.Controllers;
 
-[Authorize(AuthenticationSchemes = "Bearer")]
 [EnableRateLimiting("ApiPolicy")]
 [ApiController]
-[Authorize(AuthenticationSchemes = "Bearer")]
 [Route("api/user")]
 public class UserController : ControllerBase
 {
@@ -24,9 +23,17 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
+    [Authorize(AuthenticationSchemes = "Bearer")]
     [Route("classrooms")]
     public async Task<IActionResult> GetClassRoomsByUserId()
     {
         return _responseService.CreateResponse(await _mediator.Send(new GetClassRoomsByUserIdCommand()));
+    }
+
+    [HttpGet("info/{id}")]
+    public async Task<IActionResult> GetUserInfo(string id)
+    {
+        var result = await _mediator.Send(new GetUserInfoQueryRequest(id));
+        return _responseService.CreateResponse(result);
     }
 }

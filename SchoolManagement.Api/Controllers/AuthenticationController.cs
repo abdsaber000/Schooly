@@ -49,9 +49,7 @@ public class AuthenticationController : ControllerBase
             HttpOnly = true,
             Secure = true, 
             SameSite = SameSiteMode.Strict,
-            Expires = request.RememberMe
-                ? DateTimeOffset.UtcNow.AddDays(30)
-                : DateTimeOffset.UtcNow.AddHours(1)
+            Expires = DateTimeOffset.UtcNow.AddDays(30)
         };
 
         Response.Cookies.Append("jwt_token", token, cookieOptions);
