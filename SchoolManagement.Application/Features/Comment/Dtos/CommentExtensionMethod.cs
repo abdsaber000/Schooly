@@ -15,7 +15,8 @@ static public class CommentExtensionMethod
             CreatedAt = comment.CreatedAt,
             AuthorId = comment.AuthorId,
             AuthorName = comment.Author.Name,
-            AuthorEmail = comment.Author.Email ?? ""
+            AuthorEmail = comment.Author.Email ?? "",
+            ProfilePictureUrl = comment.Author.ProfilePictureUrl
         };
     }
 

@@ -17,7 +17,6 @@ public class LoginUserCommand : IRequest<Result<LoginDto>>
     public string Email { get; set; } = string.Empty;
     [Required]
     public string Password { get; set; } = string.Empty;
-    public bool RememberMe { get; set; } = true;
 }
 
 public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<LoginDto>>
@@ -41,7 +40,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
         {
             return Result<LoginDto>.Failure(_localizer["Invalid Credentials."] , HttpStatusCode.Forbidden);
         }
-        var token = await _tokenService.GenerateToken(existUser, request.RememberMe);
+        var token = await _tokenService.GenerateToken(existUser, true);
         
         var loginDto = existUser.ToLoginDto();
         
