@@ -39,7 +39,10 @@ public class CreateLessonCommandHandler : IRequestHandler<CreateLessonCommand , 
         var teacherId = userIdClaim.Value;
         var lesson = request.ToLesson();
         lesson.TeacherId = teacherId;
-        
+        if (classRoom.TeacherId != null && classRoom.TeacherId != teacherId)
+        {
+            return Result<string>.Failure("You are not the teacher of this classroom");
+        }
         await _lessonRepository.AddAsync(lesson);
         
         return Result<string>.SuccessMessage(_localizer["Lesson created successfully"]);
