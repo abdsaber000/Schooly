@@ -8,6 +8,8 @@ using SchoolManagement.Domain.Entities;
 using SchoolManagement.Application.Features.Profile.Dtos;
 using SchoolManagement.Domain.Enums;
 using SchoolManagement.Domain.Interfaces.IRepositories;
+using Microsoft.Extensions.Configuration;
+
 
 namespace SchoolManagement.Application.Features.Profile.Queries.GetProfile;
 
@@ -18,18 +20,22 @@ public class GetProfileQueryHandler : IRequestHandler<GetProfileQueryRequest, Re
     private readonly IUserAuthenticationService _authenticationService;
     private readonly IStudentRepository _studentRepository;
     private readonly ITeacherRepository _teacherRepository;
+    private readonly string _urlPrefix;
     public GetProfileQueryHandler(
         UserManager<ApplicationUser> userManager,
         IHttpContextAccessor contextAccessor,
         IUserAuthenticationService authenticationService,
         IStudentRepository studentRepository,
-        ITeacherRepository teacherRepository)
+        ITeacherRepository teacherRepository,
+        IConfiguration configuration)
     {
         _userManager = userManager;
         _contextAccessor = contextAccessor;
         _authenticationService = authenticationService;
         _studentRepository = studentRepository;
         _teacherRepository = teacherRepository;
+        _urlPrefix = configuration["Url:UploadPrefix"] ?? throw new ArgumentNullException(nameof(configuration));
+
     }
     public async Task<Result<GetProfileQueryDto>> Handle(GetProfileQueryRequest request, CancellationToken cancellationToken)
     {
@@ -38,7 +44,9 @@ public class GetProfileQueryHandler : IRequestHandler<GetProfileQueryRequest, Re
         {
             return await HandleStudent(user.Id);
         }
-        return Result<GetProfileQueryDto>.Success(user.ToProfileQueryDto());
+        var result = user.ToProfileQueryDto();
+        HandlePictureUrl(result);
+        return Result<GetProfileQueryDto>.Success(result);
     }
 
     private async Task<Result<GetProfileQueryDto>> HandleStudent(string id)
@@ -48,9 +56,19 @@ public class GetProfileQueryHandler : IRequestHandler<GetProfileQueryRequest, Re
         {
             return Result<GetProfileQueryDto>.Failure("Student not found.");
         }
-        return Result<GetProfileQueryDto>.Success(student.ToProfileQueryDto());
+        var result = student.ToProfileQueryDto();
+        HandlePictureUrl(result);
+        return Result<GetProfileQueryDto>.Success(result);
     }
-    
+
+    private void HandlePictureUrl(GetProfileQueryDto result)
+    {
+        if (result.ProfilePictureUrl != null)
+        {
+            result.ProfilePictureUrl = _urlPrefix + result.ProfilePictureUrl;
+        }
+    }
+
     private async Task<Result<GetProfileQueryDto>> HandleTeacher(string id)
     {
         var teacher = await _teacherRepository.GetByIdAsync(id);
