@@ -35,9 +35,9 @@ public class TeacherController : ControllerBase
     [Authorize(Roles = Roles.Admin)]
     [HttpGet]
     [Route("all")]
-    public async Task<IActionResult> GettAllTeachers()
+    public async Task<IActionResult> GettAllTeachers([FromQuery] GetAllTeachersQuery request)
     {
-        var result = await _mediator.Send(new GetAllTeachersQuery());
+        var result = await _mediator.Send(request);
         return _responseService.CreateResponse(result);
     }
     
