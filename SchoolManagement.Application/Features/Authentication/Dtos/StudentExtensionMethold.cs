@@ -7,6 +7,15 @@ namespace SchoolManagement.Application.Features.Authentication.Dtos;
 
 public static class StudentExtensionMetholdauth
 {
+    private static readonly string _domainPrefix = "https://scholly.runasp.net/api/upload/";
+    private static string? HandleUrl(string? imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            return imageUrl;
+        }
+        return _domainPrefix + imageUrl;
+    }
     public static Domain.Entities.Student ToStudent(this RegisterStudentCommand command)
     {
         var uniqString = Guid.NewGuid().ToString();
@@ -44,7 +53,7 @@ public static class StudentExtensionMetholdauth
             Name = user.Name,
             Email = user.Email,
             Role = user.Role,
-            ProfilePictureUrl = user.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(user.ProfilePictureUrl),
             Gender = user.Gender
         };
     }
@@ -56,7 +65,9 @@ public static class StudentExtensionMetholdauth
             Id = user.Id,
             Name = user.Name,
             Email = user.Email,
-            Role = user.Role
+            Role = user.Role,
+            ProfilePictureUrl = HandleUrl(user.ProfilePictureUrl),
+            Gender = user.Gender
         };
     }
     

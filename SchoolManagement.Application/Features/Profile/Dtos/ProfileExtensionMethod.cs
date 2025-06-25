@@ -8,6 +8,15 @@ namespace SchoolManagement.Application.Features.Profile.Dtos;
 using Student = Domain.Entities.Student;
 static public class ProfileExtensionMethod
 {
+    private static readonly string _domainPrefix = "https://scholly.runasp.net/api/upload/";
+    private static string? HandleUrl(string? imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            return imageUrl;
+        }
+        return _domainPrefix + imageUrl;
+    }
     public static GetProfileQueryDto ToProfileQueryDto(this ApplicationUser user)
     {
         return new GetProfileQueryDto()
@@ -18,7 +27,7 @@ static public class ProfileExtensionMethod
             PhoneNumber = user.PhoneNumber,
             DateOfBirth = user.DateOfBarith,
             Role = user.Role,
-            ProfilePictureUrl = user.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(user.ProfilePictureUrl),
             Gender = user.Gender
         };
     }
@@ -33,7 +42,7 @@ static public class ProfileExtensionMethod
             PhoneNumber = student.PhoneNumber,
             DateOfBirth = student.DateOfBarith,
             Role = student.Role,
-            ProfilePictureUrl = student.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(student.ProfilePictureUrl),
             Gender = student.Gender,
             StudentExtra = student.ToGetStudentExtraDto()
         };
@@ -49,7 +58,7 @@ static public class ProfileExtensionMethod
             PhoneNumber = student.PhoneNumber,
             DateOfBirth = student.DateOfBarith,
             Role = student.Role,
-            ProfilePictureUrl = student.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(student.ProfilePictureUrl),
             Gender = student.Gender,
             StudentExtra = student.ToUpdateStudentExtraDto()
         };
@@ -65,7 +74,7 @@ static public class ProfileExtensionMethod
             PhoneNumber = student.PhoneNumber,
             DateOfBirth = student.DateOfBarith,
             Role = student.Role,
-            ProfilePictureUrl = student.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(student.ProfilePictureUrl),
             Gender = student.Gender,
         };
     }
@@ -101,7 +110,7 @@ static public class ProfileExtensionMethod
             Id = user.Id,
             Name = user.Name,
             Role = user.Role,
-            ProfilePictureUrl = user.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(user.ProfilePictureUrl),
             Gender = user.Gender
         };
     }

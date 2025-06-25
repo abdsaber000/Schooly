@@ -25,17 +25,14 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly ITokenService _tokenService;
     private readonly IStringLocalizer<LoginUserCommandHandler> _localizer;
-    private readonly string _urlPrefix;
     public LoginUserCommandHandler(
         UserManager<ApplicationUser> userManager, 
         ITokenService tokenService, 
-        IStringLocalizer<LoginUserCommandHandler> localizer,
-        IConfiguration configuration)
+        IStringLocalizer<LoginUserCommandHandler> localizer)
     {
         _userManager = userManager;
         _tokenService = tokenService;
         _localizer = localizer;
-        _urlPrefix = configuration["Url:UploadPrefix"] ?? throw new ArgumentNullException(nameof(configuration));
     }
     public async Task<Result<LoginDto>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
@@ -50,15 +47,7 @@ public class LoginUserCommandHandler : IRequestHandler<LoginUserCommand, Result<
         var token = await _tokenService.GenerateToken(existUser, true);
         
         var loginDto = existUser.ToLoginDto();
-        HandlePictureUrl(loginDto);
         return Result<LoginDto>.Success(loginDto, token);
     }
 
-    private void HandlePictureUrl(LoginDto result)
-    {
-        if (result.ProfilePictureUrl != null)
-        {
-            result.ProfilePictureUrl = _urlPrefix + result.ProfilePictureUrl;
-        }
-    }
 }

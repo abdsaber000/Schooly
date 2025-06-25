@@ -20,21 +20,18 @@ public class GetProfileQueryHandler : IRequestHandler<GetProfileQueryRequest, Re
     private readonly IUserAuthenticationService _authenticationService;
     private readonly IStudentRepository _studentRepository;
     private readonly ITeacherRepository _teacherRepository;
-    private readonly string _urlPrefix;
     public GetProfileQueryHandler(
         UserManager<ApplicationUser> userManager,
         IHttpContextAccessor contextAccessor,
         IUserAuthenticationService authenticationService,
         IStudentRepository studentRepository,
-        ITeacherRepository teacherRepository,
-        IConfiguration configuration)
+        ITeacherRepository teacherRepository)
     {
         _userManager = userManager;
         _contextAccessor = contextAccessor;
         _authenticationService = authenticationService;
         _studentRepository = studentRepository;
         _teacherRepository = teacherRepository;
-        _urlPrefix = configuration["Url:UploadPrefix"] ?? throw new ArgumentNullException(nameof(configuration));
 
     }
     public async Task<Result<GetProfileQueryDto>> Handle(GetProfileQueryRequest request, CancellationToken cancellationToken)
@@ -45,7 +42,6 @@ public class GetProfileQueryHandler : IRequestHandler<GetProfileQueryRequest, Re
             return await HandleStudent(user.Id);
         }
         var result = user.ToProfileQueryDto();
-        HandlePictureUrl(result);
         return Result<GetProfileQueryDto>.Success(result);
     }
 
@@ -57,16 +53,7 @@ public class GetProfileQueryHandler : IRequestHandler<GetProfileQueryRequest, Re
             return Result<GetProfileQueryDto>.Failure("Student not found.");
         }
         var result = student.ToProfileQueryDto();
-        HandlePictureUrl(result);
         return Result<GetProfileQueryDto>.Success(result);
-    }
-
-    private void HandlePictureUrl(GetProfileQueryDto result)
-    {
-        if (result.ProfilePictureUrl != null)
-        {
-            result.ProfilePictureUrl = _urlPrefix + result.ProfilePictureUrl;
-        }
     }
 
     private async Task<Result<GetProfileQueryDto>> HandleTeacher(string id)

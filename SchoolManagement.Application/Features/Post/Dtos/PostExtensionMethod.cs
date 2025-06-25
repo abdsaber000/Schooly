@@ -8,6 +8,15 @@ using Post = Domain.Entities.Post;
 using ClassRoom = Domain.Entities.ClassRoom;
 static public class PostExtensionMethod
 {
+    private static readonly string _domainPrefix = "https://scholly.runasp.net/api/upload/";
+    private static string? HandleUrl(string? imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            return imageUrl;
+        }
+        return _domainPrefix + imageUrl;
+    }
     public static Post ToPost(this CreatePostCommand command
         , ApplicationUser author
         , ClassRoom classRoom)
@@ -29,7 +38,7 @@ static public class PostExtensionMethod
             ClassRoomId = post.ClassRoom.Id,
             AuthorId = post.Author.Id,
             AuthorName = post.Author.Name,
-            ProfilePictureUrl = post.Author.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(post.Author.ProfilePictureUrl),
             Comments = post.Comments.Select(comment => new CommentsDto()
             {
                 Id = comment.Id,
@@ -37,7 +46,7 @@ static public class PostExtensionMethod
                 CreatedAt = comment.CreatedAt,
                 AuthorId = comment.AuthorId,
                 AuthorName = comment.Author.Name,
-                ProfilePictureUrl = comment.Author.ProfilePictureUrl
+                ProfilePictureUrl = HandleUrl(comment.Author.ProfilePictureUrl)
             })
             .OrderBy(c => c.CreatedAt)
             .ToList()
