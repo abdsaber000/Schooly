@@ -6,6 +6,15 @@ namespace SchoolManagement.Application.Features.Comment.Dtos;
 using Comment = Domain.Entities.Comment;
 static public class CommentExtensionMethod
 {
+    private static readonly string _domainPrefix = "https://scholly.runasp.net/api/upload/";
+    private static string? HandleUrl(string? imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            return imageUrl;
+        }
+        return _domainPrefix + imageUrl;
+    }
     static public CommentDto ToDto(this Comment comment)
     {
         return new CommentDto()
@@ -16,7 +25,7 @@ static public class CommentExtensionMethod
             AuthorId = comment.AuthorId,
             AuthorName = comment.Author.Name,
             AuthorEmail = comment.Author.Email ?? "",
-            ProfilePictureUrl = comment.Author.ProfilePictureUrl
+            ProfilePictureUrl = HandleUrl(comment.Author.ProfilePictureUrl)
         };
     }
 
