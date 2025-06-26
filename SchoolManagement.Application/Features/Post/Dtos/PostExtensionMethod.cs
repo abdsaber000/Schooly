@@ -8,7 +8,7 @@ using Post = Domain.Entities.Post;
 using ClassRoom = Domain.Entities.ClassRoom;
 static public class PostExtensionMethod
 {
-    private static readonly string _domainPrefix = "https://scholly.runasp.net/api/upload/";
+    private static readonly string _domainPrefix = "https://schoolly.runasp.net/api/upload/";
     private static string? HandleUrl(string? imageUrl)
     {
         if (string.IsNullOrEmpty(imageUrl))

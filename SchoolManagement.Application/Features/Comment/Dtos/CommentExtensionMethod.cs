@@ -6,7 +6,7 @@ namespace SchoolManagement.Application.Features.Comment.Dtos;
 using Comment = Domain.Entities.Comment;
 static public class CommentExtensionMethod
 {
-    private static readonly string _domainPrefix = "https://scholly.runasp.net/api/upload/";
+    private static readonly string _domainPrefix = "https://schoolly.runasp.net/api/upload/";
     private static string? HandleUrl(string? imageUrl)
     {
         if (string.IsNullOrEmpty(imageUrl))

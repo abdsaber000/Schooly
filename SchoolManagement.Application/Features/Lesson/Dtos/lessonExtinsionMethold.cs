@@ -32,7 +32,6 @@ public static class LessonExtinsionMethold
             To = command.To
         };
     }
-
     public static LessonDto ToLessonDto(this Domain.Entities.Lesson lesson)
     {
         return new LessonDto()

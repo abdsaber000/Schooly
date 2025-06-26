@@ -7,7 +7,7 @@ namespace SchoolManagement.Application.Features.Authentication.Dtos;
 
 public static class StudentExtensionMetholdauth
 {
-    private static readonly string _domainPrefix = "https://scholly.runasp.net/api/upload/";
+    private static readonly string _domainPrefix = "https://schoolly.runasp.net/api/upload/";
     private static string? HandleUrl(string? imageUrl)
     {
         if (string.IsNullOrEmpty(imageUrl))
