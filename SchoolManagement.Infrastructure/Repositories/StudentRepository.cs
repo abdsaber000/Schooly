@@ -25,6 +25,15 @@ namespace SchoolManagement.Infrastructure.Repositories
             await _userManager.CreateAsync(student , password);
             await _userManager.AddToRoleAsync(student, Roles.Student);
         }
+
+        public async Task<Student?> GetStudentByIdAsync(string id, CancellationToken cancellationToken = default)
+        {
+            return await _appDbContext.Users
+                .OfType<Student>()
+                .Include(s => s.Parent) 
+                .FirstOrDefaultAsync(s => s.Id == id, cancellationToken);
+        }
+
         public async Task<Student?> GetStudentByEmail(string email)
         {
             var student = await _appDbContext.Users
