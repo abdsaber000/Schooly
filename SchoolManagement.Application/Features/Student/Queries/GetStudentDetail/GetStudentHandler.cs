@@ -24,7 +24,7 @@ namespace SchoolManagement.Application.Features.Student.Queries.GetStudentDetail
 
         public async Task<Result<StudentDto>> Handle(GetStudentQuery request, CancellationToken cancellationToken)
         {
-            var student = await _studentRepository.GetByIdAsync(request.Id);
+            var student = await _studentRepository.GetStudentByIdAsync(request.Id , cancellationToken);
             if (student is null)
             {
                 return Result<StudentDto>.Failure(_localizer["Student not found"]);
