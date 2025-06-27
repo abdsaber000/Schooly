@@ -6,24 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace SchoolManagement.Infrastructure.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialNewMigration : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "ClassRooms",
-                columns: table => new
-                {
-                    ClassRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Grade = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ClassRooms", x => x.ClassRoomId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Parents",
                 columns: table => new
@@ -38,6 +25,20 @@ namespace SchoolManagement.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Parents", x => x.ParentId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ResetCodes",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    ExpirationTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ResetCodes", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -77,6 +78,8 @@ namespace SchoolManagement.Infrastructure.Migrations
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<int>(type: "int", nullable: true),
                     DateOfBarith = table.Column<DateOnly>(type: "date", nullable: true),
+                    Role = table.Column<int>(type: "int", nullable: false),
+                    ProfilePictureUrl = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -95,30 +98,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Lessons",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TeacherId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ClassRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LessonType = table.Column<int>(type: "int", nullable: false),
-                    Date = table.Column<DateOnly>(type: "date", nullable: false),
-                    From = table.Column<TimeOnly>(type: "time", nullable: false),
-                    To = table.Column<TimeOnly>(type: "time", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Lessons", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Lessons_ClassRooms_ClassRoomId",
-                        column: x => x.ClassRoomId,
-                        principalTable: "ClassRooms",
-                        principalColumn: "ClassRoomId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -143,23 +122,20 @@ namespace SchoolManagement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Posts",
+                name: "Admin",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.PrimaryKey("PK_Admin", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Posts_Users_AuthorId",
-                        column: x => x.AuthorId,
+                        name: "FK_Admin_Users_Id",
+                        column: x => x.Id,
                         principalTable: "Users",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -167,7 +143,6 @@ namespace SchoolManagement.Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    StudentId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ParentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Address = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     DateOfJoining = table.Column<DateOnly>(type: "date", nullable: false),
@@ -294,6 +269,131 @@ namespace SchoolManagement.Infrastructure.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "ClassRooms",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Grade = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ClassRooms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ClassRooms_Teacher_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teacher",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Lessons",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    TeacherId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClassRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LessonType = table.Column<int>(type: "int", nullable: false),
+                    Date = table.Column<DateOnly>(type: "date", nullable: false),
+                    From = table.Column<TimeOnly>(type: "time", nullable: false),
+                    To = table.Column<TimeOnly>(type: "time", nullable: false),
+                    LessonStatus = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Lessons", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Lessons_ClassRooms_ClassRoomId",
+                        column: x => x.ClassRoomId,
+                        principalTable: "ClassRooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Lessons_Teacher_TeacherId",
+                        column: x => x.TeacherId,
+                        principalTable: "Teacher",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Posts",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Content = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    AuthorId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClassRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Posts", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Posts_ClassRooms_ClassRoomId",
+                        column: x => x.ClassRoomId,
+                        principalTable: "ClassRooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Posts_Users_AuthorId",
+                        column: x => x.AuthorId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "StudentClassRooms",
+                columns: table => new
+                {
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ClassRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StudentClassRooms", x => new { x.StudentId, x.ClassRoomId });
+                    table.ForeignKey(
+                        name: "FK_StudentClassRooms_ClassRooms_ClassRoomId",
+                        column: x => x.ClassRoomId,
+                        principalTable: "ClassRooms",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_StudentClassRooms_Student_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Student",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HomeWorks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    lessonId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    classRoomId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    teacherId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    fileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FromDate = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HomeWorks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HomeWorks_Lessons_lessonId",
+                        column: x => x.lessonId,
+                        principalTable: "Lessons",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Comments",
                 columns: table => new
                 {
@@ -319,6 +419,39 @@ namespace SchoolManagement.Infrastructure.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "HomeWorkSubmissions",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    HomeWorkId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    StudentId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    FileUrl = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    FileName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    SubmittedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HomeWorkSubmissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_HomeWorkSubmissions_HomeWorks_HomeWorkId",
+                        column: x => x.HomeWorkId,
+                        principalTable: "HomeWorks",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_HomeWorkSubmissions_Student_StudentId",
+                        column: x => x.StudentId,
+                        principalTable: "Student",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ClassRooms_TeacherId",
+                table: "ClassRooms",
+                column: "TeacherId");
+
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_AuthorId",
                 table: "Comments",
@@ -330,14 +463,39 @@ namespace SchoolManagement.Infrastructure.Migrations
                 column: "PostId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_HomeWorks_lessonId",
+                table: "HomeWorks",
+                column: "lessonId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HomeWorkSubmissions_HomeWorkId",
+                table: "HomeWorkSubmissions",
+                column: "HomeWorkId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HomeWorkSubmissions_StudentId",
+                table: "HomeWorkSubmissions",
+                column: "StudentId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Lessons_ClassRoomId",
                 table: "Lessons",
                 column: "ClassRoomId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Lessons_TeacherId",
+                table: "Lessons",
+                column: "TeacherId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Posts_AuthorId",
                 table: "Posts",
                 column: "AuthorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Posts_ClassRoomId",
+                table: "Posts",
+                column: "ClassRoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_RoleCliams_RoleId",
@@ -355,6 +513,11 @@ namespace SchoolManagement.Infrastructure.Migrations
                 name: "IX_Student_ParentId",
                 table: "Student",
                 column: "ParentId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_StudentClassRooms_ClassRoomId",
+                table: "StudentClassRooms",
+                column: "ClassRoomId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_UserClaims_UserId",
@@ -388,19 +551,22 @@ namespace SchoolManagement.Infrastructure.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "Admin");
+
+            migrationBuilder.DropTable(
                 name: "Comments");
 
             migrationBuilder.DropTable(
-                name: "Lessons");
+                name: "HomeWorkSubmissions");
+
+            migrationBuilder.DropTable(
+                name: "ResetCodes");
 
             migrationBuilder.DropTable(
                 name: "RoleCliams");
 
             migrationBuilder.DropTable(
-                name: "Student");
-
-            migrationBuilder.DropTable(
-                name: "Teacher");
+                name: "StudentClassRooms");
 
             migrationBuilder.DropTable(
                 name: "UploadedFiles");
@@ -421,13 +587,25 @@ namespace SchoolManagement.Infrastructure.Migrations
                 name: "Posts");
 
             migrationBuilder.DropTable(
-                name: "ClassRooms");
+                name: "HomeWorks");
+
+            migrationBuilder.DropTable(
+                name: "Student");
+
+            migrationBuilder.DropTable(
+                name: "Roles");
+
+            migrationBuilder.DropTable(
+                name: "Lessons");
 
             migrationBuilder.DropTable(
                 name: "Parents");
 
             migrationBuilder.DropTable(
-                name: "Roles");
+                name: "ClassRooms");
+
+            migrationBuilder.DropTable(
+                name: "Teacher");
 
             migrationBuilder.DropTable(
                 name: "Users");

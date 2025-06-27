@@ -32,7 +32,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
 
         modelBuilder.Entity<Teacher>()
             .ToTable("Teacher");
-        
+
         modelBuilder.Entity<Admin>()
             .ToTable("Admin");
 
@@ -53,7 +53,7 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(p => p.Comments)
             .HasForeignKey(c => c.PostId)
             .OnDelete(DeleteBehavior.ClientCascade);
-        
+
         // Configure the many-to-many relationship
         modelBuilder.Entity<StudentClassRoom>()
             .HasKey(sc => new { sc.StudentId, sc.ClassRoomId }); // Composite primary key
@@ -69,6 +69,19 @@ public class AppDbContext : IdentityDbContext<ApplicationUser>
             .WithMany(c => c.StudentClassRooms)
             .HasForeignKey(sc => sc.ClassRoomId)
             .OnDelete(DeleteBehavior.Cascade);
+            
+        modelBuilder.Entity<HomeWorkSubmission>(entity =>
+        {
+            entity.HasOne(h => h.HomeWork)
+                .WithMany()
+                .HasForeignKey(h => h.HomeWorkId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasOne(h => h.Student)
+                .WithMany()
+                .HasForeignKey(h => h.StudentId)
+                .OnDelete(DeleteBehavior.Restrict); 
+        });
     }
     public DbSet<Parent> Parents { get; set; }
     public DbSet<UploadedFile> UploadedFiles { get; set; }

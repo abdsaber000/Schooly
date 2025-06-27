@@ -666,7 +666,7 @@ namespace SchoolManagement.Infrastructure.Migrations
                     b.HasOne("SchoolManagement.Domain.Entities.Student", "Student")
                         .WithMany()
                         .HasForeignKey("StudentId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("HomeWork");
