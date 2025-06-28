@@ -4,6 +4,15 @@ using SchoolManagement.Application.Features.Teacher.Command.UpdateTeacher;
 using Teacher = Domain.Entities.Teacher;
 public static class TeacherExtensionMethold
 {
+    private static readonly string _domainPrefix = "https://schoolly.runasp.net/api/upload/";
+    private static string? HandleUrl(string? imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            return imageUrl;
+        }
+        return _domainPrefix + imageUrl;
+    }
     public static TeacherDto ToTeacherDto(this Teacher command)
     {
         return new TeacherDto()
@@ -12,7 +21,7 @@ public static class TeacherExtensionMethold
             Name = command.Name,
             Email = command.Email,
             PhoneNumber = command.PhoneNumber,
-            PhotoUrl = command.ProfilePictureUrl
+            PhotoUrl = HandleUrl(command.ProfilePictureUrl)
         };
     }
 
@@ -24,7 +33,7 @@ public static class TeacherExtensionMethold
             Name = teacher.Name,
             Email = teacher.Email,
             PhoneNumber = teacher.PhoneNumber,
-            ProfilePictureUrl = teacher.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(teacher.ProfilePictureUrl),
             Gender = teacher.Gender
         };
     }
