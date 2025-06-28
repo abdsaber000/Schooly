@@ -27,5 +27,6 @@ public class UpdateStudentCommandRequest : IRequest<Result<UpdateStudentCommandD
     public DateOnly? DateOfJoining { get; set; }
     public Department? Department { get; set; }
     public Grade? Grade { get; set; }
+    public Gender? Gender { get; set; }
 
 }

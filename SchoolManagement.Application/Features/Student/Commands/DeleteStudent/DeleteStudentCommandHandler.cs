@@ -26,7 +26,7 @@ public class DeleteStudentCommandHandler : IRequestHandler<DeleteStudentCommandR
         {
             return Result<string>.Failure("User is not found.", HttpStatusCode.NotFound);
         }
-        await _userManager.DeleteAsync(student);
+        await _studentRepository.RemoveStudent(student);
                 
         return Result<string>.SuccessMessage("Student deleted successfully.");
     }

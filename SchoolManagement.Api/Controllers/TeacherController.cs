@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.RateLimiting;
 using SchoolManagement.Application.Features.Teacher.Command.AddTeacherCommand;
+using SchoolManagement.Application.Features.Teacher.Command.DeleteTeacher;
+using SchoolManagement.Application.Features.Teacher.Command.UpdateTeacher;
 using SchoolManagement.Application.Features.Teacher.Queries.GetAllTeachers;
 using SchoolManagement.Application.Features.Teacher.Queries.GetteacherById;
 using SchoolManagement.Application.Services.ResponseService;
@@ -31,7 +33,7 @@ public class TeacherController : ControllerBase
         var result = await _mediator.Send(command);
         return _responseService.CreateResponse(result);
     }
-    
+
     [Authorize(Roles = Roles.Admin)]
     [HttpGet]
     [Route("all")]
@@ -40,11 +42,25 @@ public class TeacherController : ControllerBase
         var result = await _mediator.Send(request);
         return _responseService.CreateResponse(result);
     }
-    
+
     [HttpGet]
     public async Task<IActionResult> GetTeacherById([FromQuery] string id)
     {
         var result = await _mediator.Send(new GetTeacherByIdQuery(id));
+        return _responseService.CreateResponse(result);
+    }
+
+    [HttpPut]
+    public async Task<IActionResult> UpdateTeacher([FromBody] UpdateTeacherCommandRequest request)
+    {
+        var result = await _mediator.Send(request);
+        return _responseService.CreateResponse(result);
+    }
+
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> DeleteTeacher(string id)
+    {
+        var result = await _mediator.Send(new DeleteTeaacherCommandRequest(id));
         return _responseService.CreateResponse(result);
     }
 }

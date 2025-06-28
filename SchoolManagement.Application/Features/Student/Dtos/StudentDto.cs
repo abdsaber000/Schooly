@@ -64,6 +64,7 @@ public static class StudentDtoExtensionMethold
             DateOfJoining = student.DateOfJoining,
             Department = student.Department,
             Grade = student.Grade,
+            Gender = student.Gender,
             Parent = new UpdateParentDto()
             {
                 Id = student.Parent?.ParentId,

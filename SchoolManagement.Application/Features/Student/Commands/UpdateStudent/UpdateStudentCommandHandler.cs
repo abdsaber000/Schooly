@@ -71,28 +71,32 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommandR
         {
             student.Grade = (Grade)request.Grade;
         }
-        if (request.Parent != null)
+        if (request.Gender != null)
         {
-            if (request.Parent.ParentName != null)
-            {
-                student.Parent.ParentName = request.Parent.ParentName;
-            }
-            if (request.Parent.Relation != null)
-            {
-                student.Parent.Relation = (Relation)request.Parent.Relation;
-            }
-            if (request.Parent.Job != null)
-            {
-                student.Parent.Job = request.Parent.Job;
-            }
-            if (request.Parent.Phone1 != null)
-            {
-                student.Parent.Phone1 = request.Parent.Phone1;
-            }
-            if (request.Parent.Phone2 != null)
-            { 
-                student.Parent.Phone2 = request.Parent.Phone2;
-            }
+            student.Gender = (Gender)request.Gender;
         }
+        if (request.Parent != null)
+            {
+                if (request.Parent.ParentName != null)
+                {
+                    student.Parent.ParentName = request.Parent.ParentName;
+                }
+                if (request.Parent.Relation != null)
+                {
+                    student.Parent.Relation = (Relation)request.Parent.Relation;
+                }
+                if (request.Parent.Job != null)
+                {
+                    student.Parent.Job = request.Parent.Job;
+                }
+                if (request.Parent.Phone1 != null)
+                {
+                    student.Parent.Phone1 = request.Parent.Phone1;
+                }
+                if (request.Parent.Phone2 != null)
+                {
+                    student.Parent.Phone2 = request.Parent.Phone2;
+                }
+            }
     }
 }

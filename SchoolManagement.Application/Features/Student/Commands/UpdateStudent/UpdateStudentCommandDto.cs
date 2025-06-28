@@ -25,4 +25,5 @@ public class UpdateStudentCommandDto
     public DateOnly? DateOfJoining { get; set; }
     public Department? Department { get; set; }
     public Grade? Grade { get; set; }
+    public Gender? Gender { get; set; }
 }
