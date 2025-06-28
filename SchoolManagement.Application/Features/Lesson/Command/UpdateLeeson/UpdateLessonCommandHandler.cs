@@ -25,6 +25,7 @@ public class UpdateLessonCommandHandler:IRequestHandler<UpdateLessonCommand , Re
             return Result<string>.Failure(_localizer["Lesson not found."]);
         }
         var updatedLesson = request.ToUpdatedLesson();
+        updatedLesson.TeacherId = lesson.TeacherId;
         await _lessonRepository.Update(updatedLesson);
         
         return Result<string>.SuccessMessage(_localizer["Lesson updated successfully"]);

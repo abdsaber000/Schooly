@@ -51,6 +51,35 @@ namespace SchoolManagement.Infrastructure.Repositories
                 .Take(pageSize)
                 .ToListAsync(cancellationToken);
         }
+
+        public async Task RemoveStudent(Student student)
+        {
+            var comments = await _appDbContext.Comments
+                .Where(c => c.AuthorId == student.Id)
+                .ToListAsync();
+            _appDbContext.Comments.RemoveRange(comments);
+
+            var posts = await _appDbContext.Posts
+                .Where(c => c.AuthorId == student.Id)
+                .ToListAsync();
+
+            comments = await _appDbContext.Comments
+                .Include(c => c.Post)
+                .Where(c => posts.Contains(c.Post))
+                .ToListAsync();
+            _appDbContext.Comments.RemoveRange(comments);
+
+            _appDbContext.Posts.RemoveRange(posts);
+
+            var homeworkSubmissions = await _appDbContext.HomeWorkSubmissions
+                .Where(c => c.StudentId == student.Id)
+                .ToListAsync();
+            _appDbContext.HomeWorkSubmissions.RemoveRange(homeworkSubmissions);
+
+            _appDbContext.Users.Remove(student);
+
+            await _appDbContext.SaveChangesAsync();
+        }
         public async Task SaveChanges()
         {
             await _appDbContext.SaveChangesAsync();
