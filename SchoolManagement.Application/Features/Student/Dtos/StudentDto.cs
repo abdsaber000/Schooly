@@ -1,8 +1,8 @@
-using SchoolManagement.Domain.Entities;
+using SchoolManagement.Application.Features.Student.Commands.UpdateStudent;
 using SchoolManagement.Domain.Enums;
 
 namespace SchoolManagement.Application.Features.Student.Dtos;
-
+using Student = Domain.Entities.Student;
 public class StudentDto
 {
     public string Id { get; set; } = string.Empty;
@@ -22,13 +22,22 @@ public class StudentDto
 
 public static class StudentDtoExtensionMethold
 {
-    public static StudentDto ToStudentDto(this Domain.Entities.Student student)
+    private static readonly string _domainPrefix = "https://schoolly.runasp.net/api/upload/";
+    private static string? HandleUrl(string? imageUrl)
+    {
+        if (string.IsNullOrEmpty(imageUrl))
+        {
+            return imageUrl;
+        }
+        return _domainPrefix + imageUrl;
+    }
+    public static StudentDto ToStudentDto(this Student student)
     {
         return new StudentDto()
         {
             Id = student.Id,
             StudentName = student.Name,
-            ProfilePictureUrl = student.ProfilePictureUrl,
+            ProfilePictureUrl = HandleUrl(student.ProfilePictureUrl),
             Email = student.Email,
             DateOfBirth = student.DateOfBarith,
             Gender = student.Gender,
@@ -39,6 +48,31 @@ public static class StudentDtoExtensionMethold
             ParentName = student.Parent is null ? "" : student.Parent.ParentName,
             ParentPhone1 = student.Parent is null ? "" : student.Parent.Phone1,
             DateOfJoining = student.DateOfJoining
+        };
+    }
+
+    public static UpdateStudentCommandDto ToUpdateStudentDto(this Student student)
+    {
+        return new UpdateStudentCommandDto()
+        {
+            Id = student.Id,
+            Name = student.Name,
+            Email = student.Email,
+            PhoneNumber = student.PhoneNumber,
+            ProfilePictureUrl = HandleUrl(student.ProfilePictureUrl),
+            Address = student.Address,
+            DateOfJoining = student.DateOfJoining,
+            Department = student.Department,
+            Grade = student.Grade,
+            Parent = new UpdateParentDto()
+            {
+                Id = student.Parent?.ParentId,
+                ParentName = student.Parent?.ParentName,
+                Relation = student.Parent?.Relation,
+                Job = student.Parent?.Job,
+                Phone1 = student.Parent?.Phone1,
+                Phone2 = student.Parent?.Phone2
+            }
         };
     }
 }
