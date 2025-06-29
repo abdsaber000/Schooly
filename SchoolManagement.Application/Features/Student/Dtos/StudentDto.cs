@@ -17,7 +17,11 @@ public class StudentDto
     public Grade Grade { get; set; }
     public string ParentName { get; set; } = string.Empty;
     public string ParentPhone1 { get; set; } = string.Empty;
+    public string ParentPhone2 { get; set; } = string.Empty;
+    public string ParentJob { get; set; } = string.Empty;
     public DateOnly DateOfJoining { get; set; }
+    public string Address { get; set; } = string.Empty;
+    public Relation ParentRelation { get; set; }
 }
 
 public static class StudentDtoExtensionMethold
@@ -47,7 +51,11 @@ public static class StudentDtoExtensionMethold
             Grade = student.Grade,
             ParentName = student.Parent is null ? "" : student.Parent.ParentName,
             ParentPhone1 = student.Parent is null ? "" : student.Parent.Phone1,
-            DateOfJoining = student.DateOfJoining
+            DateOfJoining = student.DateOfJoining,
+            Address = student.Address,
+            ParentJob = student.Parent.Job,
+            ParentPhone2 = student.Parent.Phone2,
+            ParentRelation = student.Parent.Relation
         };
     }
 
