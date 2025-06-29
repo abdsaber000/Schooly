@@ -85,6 +85,8 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
                         (l.To.Ticks   < to.Ticks   ? l.To.Ticks   : to.Ticks)
             )
             .AnyAsync();
+        
+        return !overlappingLessons;
     }
 
     public async Task<List<Lesson>> GetLessonsByTeacherId(int page, int pageSize, string teacherId, LessonStatus? status)
