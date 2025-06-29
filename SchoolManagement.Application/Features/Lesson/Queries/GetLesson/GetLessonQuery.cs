@@ -25,6 +25,7 @@ public class GetLessonQueryHandler : IRequestHandler<GetLessonQuery , Result<Les
 
     public async Task<Result<LessonDto>> Handle(GetLessonQuery request, CancellationToken cancellationToken)
     {
+        await _lessonRepository.MarkExpiredLessonsAsCompleted();
         var lesson = await _lessonRepository.GetLessonByIdAsync(request.Id , cancellationToken);
     
         if (lesson == null)

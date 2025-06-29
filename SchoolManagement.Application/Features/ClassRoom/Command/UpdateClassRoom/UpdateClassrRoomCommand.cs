@@ -39,7 +39,7 @@ public class UpdateClassRoomCommandHandler:IRequestHandler<UpdateClassrRoomComma
         }
 
         var updatedClassRooms = request.ToUpdatedClassRooms(); 
-        await _classRoomRepository.Update(updatedClassRooms);
+        await _classRoomRepository.UpdateClassroomAsync(updatedClassRooms);
         
         return Result<string>.SuccessMessage(_localizer["Class Updated Successfully"]);
     }
