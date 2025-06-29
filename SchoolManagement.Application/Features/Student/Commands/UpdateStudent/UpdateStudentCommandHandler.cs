@@ -24,7 +24,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommandR
     }
     public async Task<Result<UpdateStudentCommandDto>> Handle(UpdateStudentCommandRequest request, CancellationToken cancellationToken)
     {
-        var student = await _studentRepository.GetByIdAsync(request.Id);
+        var student = await _studentRepository.GetStudentByIdAsync(request.Id);
         if (student == null)
         {
             return Result<UpdateStudentCommandDto>.Failure("User is not found.", HttpStatusCode.NotFound);
@@ -77,6 +77,7 @@ public class UpdateStudentCommandHandler : IRequestHandler<UpdateStudentCommandR
         }
         if (request.Parent != null)
             {
+                
                 if (request.Parent.ParentName != null)
                 {
                     student.Parent.ParentName = request.Parent.ParentName;
