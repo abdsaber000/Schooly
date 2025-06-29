@@ -16,7 +16,7 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
     private (DateOnly TodayEgypt, TimeOnly CurrentTimeEgypt) GetCurrentEgyptTime()
     {
         var egyptTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Africa/Cairo");
-        var nowEgypt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, egyptTimeZone);
+        var nowEgypt = DateTime.Now.AddHours(1);
 
         var todayEgypt = DateOnly.FromDateTime(nowEgypt);
         var currentTimeEgypt = TimeOnly.FromDateTime(nowEgypt);
