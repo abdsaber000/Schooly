@@ -1,5 +1,6 @@
 using System;
 using SchoolManagement.Application.Features.Post.Commands.CreatePost;
+using SchoolManagement.Application.Features.Post.Commands.UpdatePost;
 using SchoolManagement.Application.Features.Post.Queries.GetAllPosts;
 using SchoolManagement.Domain.Entities;
 
@@ -53,5 +54,26 @@ static public class PostExtensionMethod
         };
     }
 
-    
+    public static UpdatePostCommandDto ToUpdatePostDto(this Post post) {
+        return new UpdatePostCommandDto(){
+            Id = post.Id,
+            Content = post.Content,
+            CreatedAt = post.CreatedAt,
+            ClassRoomId = post.ClassRoom.Id,
+            AuthorId = post.Author.Id,
+            AuthorName = post.Author.Name,
+            ProfilePictureUrl = HandleUrl(post.Author.ProfilePictureUrl),
+            Comments = post.Comments.Select(comment => new UpdatePostCommentsDto()
+            {
+                Id = comment.Id,
+                Content = comment.Content,
+                CreatedAt = comment.CreatedAt,
+                AuthorId = comment.AuthorId,
+                AuthorName = comment.Author.Name,
+                ProfilePictureUrl = HandleUrl(comment.Author.ProfilePictureUrl)
+            })
+            .OrderBy(c => c.CreatedAt)
+            .ToList()
+        };
+    }
 }
