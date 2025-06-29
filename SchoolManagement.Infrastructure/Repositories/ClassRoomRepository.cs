@@ -13,6 +13,20 @@ public class ClassRoomRepository : GenericRepository<ClassRoom>, IClassRoomRepos
     {
         _appDbContext = appDbContext;
     }
+
+    public async Task UpdateClassroomAsync(ClassRoom UpdatedClassroom, CancellationToken cancellationToken = default)
+    {
+        var classRoom = await _appDbContext.ClassRooms.FirstOrDefaultAsync(c => c.Id == UpdatedClassroom.Id, cancellationToken);
+        
+        if (classRoom != null)
+        {
+            classRoom.Grade = UpdatedClassroom.Grade;
+            classRoom.Subject = UpdatedClassroom.Subject;
+          
+            await _appDbContext.SaveChangesAsync(cancellationToken);
+        }
+    }
+
     public async Task<List<ClassRoom>> GetAllClassroomsPagedAsync(int page, int pageSize, CancellationToken cancellationToken = default)
     {
         return await _appDbContext.ClassRooms
