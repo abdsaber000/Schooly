@@ -75,8 +75,15 @@ public class LessonRepository : GenericRepository<Lesson>, ILessonRepository
 
     public async Task<bool> IsClassRoomAvailable(Guid classRoomId, DateOnly date, TimeOnly from, TimeOnly to)
     {
-        var overlappingLessons = await _appDbContext.Lessons
-            .Where(l => l.ClassRoomId == classRoomId && l.Date == date && Math.Max(l.From.Ticks , from.Ticks) <= Math.Min(l.To.Ticks, to.Ticks))
+        var overlappingLessons = await
+        _appDbContext.Lessons
+            .Where(l => l.ClassRoomId == classRoomId
+                        && l.Date == date
+                        // greatest(l.From, from) <= least(l.To, to)
+                        && (l.From.Ticks > from.Ticks ? l.From.Ticks : from.Ticks)
+                        <=
+                        (l.To.Ticks   < to.Ticks   ? l.To.Ticks   : to.Ticks)
+            )
             .AnyAsync();
         
         return !overlappingLessons;
