@@ -21,7 +21,9 @@ public static class TeacherExtensionMethold
             Name = command.Name,
             Email = command.Email,
             PhoneNumber = command.PhoneNumber,
-            PhotoUrl = HandleUrl(command.ProfilePictureUrl)
+            PhotoUrl = HandleUrl(command.ProfilePictureUrl),
+            DateOfBirth = command.DateOfBarith,
+            Gender = command.Gender
         };
     }
 
