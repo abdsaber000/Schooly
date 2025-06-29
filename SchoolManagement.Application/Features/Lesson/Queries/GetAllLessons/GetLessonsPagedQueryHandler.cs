@@ -21,8 +21,8 @@ public class GetLessonsPagedQueryHandler :IRequestHandler<GetLessonsPagedQuery ,
     }
 
     public async Task<PagedResult<LessonDto>> Handle(GetLessonsPagedQuery request, CancellationToken cancellationToken)
-    {
-       //   await _lessonRepository.MarkExpiredLessonsAsCompleted();
+    { 
+        await _lessonRepository.MarkExpiredLessonsAsCompleted();
         var user = _httpContextAccessor.HttpContext?.User;
         var userId = user.FindFirst(ClaimTypes.NameIdentifier).Value;
         var upcomingLessons = new List<Domain.Entities.Lesson>();

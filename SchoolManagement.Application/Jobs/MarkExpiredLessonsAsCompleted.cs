@@ -17,7 +17,7 @@ public class DeleteExpiredLessonsJob : BackgroundService
     }
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        while (!stoppingToken.IsCancellationRequested)
+       /* while (!stoppingToken.IsCancellationRequested)
         {
             using (var scope = _serviceProvider.CreateScope())
             {
@@ -34,7 +34,7 @@ public class DeleteExpiredLessonsJob : BackgroundService
             }
 
             await Task.Delay(TimeSpan.FromMinutes(1) , stoppingToken); // Run every hour
-        }
+        }*/
     }
     
 }
