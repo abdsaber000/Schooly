@@ -56,6 +56,9 @@ builder.Services.AddControllers().ConfigureApiBehaviorOptions(options =>
 
         return new BadRequestObjectResult(new { message = errorMessage });
     };
+}).AddJsonOptions(options =>
+{
+    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
 });
 
 builder.Services.AddControllers();
