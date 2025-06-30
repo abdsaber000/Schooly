@@ -67,7 +67,7 @@ public class UpdateProfileCommandHandler : IRequestHandler<UpdateProfileCommandR
 
         if (user.Role == Role.Student)
         {
-            var student = await _studentRepository.GetByIdAsync(user.Id);
+            var student = await _studentRepository.GetStudentByIdAsync(user.Id);
             if (student == null)
             {
                 return Result<UpdateProfileCommandDto>.Failure("Student not found.");
