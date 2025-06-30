@@ -47,7 +47,7 @@ public class GetProfileQueryHandler : IRequestHandler<GetProfileQueryRequest, Re
 
     private async Task<Result<GetProfileQueryDto>> HandleStudent(string id)
     {
-        var student = await _studentRepository.GetByIdAsync(id);
+        var student = await _studentRepository.GetStudentByIdAsync(id);
         if (student == null)
         {
             return Result<GetProfileQueryDto>.Failure("Student not found.");
